@@ -16,11 +16,13 @@ public class DogController {
   ));
 
   public static Handler getAll = ctx -> ctx.json(dogs);
+
   public static Handler create = ctx -> {
-    Dog newDog = ctx.bodyAsClass(Dog.class);
+    Dog newDog = ctx.validatedBodyAsClass(Dog.class).check(Dog::isValid).getOrThrow();
     dogs.add(newDog);
     ctx.json(newDog);
   };
+
   public static Handler get = ctx -> {
     dogs.forEach(dog -> {
       if (dog.getId().equals(ctx.pathParam(":id"))) {
