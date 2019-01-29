@@ -23,9 +23,8 @@ public class DogController {
   };
   public static Handler get = ctx -> {
     dogs.forEach(dog -> {
-      if (dog.getId() == ctx.pathParam(":id")) {
+      if (dog.getId().equals(ctx.pathParam(":id"))) {
         ctx.json(dog);
-        return;
       }
     });
   };
