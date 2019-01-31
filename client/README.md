@@ -1,21 +1,13 @@
-# client
+# CPSC 559 - Group 2 Distributed System - Client
 
-## Project setup
-```
-npm install
-```
+## To View
+Open `dist/index.html` in any web browser
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+## To Develop
+- [Download Node](https://nodejs.org/en/)
+- Run `npm install`
 
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
+### Development Commands
+- `npm run serve` - Compiles and hot-reloads for development
+- `npm run build` - Compiles and minifies for production
+- `npm run lint` - Lints and fixes files
