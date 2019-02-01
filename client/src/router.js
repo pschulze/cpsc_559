@@ -5,7 +5,7 @@ import Home from "./views/Home.vue";
 Vue.use(Router);
 
 export default new Router({
-  mode: "history",
+  /* mode: "history", */ // Dissabled to allow file-system browsing of the app
   base: process.env.BASE_URL,
   routes: [
     {
