@@ -1,10 +1,8 @@
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import dog.Dog;
 import dog.DogController;
 import io.javalin.Javalin;
 import io.javalin.json.JavalinJson;
-import io.javalin.validation.JavalinValidation;
 
 import static io.javalin.apibuilder.ApiBuilder.*;
 
