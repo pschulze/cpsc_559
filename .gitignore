@@ -14,3 +14,9 @@ gradle-app.setting
 
 # Cache of project
 .gradletasknamecache
+
+### AWS ###
+*.pem
+
+### OSX ###
+.DS_Store
