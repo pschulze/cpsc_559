@@ -1,6 +1,9 @@
 ### Intellij ###
 .idea/
 out/
+build/
+out/
+*.iml
 
 ### Gradle ###
 .gradle
