@@ -13,7 +13,7 @@ public class Main {
     JavalinJson.setFromJsonMapper(gson::fromJson);
     JavalinJson.setToJsonMapper(gson::toJson);
 
-    Javalin app = Javalin.create().start(7000);
+    Javalin app = Javalin.create().enableCorsForAllOrigins().start(7000);
     app.routes(() -> {
       path("dogs", () -> {
         get(DogController.getAll);
