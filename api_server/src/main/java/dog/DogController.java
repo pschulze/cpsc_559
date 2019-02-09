@@ -30,4 +30,8 @@ public class DogController {
       }
     });
   };
+
+  public static Handler update = ctx -> {
+    // Update code here
+  };
 }

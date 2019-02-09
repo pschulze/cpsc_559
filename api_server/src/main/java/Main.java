@@ -20,7 +20,7 @@ public class Main {
         post(DogController.create);
         path(":id", () -> {
           get(DogController.get);
-//                   patch(DogController.update);
+          patch(DogController.update);
 //                   delete(DogController.delete);
         });
       });
