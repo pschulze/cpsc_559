@@ -13,4 +13,3 @@ sudo -u postgres createuser repuser -c 5 --replication
 ## Create db and load schema
 sudo -u postgres createdb cpsc_559
 sudo -u postgres psql -d cpsc_559 -a -f init_db.sql
-

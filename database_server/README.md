@@ -2,6 +2,8 @@
 
 ## Configuring a PostgreSQL Cluster for Replication
 
+Drawn heavily from tutorials from [scalingpostgres.com](https://www.scalingpostgres.com)
+
 1. Run `./init.sh` to update packages, install PostgreSQL, and perform some configuration steps.
 2. Edit the PostgreSQL configuration file for both the `main` and `replica_1` clusters.
     - **Make sure to replace `CLUSTER_NAME` with the name of whatever cluster you are currently configuring**

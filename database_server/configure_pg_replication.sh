@@ -14,4 +14,4 @@ sudo sh -c "echo \"restore_command = 'cp /var/lib/postgresql/pg_log_archive/repl
 sudo sh -c "echo \"recovery_target_timeline = 'latest'\" >> /var/lib/postgresql/10/replica_1/recovery.conf"
 
 # Start our replica cluster
-sudo pg_ctlcluster 10 replica_1 start 
+sudo pg_ctlcluster 10 replica_1 start
