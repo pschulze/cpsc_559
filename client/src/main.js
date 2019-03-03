@@ -4,7 +4,9 @@ import router from "./router";
 import store from "./store";
 import axios from "axios";
 
-Vue.prototype.$api = axios.create({ baseURL: "http://ec2-3-95-28-219.compute-1.amazonaws.com:7000/" });
+Vue.prototype.$api = axios.create({
+  baseURL: "http://ec2-3-95-28-219.compute-1.amazonaws.com:7000/"
+});
 
 Vue.config.productionTip = false;
 
