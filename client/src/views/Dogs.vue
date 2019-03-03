@@ -2,7 +2,10 @@
   <div class="dogs">
     <h1>Dogs List</h1>
     <ul>
-      <li v-for="dog in dogs" :key="dog.id">
+      <li v-if="loading">
+        <DogCardLoading/>
+      </li>
+      <li v-else v-for="dog in dogs" :key="dog.id">
         <DogCard :dog="dog" />
       </li>
     </ul>
@@ -11,19 +14,23 @@
 
 <script>
 import DogCard from "@/components/DogCard.vue";
+import DogCardLoading from "@/components/DogCardLoading.vue";
 
 export default {
   name: "dogs",
   components: {
-    DogCard
+    DogCard,
+    DogCardLoading
   },
   data() {
     return {
+      loading: false,
       dogs: []
     };
   },
   mounted() {
-    this.$api.get("/dogs").then(res => (this.dogs = res.data));
+    this.loading = true;
+    this.$api.get("/dogs").then(res => (this.dogs = res.data)).finally(() => {this.loading = false;});
   }
 };
 </script>
