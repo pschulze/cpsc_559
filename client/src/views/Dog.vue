@@ -1,6 +1,6 @@
 <template>
   <div class="dog">
-    <Dog />
+    <Dog :dog="dog" />
   </div>
 </template>
 
@@ -11,6 +11,16 @@ export default {
   name: "dog",
   components: {
     Dog
+  },
+  data() {
+    return {
+      dog: {}
+    };
+  },
+  mounted() {
+    this.$api
+      .get("/dogs/" + this.$route.params.id)
+      .then(res => (this.dog = res.data));
   }
 };
 </script>
