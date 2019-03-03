@@ -1,32 +1,64 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link> |
-      <router-link to="/dogs">Dogs</router-link>
-    </div>
-    <router-view />
+    <header class="sticky-top">
+      <nav class="navbar navbar-expand-md navbar-light bg-light">
+        <router-link class="navbar-brand" to="/">The Puppy Project</router-link>
+        <button
+          class="navbar-toggler collapsed"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarCollapse"
+          aria-controls="navbarCollapse"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="navbar-collapse collapse" id="navbarCollapse" style="">
+          <ul class="navbar-nav mr-auto">
+            <router-link
+              to="/"
+              tag="li"
+              class="nav-item"
+              active-class="active"
+              exact
+            >
+              <a class="nav-link">Home</a>
+            </router-link>
+            <router-link
+              to="/about"
+              tag="li"
+              class="nav-item"
+              active-class="active"
+            >
+              <a class="nav-link">About</a>
+            </router-link>
+            <router-link
+              to="/dogs"
+              tag="li"
+              class="nav-item"
+              active-class="active"
+            >
+              <a class="nav-link">Dogs</a>
+            </router-link>
+          </ul>
+          <router-link class="btn btn-outline-primary my-2 my-sm-0" to="/login"
+            >Login</router-link
+          >
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <router-view />
+    </main>
+
+    <footer class="text-muted">
+      <div class="container">
+        <p>CPSC 559 - Group 2</p>
+      </div>
+    </footer>
   </div>
 </template>
 
-<style>
-#app {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-#nav {
-  padding: 30px;
-}
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
-}
-</style>
+<style></style>
