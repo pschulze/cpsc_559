@@ -25,7 +25,8 @@ export default new Router({
     {
       path: "/dogs",
       name: "doglist",
-      component: () => import(/* webpackChunkName: "doglist" */ "./views/DogList.vue")
+      component: () =>
+        import(/* webpackChunkName: "doglist" */ "./views/DogList.vue")
     },
     {
       path: "/dogs/:id",

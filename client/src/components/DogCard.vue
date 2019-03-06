@@ -16,7 +16,11 @@
     </template>
     <template v-else>
       <template v-if="outlineonly">
-        <vue-content-loading :width="200" :height="200" class="card-img-top dogCardImg">
+        <vue-content-loading
+          :width="200"
+          :height="200"
+          class="card-img-top dogCardImg"
+        >
           <rect x="0" y="0" rx="4" ry="4" width="200" height="200" />
         </vue-content-loading>
         <div class="card-body">
@@ -28,7 +32,7 @@
         </div>
       </template>
       <template v-else>
-        <img src="https://place-hold.it/200x200" class="card-img-top">
+        <img src="https://place-hold.it/200x200" class="card-img-top" />
         <div class="card-body">
           <h5 class="card-title">{{ dog.name }}</h5>
           <h6 class="card-subtitle mb-2 text-muted">{{ dog.breed }}</h6>
@@ -42,17 +46,17 @@
 </template>
 
 <script>
-import VueContentLoading from 'vue-content-loading';
+import VueContentLoading from "vue-content-loading";
 
 export default {
   name: "DogCard",
   components: {
-    VueContentLoading,
+    VueContentLoading
   },
   props: {
     dog: Object,
     outlineonly: Boolean,
-    sm: Boolean,
+    sm: Boolean
   }
 };
 </script>
