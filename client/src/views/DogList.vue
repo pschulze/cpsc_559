@@ -1,13 +1,15 @@
 <template>
   <div class="container">
     <h1>Dogs List</h1>
-    <ul>
-      <li v-if="loading">
-        <DogCard :outlineonly="true"/>
-      </li>
+    <ul class="row flex-wrap justify-content-around justify-content-md-start">
+      <template v-if="loading">
+        <li class="col-auto">
+          <DogCard class="my-2" :outlineonly="true"/>
+        </li>
+      </template>
       <template v-else>
-        <li v-for="dog in dogs" :key="dog.id">
-          <DogCard :dog="dog" />
+        <li class="col-auto" v-for="dog in dogs" :key="dog.id">
+          <DogCard class="my-2" :dog="dog" />
         </li>
       </template>
     </ul>
@@ -42,6 +44,5 @@ ul {
 }
 li {
   display: inline-block;
-  margin: 0 10px;
 }
 </style>
