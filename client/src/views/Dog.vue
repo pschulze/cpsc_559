@@ -1,5 +1,5 @@
 <template>
-  <div class="dog">
+  <div class="container">
     <Dog :dog="dog" />
   </div>
 </template>

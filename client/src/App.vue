@@ -55,7 +55,9 @@
 
     <footer class="text-muted">
       <div class="container">
-        <p>CPSC 559 - Group 2</p>
+        <div class="d-flex justify-content-center">
+          <p>CPSC 559 - Group 2</p>
+        </div>
       </div>
     </footer>
   </div>

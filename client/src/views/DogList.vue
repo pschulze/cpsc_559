@@ -1,13 +1,15 @@
 <template>
-  <div class="doglist">
+  <div class="container">
     <h1>Dogs List</h1>
     <ul>
       <li v-if="loading">
-        <DogCard outlineonly="true"/>
+        <DogCard :outlineonly="true"/>
       </li>
-      <li v-else v-for="dog in dogs" :key="dog.id">
-        <DogCard :dog="dog" />
-      </li>
+      <template v-else>
+        <li v-for="dog in dogs" :key="dog.id">
+          <DogCard :dog="dog" />
+        </li>
+      </template>
     </ul>
   </div>
 </template>
