@@ -1,9 +1,9 @@
 <template>
-  <div class="dogs">
+  <div class="doglist">
     <h1>Dogs List</h1>
     <ul>
       <li v-if="loading">
-        <DogCardLoading/>
+        <DogCard outlineonly="true"/>
       </li>
       <li v-else v-for="dog in dogs" :key="dog.id">
         <DogCard :dog="dog" />
@@ -14,13 +14,11 @@
 
 <script>
 import DogCard from "@/components/DogCard.vue";
-import DogCardLoading from "@/components/DogCardLoading.vue";
 
 export default {
-  name: "dogs",
+  name: "doglist",
   components: {
     DogCard,
-    DogCardLoading
   },
   data() {
     return {
