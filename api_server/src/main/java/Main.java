@@ -24,6 +24,18 @@ public class Main {
 //                   delete(DogController.delete);
         });
       });
+      path("auctions", () -> {
+
+      });
+      path("account", () -> {
+        path(":myDogs", () -> {
+
+        });
+        path(":myAuctions", () -> {
+
+        });
+      });
+
     });
   }
 }
