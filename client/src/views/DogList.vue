@@ -17,6 +17,8 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
 import DogCard from "@/components/DogCard.vue";
 
 export default {
@@ -26,15 +28,23 @@ export default {
   },
   data() {
     return {
-      loading: false,
-      dogs: []
+      loading: false
     };
+  },
+  computed: {
+    ...mapGetters({
+      dogs: "dogs/dogs"
+    })
   },
   mounted() {
     this.loading = true;
     this.$api
       .get("/dogs")
-      .then(res => (this.dogs = res.data))
+      .then(res => {
+        for (let dog of res.data) {
+          this.$store.commit("dogs/add", dog);
+        }
+      })
       .finally(() => {
         this.loading = false;
       });
