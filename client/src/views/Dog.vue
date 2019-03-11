@@ -14,15 +14,21 @@ export default {
   components: {
     Dog
   },
+  data() {
+    return {
+      loading: false
+    };
+  },
   computed: {
     ...mapGetters({
       dogById: "dogs/dogById"
     })
   },
   mounted() {
-    this.$api
-      .get("/dogs/" + this.$route.params.id)
-      .then(res => this.$store.commit("dogs/updateOrCreate", res.data));
+    this.loading = true;
+    this.$store.dispatch("dogs/fetch", this.$route.params.id).finally(() => {
+      this.loading = false;
+    });
   }
 };
 </script>

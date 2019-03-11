@@ -1,5 +1,7 @@
 import Vue from "vue";
 
+import { Dogs } from "@/api";
+
 import map from "lodash/map";
 
 // https://forum.vuejs.org/t/updating-array-property-within-vuex/11411
@@ -33,7 +35,21 @@ const getters = {
   }
 };
 
-const actions = {};
+const actions = {
+  fetchAll(context) {
+    return Dogs.getAll().then(dogs => {
+      for (let dog of dogs) {
+        context.commit("updateOrCreate", dog);
+      }
+    });
+  },
+
+  fetch(context, id) {
+    return Dogs.get(id).then(dog => {
+      context.commit("updateOrCreate", dog);
+    });
+  }
+};
 
 const mutations = {
   add(state, dog) {

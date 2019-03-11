@@ -38,16 +38,9 @@ export default {
   },
   mounted() {
     this.loading = true;
-    this.$api
-      .get("/dogs")
-      .then(res => {
-        for (let dog of res.data) {
-          this.$store.commit("dogs/updateOrCreate", dog);
-        }
-      })
-      .finally(() => {
-        this.loading = false;
-      });
+    this.$store.dispatch("dogs/fetchAll").finally(() => {
+      this.loading = false;
+    });
   }
 };
 </script>
