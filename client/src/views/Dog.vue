@@ -1,10 +1,12 @@
 <template>
   <div class="container">
-    <Dog :dog="dog" />
+    <Dog :dog="dogById(this.$route.params.id)" />
   </div>
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
 import Dog from "@/components/Dog.vue";
 
 export default {
@@ -12,15 +14,15 @@ export default {
   components: {
     Dog
   },
-  data() {
-    return {
-      dog: {}
-    };
+  computed: {
+    ...mapGetters({
+      dogById: "dogs/dogById"
+    })
   },
   mounted() {
     this.$api
       .get("/dogs/" + this.$route.params.id)
-      .then(res => (this.dog = res.data));
+      .then(res => this.$store.commit("dogs/updateOrCreate", res.data));
   }
 };
 </script>

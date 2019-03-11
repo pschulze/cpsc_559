@@ -42,7 +42,7 @@ export default {
       .get("/dogs")
       .then(res => {
         for (let dog of res.data) {
-          this.$store.commit("dogs/add", dog);
+          this.$store.commit("dogs/updateOrCreate", dog);
         }
       })
       .finally(() => {

@@ -16,6 +16,9 @@ const state = {
 const getters = {
   dogs(state) {
     return map(state.dogsList, id => state.dogs[keyForDog({ id })]);
+  },
+  dogById: state => id => {
+    return state.dogs[keyForDog({ id })];
   }
 };
 
@@ -30,6 +33,11 @@ const mutations = {
   set(state, dog) {
     const key = keyForDog(dog);
     Vue.set(state.dogs, key, dog);
+  },
+  updateOrCreate(state, dog) {
+    const key = keyForDog(dog);
+    Vue.set(state.dogs, key, dog);
+    if (state.dogsList.indexOf(dog.id) === -1) state.dogsList.push(dog.id);
   }
 };
 
