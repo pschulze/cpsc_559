@@ -9,8 +9,19 @@ function keyForDog({ id }) {
 }
 
 const state = {
-  dogs: {},
-  dogsList: []
+  dogs: {
+    /*
+    dog_id: {
+      id,
+      name,
+      breed,
+      age
+    }
+    */
+  },
+  dogsList: [
+    /* ...ids */
+  ]
 };
 
 const getters = {
