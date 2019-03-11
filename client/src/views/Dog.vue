@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <Dog :dog="dogById(this.$route.params.id)" />
+    <Dog :dog="dog" />
   </div>
 </template>
 
@@ -22,7 +22,10 @@ export default {
   computed: {
     ...mapGetters({
       dogById: "dogs/dogById"
-    })
+    }),
+    dog() {
+      return this.dogById(this.$route.params.id);
+    }
   },
   mounted() {
     this.loading = true;

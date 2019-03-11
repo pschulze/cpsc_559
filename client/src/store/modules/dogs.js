@@ -2,6 +2,7 @@ import Vue from "vue";
 
 import { Dogs } from "@/api";
 
+import find from "lodash/find";
 import map from "lodash/map";
 
 // https://forum.vuejs.org/t/updating-array-property-within-vuex/11411
@@ -31,7 +32,7 @@ const getters = {
     return map(state.dogsList, id => state.dogs[keyForDog({ id })]);
   },
   dogById: state => id => {
-    return state.dogs[keyForDog({ id })];
+    return find(state.dogs, { id });
   }
 };
 
