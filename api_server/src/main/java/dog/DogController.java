@@ -2,32 +2,47 @@ package dog;
 
 import io.javalin.Handler;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.UUID;
+import java.util.HashMap;
+import java.util.Map;
 
 public class DogController {
 
-  // Example dogs
-  private static ArrayList<Dog> dogs = new ArrayList<>(Arrays.asList(
-      new Dog(UUID.randomUUID().toString(), "Scruffy", "Golden Retriever", 3),
-      new Dog(UUID.randomUUID().toString(), "Seymour", "Mutt", 15),
-      new Dog(UUID.randomUUID().toString(), "Clifford", "Big Red", 59)
-  ));
+  private static DogDao dogDao = new DogDao();
 
-  public static Handler getAll = ctx -> ctx.json(dogs);
+  public static Handler getAll = ctx -> ctx.json(dogDao.getAll());
 
   public static Handler create = ctx -> {
     Dog newDog = ctx.validatedBodyAsClass(Dog.class).check(Dog::isValid).getOrThrow();
-    dogs.add(newDog);
+    dogDao.save(newDog);
     ctx.json(newDog);
   };
 
+  public static Handler update = ctx -> {
+    Long id = Long.parseLong(ctx.pathParam(":id"));
+    Dog dog = dogDao.get(id);
+    if (dog == null) {
+      Map<String, String> message = new HashMap<>();
+      message.put("status", "404");
+      message.put("details", "Dog not found for ID " + id.toString());
+      ctx.status(404).json(message);
+    } else {
+      Dog updatedDog = ctx.bodyAsClass(Dog.class);
+      dog.update(updatedDog);
+      dogDao.update(dog);
+      ctx.json(dog);
+    }
+  };
+
   public static Handler get = ctx -> {
-    dogs.forEach(dog -> {
-      if (dog.getId().equals(ctx.pathParam(":id"))) {
-        ctx.json(dog);
-      }
-    });
+    Long id = Long.parseLong(ctx.pathParam(":id"));
+    Dog dog = dogDao.get(id);
+    if (dog == null) {
+      Map<String, String> message = new HashMap<>();
+      message.put("status", "404");
+      message.put("details", "Dog not found for ID " + id.toString());
+      ctx.status(404).json(message);
+    } else {
+      ctx.json(dog);
+    }
   };
 }
