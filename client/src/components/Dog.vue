@@ -7,26 +7,11 @@
 
 <script>
 export default {
-  name: "Dog",
-  props: {},
-  data() {
-    return {
-      dog: {}
-    };
-  },
-  mounted() {
-    this.$api.get("/dogs/" + this.$route.params.id).then(res => (this.dog = res.data));
+  name: "DogCard",
+  props: {
+    dog: Object
   }
 };
 </script>
 
-<style scoped>
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-</style>
+<style scoped></style>

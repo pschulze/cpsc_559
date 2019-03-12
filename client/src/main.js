@@ -2,9 +2,9 @@ import Vue from "vue";
 import App from "./App.vue";
 import router from "./router";
 import store from "./store";
-import axios from "axios";
+import * as api from "./api";
 
-Vue.prototype.$api = axios.create({ baseURL: "http://localhost:7000/" });
+Vue.prototype.$api = api;
 
 Vue.config.productionTip = false;
 
