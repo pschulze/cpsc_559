@@ -17,3 +17,11 @@ gradle-app.setting
 
 # Cache of project
 .gradletasknamecache
+
+.settings/
+bin/
+.classpath
+.project
+.vscode/
+
+src/main/java/data/Database.java
