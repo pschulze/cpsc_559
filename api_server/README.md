@@ -1,4 +1,4 @@
-# CPSC 559 - Group 2 Distributed System
+# API Server
 
 ## To Run
 

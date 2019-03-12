@@ -1,4 +1,4 @@
-# CPSC 559 - Group 2 Distributed System - Client
+# Web Client
 
 ## To View
 Open `dist/index.html` in any web browser
