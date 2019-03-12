@@ -22,3 +22,6 @@ gradle-app.setting
 bin/
 .classpath
 .project
+.vscode/
+
+src/main/java/data/Database.java
