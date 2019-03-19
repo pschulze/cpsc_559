@@ -20,7 +20,7 @@ public class Auction {
 
     public String getHighestBidderId() { return highestBidderId; }
 
-    public void setHostId(String hostId) { this.hostId = hostId}
+    public void setHostId(String hostId) { this.hostId = hostId; }
 
     public void setDogId(String dogId) { this.dogId = dogId; }
 
