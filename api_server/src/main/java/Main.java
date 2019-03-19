@@ -1,13 +1,17 @@
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
+
+import auction.AuctionController;
 import dog.DogController;
-import io.javalin.ForbiddenResponse;
 import io.javalin.Javalin;
-import io.javalin.NotFoundResponse;
 import io.javalin.json.JavalinJson;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+
 import user.UserController;
 
 import static io.javalin.apibuilder.ApiBuilder.*;
@@ -15,6 +19,12 @@ import static io.javalin.apibuilder.ApiBuilder.*;
 public class Main {
 
   public static void main(String[] args) {
+    ScheduledExecutorService exec = Executors.newSingleThreadScheduledExecutor();
+    exec.scheduleAtFixedRate(
+      () -> { AuctionController.endAuctions(); },
+      1,
+      1,
+      TimeUnit.SECONDS);
     Gson gson = new GsonBuilder().create();
     JavalinJson.setFromJsonMapper(gson::fromJson);
     JavalinJson.setToJsonMapper(gson::toJson);
