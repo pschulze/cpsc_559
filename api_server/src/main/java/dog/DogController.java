@@ -18,7 +18,7 @@ public class DogController {
   };
 
   public static Handler update = ctx -> {
-    Long id = Long.parseLong(ctx.pathParam(":id"));
+    Integer id = Integer.parseInt(ctx.pathParam(":id"));
     Dog dog = dogDao.get(id);
     if (dog == null) {
       Map<String, String> message = new HashMap<>();
@@ -34,7 +34,7 @@ public class DogController {
   };
 
   public static Handler get = ctx -> {
-    Long id = Long.parseLong(ctx.pathParam(":id"));
+    Integer id = Integer.parseInt(ctx.pathParam(":id"));
     Dog dog = dogDao.get(id);
     if (dog == null) {
       Map<String, String> message = new HashMap<>();

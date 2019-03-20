@@ -2,13 +2,13 @@ package dog;
 
 public class Dog {
 
-  private Long id;
+  private Integer id;
   private String name;
   private String breed;
   private Integer age;
   private String ownerName;
 
-  public Long getId() {
+  public Integer getId() {
     return id;
   }
 
@@ -58,7 +58,7 @@ public class Dog {
     this.ownerName = ownerName;
   }
 
-  public Dog(Long id, String name, String breed, Integer age, String ownerName) {
+  public Dog(Integer id, String name, String breed, Integer age, String ownerName) {
     this.id = id;
     this.name = name;
     this.breed = breed;

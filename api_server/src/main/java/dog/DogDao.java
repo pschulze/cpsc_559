@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * Perform database operations relating to the Dog class.
  */
-public class DogDao implements Dao<Dog, Long> {
+public class DogDao implements Dao<Dog, Integer> {
 
   /**
    * Retrieve the information about a Dog for a given id
@@ -20,13 +20,13 @@ public class DogDao implements Dao<Dog, Long> {
    * @return A Dog object corresponding to the database entry for the given id.
    */
   @Override
-  public Dog get(Long id) {
+  public Dog get(Integer id) {
     Dog foundDog = null;
     try {
       Connection connection = Database.getConnection();
       PreparedStatement preparedStatement =
           connection.prepareStatement("SELECT * FROM dogs WHERE id = ?", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-      preparedStatement.setLong(1, id);
+      preparedStatement.setInt(1, id);
       ResultSet resultSet = preparedStatement.executeQuery();
       boolean found = resultSet.first();
 
@@ -92,7 +92,7 @@ public class DogDao implements Dao<Dog, Long> {
       preparedStatement.setString(2, dog.getBreed());
       preparedStatement.setInt(3, dog.getAge());
       preparedStatement.setString(4, dog.getOwnerName());
-      preparedStatement.setLong(5, dog.getId());
+      preparedStatement.setInt(5, dog.getId());
       preparedStatement.executeUpdate();
     } catch (SQLException e) {
       System.out.println(e.getMessage() );
@@ -109,7 +109,7 @@ public class DogDao implements Dao<Dog, Long> {
 //      Connection connection = Database.getConnection();
 //      PreparedStatement preparedStatement =
 //          connection.prepareStatement("DELETE FROM dogs WHERE id = ?");
-//      preparedStatement.setLong(1, dog.getId());
+//      preparedStatement.Integer(1, dog.getId());
 //      preparedStatement.executeUpdate();
 //    } catch (SQLException e) {
 //      System.out.println(e.getMessage());
@@ -123,7 +123,7 @@ public class DogDao implements Dao<Dog, Long> {
    * @throws SQLException When the resultSet cursor does not point to a Dog record.
    */
   private Dog dogFromResultSet(ResultSet resultSet) throws SQLException {
-    Long dogId = resultSet.getLong("id");
+    Integer dogId = resultSet.getInt("id");
     String dogName = resultSet.getString("name");
     String dogBreed = resultSet.getString("breed");
     Integer dogAge = resultSet.getInt("age");
