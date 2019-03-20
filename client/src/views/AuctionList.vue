@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <h1>Dogs List</h1>
+    <h1>Auction List</h1>
     <CardList :loading="loading" :items="dogs">
       <template v-slot:loading>
         <DogCard :outlineonly="true" />
@@ -20,26 +20,16 @@ import CardList from "@/components/CardList.vue";
 import DogCard from "@/components/DogCard.vue";
 
 export default {
-  name: "doglist",
+  name: "auctionlist",
   components: {
     CardList,
     DogCard
   },
   data() {
     return {
-      loading: false
+      loading: false,
+      dogs: [{ id: 0, name: "A", breed: "B" }, { id: 1, name: "C", breed: "D" }]
     };
-  },
-  computed: {
-    ...mapGetters({
-      dogs: "dogs/dogs"
-    })
-  },
-  mounted() {
-    this.loading = true;
-    this.$store.dispatch("dogs/fetchAll").finally(() => {
-      this.loading = false;
-    });
   }
 };
 </script>
