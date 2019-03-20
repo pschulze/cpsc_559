@@ -87,7 +87,7 @@ public class DogDao implements Dao<Dog, Long> {
     try {
       Connection connection = Database.getConnection();
       PreparedStatement preparedStatement =
-          connection.prepareStatement("UPDATE dogs SET name = ?, breed = ?, age = ?, owner_name = ? where id = ?");
+          connection.prepareStatement("UPDATE dogs SET name = ?, breed = ?, age = ?, owner_name = ? WHERE id = ?");
       preparedStatement.setString(1, dog.getName());
       preparedStatement.setString(2, dog.getBreed());
       preparedStatement.setInt(3, dog.getAge());
