@@ -26,20 +26,20 @@
               <a class="nav-link">Home</a>
             </router-link>
             <router-link
-              to="/about"
-              tag="li"
-              class="nav-item"
-              active-class="active"
-            >
-              <a class="nav-link">About</a>
-            </router-link>
-            <router-link
               to="/dogs"
               tag="li"
               class="nav-item"
               active-class="active"
             >
               <a class="nav-link">Dogs</a>
+            </router-link>
+            <router-link
+              to="/auctions"
+              tag="li"
+              class="nav-item"
+              active-class="active"
+            >
+              <a class="nav-link">Auctions</a>
             </router-link>
           </ul>
           <router-link class="btn btn-outline-primary my-2 my-sm-0" to="/login"
