@@ -61,23 +61,32 @@ public class UserDao implements Dao<User, String> {
    * Save a new User object to the database.
    * @param user The newly created User to be saved.
    */
-  public void save(User user) {
+  public User save(User user) {
+    User savedUser = null;
     try {
       Connection connection = Database.getConnection();
       PreparedStatement preparedStatement =
-          connection.prepareStatement("INSERT INTO users (username) VALUES (?)");
+          connection.prepareStatement("INSERT INTO users (username) VALUES (?) RETURNING *");
       preparedStatement.setString(1, user.getUsername());
       preparedStatement.executeUpdate();
+      ResultSet resultSet = preparedStatement.getResultSet();
+      Boolean saved = resultSet.first();
+
+      if (saved) {
+        savedUser = userFromResultSet(resultSet);
+      }
     } catch (SQLException e) {
       System.out.println(e.getMessage());
     }
+    return savedUser;
   }
 
   /**
    * Updates an existing user record in the database.
    * @param user The User to be updated in the database.
    */
-  public void update(User user) {
+  public User update(User user) {
+    return user;
     // Do nothing for now. The only field in the users table is username, and that's the primary key.
   }
 

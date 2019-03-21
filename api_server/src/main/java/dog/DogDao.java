@@ -64,45 +64,65 @@ public class DogDao implements Dao<Dog, Integer> {
    * @param dog The newly created Dog to be saved.
    */
   @Override
-  public void save(Dog dog) {
+  public Dog save(Dog dog) {
+    Dog savedDog = null;
+
     try {
       Connection connection = Database.getConnection();
       PreparedStatement preparedStatement =
-          connection.prepareStatement("INSERT INTO dogs (name, breed, age, owner_name) VALUES (?, ?, ?, ?)");
+          connection.prepareStatement("INSERT INTO dogs (name, breed, age, owner_name) VALUES (?, ?, ?, ?) RETURNING *");
       preparedStatement.setString(1, dog.getName());
       preparedStatement.setString(2, dog.getBreed());
       preparedStatement.setInt(3, dog.getAge());
       preparedStatement.setString(4, dog.getOwnerName());
       preparedStatement.executeUpdate();
+      ResultSet resultSet = preparedStatement.getResultSet();
+      Boolean saved = resultSet.first();
+
+      if (saved) {
+        savedDog = dogFromResultSet(resultSet);
+      }
     } catch (SQLException e) {
       System.out.println(e.getMessage());
     }
+    return savedDog;
   }
 
   /**
    * Updates an existing dog record in the database.
    * @param dog The Dog to update in the database. It's id will correspond to the id of the database record to be updated.
    */
-  public void update(Dog dog) {
+  @Override
+  public Dog update(Dog dog) {
+    Dog updatedDog = null;
+
     try {
       Connection connection = Database.getConnection();
       PreparedStatement preparedStatement =
-          connection.prepareStatement("UPDATE dogs SET name = ?, breed = ?, age = ?, owner_name = ? WHERE id = ?");
+          connection.prepareStatement("UPDATE dogs SET name = ?, breed = ?, age = ?, owner_name = ? WHERE id = ? RETURNING *");
       preparedStatement.setString(1, dog.getName());
       preparedStatement.setString(2, dog.getBreed());
       preparedStatement.setInt(3, dog.getAge());
       preparedStatement.setString(4, dog.getOwnerName());
       preparedStatement.setInt(5, dog.getId());
       preparedStatement.executeUpdate();
+      ResultSet resultSet = preparedStatement.getResultSet();
+      Boolean updated = resultSet.first();
+
+      if (updated) {
+        updatedDog = dogFromResultSet(resultSet);
+      }
     } catch (SQLException e) {
       System.out.println(e.getMessage() );
     }
+    return updatedDog;
   }
 
   /**
    * Delete a dog record from the database.
    * @param dog The Dog to be deleted from the database. It's id will correspond to the id of the database record to be deleted.
    */
+  @Override
   public void delete(Dog dog) {
     // Do nothing for now, deletion tricky to implement for the time being (what happens to active auctions?)
 //    try {
