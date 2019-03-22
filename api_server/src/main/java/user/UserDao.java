@@ -12,24 +12,40 @@ import java.util.List;
 /**
  * Perform database operations relating to the User class.
  */
-public class UserDao implements Dao<User, String> {
+public class UserDao implements Dao<User, Integer> {
 
   /**
    * Retrieve the information about a User for a given username.
    * @param username The username of the user
    * @return A User object corresponding to the entry for the given username.
    */
-  public User get(String username) {
+  public User get(Integer id) {
     User foundUser = null;
     try {
       Connection connection = Database.getConnection();
       PreparedStatement preparedStatement =
-          connection.prepareStatement("SELECT * FROM users where username = ?", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+          connection.prepareStatement("SELECT * FROM users where id = ?");
+      preparedStatement.setInt(1, id);
+      ResultSet resultSet = preparedStatement.executeQuery();
+
+      if (resultSet.next()) {
+        foundUser = userFromResultSet(resultSet);
+      }
+    } catch (SQLException e) {
+      System.out.println(e.getMessage());
+    }
+    return foundUser;
+  }
+
+  public User getByUsername(String username) {
+    User foundUser = null;
+    try {
+      Connection connection = Database.getConnection();
+      PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM users WHERE username = ?");
       preparedStatement.setString(1, username);
       ResultSet resultSet = preparedStatement.executeQuery();
-      boolean found = resultSet.first();
 
-      if (found) {
+      if (resultSet.next()) {
         foundUser = userFromResultSet(resultSet);
       }
     } catch (SQLException e) {
@@ -68,7 +84,7 @@ public class UserDao implements Dao<User, String> {
       PreparedStatement preparedStatement =
           connection.prepareStatement("INSERT INTO users (username) VALUES (?) RETURNING *");
       preparedStatement.setString(1, user.getUsername());
-      preparedStatement.executeUpdate();
+      preparedStatement.execute();
       ResultSet resultSet = preparedStatement.getResultSet();
       Boolean saved = resultSet.first();
 
@@ -106,6 +122,7 @@ public class UserDao implements Dao<User, String> {
    */
   private User userFromResultSet(ResultSet resultSet) throws SQLException {
     String username = resultSet.getString("username");
-    return new User(username);
+    Integer id = resultSet.getInt("id");
+    return new User(id, username);
   }
 }
