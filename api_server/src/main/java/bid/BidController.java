@@ -12,5 +12,5 @@ public class BidController {
   public static Handler create = ctx -> {
     Bid newBid = ctx.validatedBodyAsClass(Bid.class).check(Bid::isValid).getOrThrow();
 
-  }
+  };
 }

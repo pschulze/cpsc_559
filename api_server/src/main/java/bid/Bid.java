@@ -1,7 +1,5 @@
 package bid;
 
-import java.text.DecimalFormat;
-
 /**
  * Bid
  */
@@ -9,6 +7,7 @@ public class Bid {
 
   private Integer id;
   private Integer auctionId;
+  private Integer bidderId;
   private Double amount;
 
 
@@ -66,6 +65,37 @@ public class Bid {
    * @param amount the amount to set
    */
   public void setAmount(Double amount) {
-    this.amount = amount;
+    this.amount = Math.floor(amount * 100) / 100;
+  }
+
+    /**
+   * @return the bidderId
+   */
+  public Integer getBidderId() {
+    return bidderId;
+  }
+
+  /**
+   * @param bidderId the bidderId to set
+   */
+  public void setBidderId(Integer bidderId) {
+    this.bidderId = bidderId;
+  }
+
+  public boolean isValid() {
+    boolean valid = true;
+    if (this.amount == null || this.amount <= 0) {
+      valid = false;
+    }
+
+    if (this.auctionId == null) {
+      valid = false;
+    }
+
+    if (this.bidderId == null) {
+      valid = false;
+    }
+
+    return valid;
   }
 }
