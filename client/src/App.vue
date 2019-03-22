@@ -17,8 +17,8 @@
         <div class="navbar-collapse collapse" id="navbarCollapse" style="">
           <ul class="navbar-nav mr-auto">
             <NavbarLink to="/" exact>Home</NavbarLink>
-            <NavbarLink to="/dogs">Dogs</NavbarLink>
             <NavbarLink to="/auctions">Auctions</NavbarLink>
+            <NavbarLink to="/dogs">Dogs</NavbarLink>
           </ul>
           <router-link class="btn btn-outline-primary my-2 my-sm-0" to="/login"
             >Login</router-link
@@ -34,7 +34,7 @@
     <footer class="text-muted">
       <div class="container">
         <div class="d-flex justify-content-center">
-          <p>CPSC 559 - Group 2</p>
+          <small>CPSC 559 - Group 2</small>
         </div>
       </div>
     </footer>
@@ -42,6 +42,7 @@
 </template>
 
 <script>
+// @ is an alias to /src
 import NavbarLink from "@/components/NavbarLink.vue";
 
 export default {
