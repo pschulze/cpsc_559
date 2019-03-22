@@ -16,31 +16,9 @@
         </button>
         <div class="navbar-collapse collapse" id="navbarCollapse" style="">
           <ul class="navbar-nav mr-auto">
-            <router-link
-              to="/"
-              tag="li"
-              class="nav-item"
-              active-class="active"
-              exact
-            >
-              <a class="nav-link">Home</a>
-            </router-link>
-            <router-link
-              to="/dogs"
-              tag="li"
-              class="nav-item"
-              active-class="active"
-            >
-              <a class="nav-link">Dogs</a>
-            </router-link>
-            <router-link
-              to="/auctions"
-              tag="li"
-              class="nav-item"
-              active-class="active"
-            >
-              <a class="nav-link">Auctions</a>
-            </router-link>
+            <NavbarLink to="/" exact>Home</NavbarLink>
+            <NavbarLink to="/dogs">Dogs</NavbarLink>
+            <NavbarLink to="/auctions">Auctions</NavbarLink>
           </ul>
           <router-link class="btn btn-outline-primary my-2 my-sm-0" to="/login"
             >Login</router-link
@@ -62,5 +40,15 @@
     </footer>
   </div>
 </template>
+
+<script>
+import NavbarLink from "@/components/NavbarLink.vue";
+
+export default {
+  components: {
+    NavbarLink
+  }
+};
+</script>
 
 <style></style>
