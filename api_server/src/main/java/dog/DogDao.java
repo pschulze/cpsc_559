@@ -25,12 +25,11 @@ public class DogDao implements Dao<Dog, Integer> {
     try {
       Connection connection = Database.getConnection();
       PreparedStatement preparedStatement =
-          connection.prepareStatement("SELECT * FROM dogs WHERE id = ?", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+          connection.prepareStatement("SELECT * FROM dogs WHERE id = ?");
       preparedStatement.setInt(1, id);
       ResultSet resultSet = preparedStatement.executeQuery();
-      boolean found = resultSet.first();
 
-      if (found) {
+      if (resultSet.next()) {
         foundDog = dogFromResultSet(resultSet);
       }
     } catch (SQLException e) {
@@ -70,16 +69,15 @@ public class DogDao implements Dao<Dog, Integer> {
     try {
       Connection connection = Database.getConnection();
       PreparedStatement preparedStatement =
-          connection.prepareStatement("INSERT INTO dogs (name, breed, age, owner_name) VALUES (?, ?, ?, ?) RETURNING *");
+          connection.prepareStatement("INSERT INTO dogs (name, breed, age, owner_id) VALUES (?, ?, ?, ?) RETURNING *");
       preparedStatement.setString(1, dog.getName());
       preparedStatement.setString(2, dog.getBreed());
       preparedStatement.setInt(3, dog.getAge());
-      preparedStatement.setString(4, dog.getOwnerName());
-      preparedStatement.executeUpdate();
+      preparedStatement.setInt(4, dog.getOwnerId());
+      preparedStatement.execute();
       ResultSet resultSet = preparedStatement.getResultSet();
-      Boolean saved = resultSet.first();
 
-      if (saved) {
+      if (resultSet.next()) {
         savedDog = dogFromResultSet(resultSet);
       }
     } catch (SQLException e) {
@@ -103,13 +101,12 @@ public class DogDao implements Dao<Dog, Integer> {
       preparedStatement.setString(1, dog.getName());
       preparedStatement.setString(2, dog.getBreed());
       preparedStatement.setInt(3, dog.getAge());
-      preparedStatement.setString(4, dog.getOwnerName());
+      preparedStatement.setInt(4, dog.getOwnerId());
       preparedStatement.setInt(5, dog.getId());
       preparedStatement.executeUpdate();
       ResultSet resultSet = preparedStatement.getResultSet();
-      Boolean updated = resultSet.first();
 
-      if (updated) {
+      if (resultSet.next()) {
         updatedDog = dogFromResultSet(resultSet);
       }
     } catch (SQLException e) {
@@ -147,7 +144,7 @@ public class DogDao implements Dao<Dog, Integer> {
     String dogName = resultSet.getString("name");
     String dogBreed = resultSet.getString("breed");
     Integer dogAge = resultSet.getInt("age");
-    String dogOwnerName = resultSet.getString("owner_name");
-    return new Dog(dogId, dogName, dogBreed, dogAge, dogOwnerName);
+    Integer dogOwnerId = resultSet.getInt("owner_id");
+    return new Dog(dogId, dogName, dogBreed, dogAge, dogOwnerId);
   }
 }
