@@ -38,7 +38,7 @@ public class Main {
     JavalinJson.setFromJsonMapper(gson::fromJson);
     JavalinJson.setToJsonMapper(gson::toJson);
 
-    Javalin app = Javalin.create().enableCorsForAllOrigins().start(7000);
+    Javalin app = Javalin.create().enableCorsForAllOrigins().start(975);
 
     app.exception(NumberFormatException.class, ((e, ctx) -> {
       Map<String, Object> message = new HashMap<>();
