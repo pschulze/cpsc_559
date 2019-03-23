@@ -1,14 +1,19 @@
 package dog;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import user.UserDao;
+
 public class Dog {
 
-  private Long id;
+  private Integer id;
   private String name;
   private String breed;
   private Integer age;
-  private String ownerName;
+  private Integer ownerId;
 
-  public Long getId() {
+  public Integer getId() {
     return id;
   }
 
@@ -36,12 +41,12 @@ public class Dog {
     this.age = age;
   }
 
-  public String getOwnerName() {
-    return ownerName;
+  public Integer getOwnerId() {
+    return ownerId;
   }
 
-  public void setOwnerName(String ownerName) {
-    this.ownerName = ownerName;
+  public void setOwnerId(Integer ownerId) {
+    this.ownerId = ownerId;
   }
 
   /**
@@ -49,48 +54,51 @@ public class Dog {
    * @param name The name of the new dog.
    * @param breed The breed of the new dog.
    * @param age The age of the new dog.
-   * @param ownerName The name of the current owner of the dog.
+   * @param OwnerId The name of the current owner of the dog.
    */
-  public Dog(String name, String breed, Integer age, String ownerName) {
+  public Dog(String name, String breed, Integer age, Integer ownerId) {
     this.name = name;
     this.breed = breed;
     this.age = age;
-    this.ownerName = ownerName;
+    this.ownerId = ownerId;
   }
 
-  public Dog(Long id, String name, String breed, Integer age, String ownerName) {
+  public Dog(Integer id, String name, String breed, Integer age, Integer ownerId) {
     this.id = id;
     this.name = name;
     this.breed = breed;
     this.age = age;
-    this.ownerName = ownerName;
+    this.ownerId = ownerId;
   }
 
   /**
    * Ensures all the fields necessary to save a new Dog to the database are present.
    * @return True if the dog can be saved to the database, false if it cannot be.
    */
-  public Boolean isValid() {
-    boolean valid = true;
+  public List<String> validate() {
+    List<String> errors = new ArrayList<>();
 
     // Validate name
     if (this.name == null)
-      valid = false;
+      errors.add("name is null");
 
     // Validate breed
     if (this.breed == null)
-      valid = false;
+      errors.add("breed is null");
 
     // Validate age
-    if (this.age == null || this.age < 0)
-      valid = false;
+    if (this.age == null)
+      errors.add("age is null");
+    else if (this.age < 0)
+      errors.add("age is invalid");
 
-    // Validate ownerName
-    if (this.ownerName == null) {
-      valid = false;
-    }
+    // Validate ownerId
+    if (this.ownerId == null)
+      errors.add("ownerId is null");
+    else if (new UserDao().get(this.ownerId) == null)
+      errors.add("owner with id: " + this.ownerId.toString() + " does not exist");
 
-    return valid;
+    return errors;
   }
 
   /**
@@ -107,7 +115,7 @@ public class Dog {
     if (updatedDog.age != null)
       this.age = updatedDog.age;
 
-    if (updatedDog.ownerName !=  null)
-      this.ownerName = updatedDog.ownerName;
+    if (updatedDog.ownerId !=  null)
+      this.ownerId = updatedDog.ownerId;
   }
 }

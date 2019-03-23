@@ -3,6 +3,7 @@ package dog;
 import io.javalin.Handler;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class DogController {
@@ -11,34 +12,51 @@ public class DogController {
 
   public static Handler getAll = ctx -> ctx.json(dogDao.getAll());
 
+  /**
+   * JSON Body Syntax:
+   * {
+   *   "name": "testName",
+   *   "breed": "testBreed",
+   *   "age": 10,
+   *   "ownerId": 1
+   * }
+   */
   public static Handler create = ctx -> {
-    Dog newDog = ctx.validatedBodyAsClass(Dog.class).check(Dog::isValid).getOrThrow();
-    dogDao.save(newDog);
-    ctx.json(newDog);
+    Dog newDog = ctx.validatedBodyAsClass(Dog.class).getOrThrow();
+    List<String> errors = newDog.validate();
+    if (!errors.isEmpty()) {
+      Map<String, Object> errorsMap = new HashMap<>();
+      errorsMap.put("status", 400);
+      errorsMap.put("errors", errors);
+      ctx.status(400).json(errorsMap);
+    } else {
+      Dog savedDog = dogDao.save(newDog);
+      ctx.json(savedDog);
+    }
   };
 
   public static Handler update = ctx -> {
-    Long id = Long.parseLong(ctx.pathParam(":id"));
+    Integer id = Integer.parseInt(ctx.pathParam(":id"));
     Dog dog = dogDao.get(id);
     if (dog == null) {
-      Map<String, String> message = new HashMap<>();
-      message.put("status", "404");
+      Map<String, Object> message = new HashMap<>();
+      message.put("status", 404);
       message.put("details", "Dog not found for ID " + id.toString());
       ctx.status(404).json(message);
     } else {
       Dog updatedDog = ctx.bodyAsClass(Dog.class);
       dog.update(updatedDog);
-      dogDao.update(dog);
-      ctx.json(dog);
+      Dog newDog = dogDao.update(dog);
+      ctx.json(newDog);
     }
   };
 
   public static Handler get = ctx -> {
-    Long id = Long.parseLong(ctx.pathParam(":id"));
+    Integer id = Integer.parseInt(ctx.pathParam(":id"));
     Dog dog = dogDao.get(id);
     if (dog == null) {
-      Map<String, String> message = new HashMap<>();
-      message.put("status", "404");
+      Map<String, Object> message = new HashMap<>();
+      message.put("status", 404);
       message.put("details", "Dog not found for ID " + id.toString());
       ctx.status(404).json(message);
     } else {
