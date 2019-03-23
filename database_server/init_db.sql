@@ -17,7 +17,8 @@ CREATE TABLE auctions (
   expiration_time timestamp NOT NULL,
   dog_id integer REFERENCES dogs (id) NOT NULL,
   start_price numeric NOT NULL,
-  completed BOOLEAN DEFAULT FALSE
+  completed BOOLEAN DEFAULT FALSE,
+  name VARCHAR NOT NULL
 );
 
 CREATE TABLE bids (
