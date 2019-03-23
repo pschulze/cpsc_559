@@ -1,6 +1,8 @@
 import Vue from "vue";
 import Vuex from "vuex";
 
+import actions from "./actions";
+
 import dogs from "./modules/dogs";
 
 Vue.use(Vuex);
@@ -8,7 +10,9 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     userID: null,
-    username: null
+    username: null,
+    apiAvailable: true,
+    apiErrors: []
   },
   mutations: {
     setUserID(state, userID) {
@@ -16,18 +20,25 @@ export default new Vuex.Store({
     },
     setUsername(state, username) {
       state.username = username;
-    }
-  },
-  actions: {
-    signin(context, username) {
-      context.commit("setUserID", 1);
-      context.commit("setUsername", username);
     },
-    signout(context) {
-      context.commit("setUserID", null);
-      context.commit("setUsername", null);
+    apiAvailable(state) {
+      state.apiAvailable = true;
+    },
+    apiUnavailable(state) {
+      state.apiAvailable = false;
+    },
+    addAPIError(state, error) {
+      state.apiErrors.push(error);
+    },
+    removeAPIError(state, error) {
+      let index = state.apiErrors.indexOf(error);
+      if (index >= 0) Vue.delete(state.apiErrors, index);
+    },
+    clearAPIErrors(state) {
+      state.apiErrors = [];
     }
   },
+  actions,
   modules: {
     dogs
   }
