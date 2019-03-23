@@ -1,41 +1,140 @@
 package auction;
 
-import dog.Dog;
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
+
+import dog.DogDao;
 
 public class Auction {
 
-    private String hostId;
-    private String dogId;
-    private int duration;
-    private int highestBid;
-    private String highestBidderId;
+  private Integer id;
+  private Integer dogId;
+  private Instant expirationTime;
+  private Double startPrice;
+  private String name;
+  private Boolean completed = false;
 
-    public String getHostId() { return hostId; }
+  public Auction() {}
+  public Auction(Integer dogId, Instant expirationTime, Double startPrice, String name, Boolean completed) {
+    this.dogId = dogId;
+    this.expirationTime = expirationTime;
+    this.startPrice = startPrice;
+    this.name = name;
+    this.completed = completed;
+  }
 
-    public String getDogId() { return dogId; }
+  public Auction(Integer id, Integer dogId, Instant expirationTime, Double startPrice, String name, Boolean completed) {
+    this.id = id;
+    this.dogId = dogId;
+    this.expirationTime = expirationTime;
+    this.startPrice = startPrice;
+    this.name = name;
+    this.completed = completed;
+  }
 
-    public int getDuration() { return duration; }
+  /**
+   * @return the id
+   */
+  public Integer getId() {
+    return id;
+  }
 
-    public int getHighestBid() { return highestBid; }
+  /**
+   * @param id the id to set
+   */
+  public void setId(Integer id) {
+    this.id = id;
+  }
 
-    public String getHighestBidderId() { return highestBidderId; }
+  /**
+   * @return the dogId
+   */
+  public Integer getDogId() {
+    return dogId;
+  }
 
-    public void setHostId(String hostId) { this.hostId = hostId; }
+  /**
+   * @param dogId the dogId to set
+   */
+  public void setDogId(Integer dogId) {
+    this.dogId = dogId;
+  }
 
-    public void setDogId(String dogId) { this.dogId = dogId; }
+  /**
+   * @return the expirationTime
+   */
+  public Instant getExpirationTime() {
+    return expirationTime;
+  }
 
-    public void setDuration(int duration) { this.duration = duration; }
+  /**
+   * @param expirationTime the expirationTime to set
+   */
+  public void setExpirationTime(Instant expirationTime) {
+    this.expirationTime = expirationTime;
+  }
 
-    public void setHighestBid(int highestBid) { this.highestBid = highestBid; }
+  /**
+   * @return the startPrice
+   */
+  public Double getStartPrice() {
+    return startPrice;
+  }
 
-    public void setHighestBidderId(String highestBidderId) { this.highestBidderId = highestBidderId; }
+  /**
+   * @param startPrice the startPrice to set
+   */
+  public void setStartPrice(Double startPrice) {
+    this.startPrice = startPrice;
+  }
 
-    Auction() {}
+    /**
+   * @return the name
+   */
+  public String getName() {
+    return name;
+  }
 
-    Auction(String hostId, String dogId, int duration) {
-        this.hostId = hostId;
-        this.dogId = dogId;
-        this.duration = duration;
-    }
+  /**
+   * @param name the name to set
+   */
+  public void setName(String name) {
+    this.name = name;
+  }
 
+  /**
+   * @return the completed
+   */
+  public Boolean getCompleted() {
+    return completed;
+  }
+
+  /**
+   * @param completed the completed to set
+   */
+  public void setCompleted(Boolean completed) {
+    this.completed = completed;
+  }
+
+  public List<String> validate() {
+    List<String> errors = new ArrayList<>();
+    if (this.dogId == null)
+      errors.add("dogId is null");
+    else if (new DogDao().get(this.dogId) == null)
+      errors.add("no dog matching id: " + this.dogId.toString());
+
+    if (this.expirationTime == null)
+      errors.add("expirationTime is null");
+
+    if (this.startPrice == null)
+      errors.add("startPrice is null");
+    else if (this.startPrice < 0.0)
+      errors.add("startPrice is invalid");
+
+    if (this.name == null)
+      errors.add("name is null");
+
+    return errors;
+  }
 }

@@ -1,26 +1,38 @@
 package user;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class User {
   private String username;
+  private Integer id;
 
   public String getUsername() {
     return username;
+  }
+
+  public Integer getId() {
+    return id;
   }
 
   public User(String username) {
     this.username = username;
   }
 
-  public boolean isValid() {
-    System.out.println("in is valid user");
-    boolean valid = true;
+  public User(Integer id, String username) {
+    this.id = id;
+    this.username = username;
+  }
+
+  public List<String> validate() {
+    List<String> errors = new ArrayList<>();
     if (this.username == null)
-      valid = false;
+      errors.add("username is null");
 
     UserDao userDao = new UserDao();
-    if (userDao.get(this.username) != null)
-      valid = false;
+    if (userDao.getByUsername(this.username) != null)
+      errors.add("user with username: " + this.username + " already exists");
 
-    return valid;
+    return errors;
   }
 }

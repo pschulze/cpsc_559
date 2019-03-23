@@ -12,24 +12,38 @@ import java.util.List;
 /**
  * Perform database operations relating to the User class.
  */
-public class UserDao implements Dao<User, String> {
+public class UserDao implements Dao<User, Integer> {
 
   /**
    * Retrieve the information about a User for a given username.
    * @param username The username of the user
    * @return A User object corresponding to the entry for the given username.
    */
-  public User get(String username) {
+  public User get(Integer id) {
     User foundUser = null;
-    try {
-      Connection connection = Database.getConnection();
-      PreparedStatement preparedStatement =
-          connection.prepareStatement("SELECT * FROM users where username = ?", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+    try (Connection connection = Database.getConnection();
+        PreparedStatement preparedStatement =
+          connection.prepareStatement("SELECT * FROM users where id = ?");) {
+      preparedStatement.setInt(1, id);
+      ResultSet resultSet = preparedStatement.executeQuery();
+      if (resultSet.next()) {
+        foundUser = userFromResultSet(resultSet);
+      }
+    } catch (SQLException e) {
+      System.out.println(e.getMessage());
+    }
+    return foundUser;
+  }
+
+  public User getByUsername(String username) {
+    User foundUser = null;
+    try (Connection connection = Database.getConnection();
+        PreparedStatement preparedStatement =
+          connection.prepareStatement("SELECT * FROM users WHERE username = ?");) {
       preparedStatement.setString(1, username);
       ResultSet resultSet = preparedStatement.executeQuery();
-      boolean found = resultSet.first();
 
-      if (found) {
+      if (resultSet.next()) {
         foundUser = userFromResultSet(resultSet);
       }
     } catch (SQLException e) {
@@ -44,9 +58,9 @@ public class UserDao implements Dao<User, String> {
    */
   public List<User> getAll() {
     List<User> allUsers = new ArrayList<>();
-    try {
-      Connection connection = Database.getConnection();
-      PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM users");
+    try (Connection connection = Database.getConnection();
+        PreparedStatement preparedStatement =
+          connection.prepareStatement("SELECT * FROM users");) {
       ResultSet resultSet = preparedStatement.executeQuery();
       while (resultSet.next()) {
         allUsers.add(userFromResultSet(resultSet));
@@ -61,23 +75,31 @@ public class UserDao implements Dao<User, String> {
    * Save a new User object to the database.
    * @param user The newly created User to be saved.
    */
-  public void save(User user) {
-    try {
-      Connection connection = Database.getConnection();
-      PreparedStatement preparedStatement =
-          connection.prepareStatement("INSERT INTO users (username) VALUES (?)");
+  public User save(User user) {
+    User savedUser = null;
+    try (Connection connection = Database.getConnection();
+        PreparedStatement preparedStatement =
+          connection.prepareStatement("INSERT INTO users (username) VALUES (?) RETURNING *");) {
       preparedStatement.setString(1, user.getUsername());
-      preparedStatement.executeUpdate();
+      preparedStatement.execute();
+      ResultSet resultSet = preparedStatement.getResultSet();
+      Boolean saved = resultSet.first();
+
+      if (saved) {
+        savedUser = userFromResultSet(resultSet);
+      }
     } catch (SQLException e) {
       System.out.println(e.getMessage());
     }
+    return savedUser;
   }
 
   /**
    * Updates an existing user record in the database.
    * @param user The User to be updated in the database.
    */
-  public void update(User user) {
+  public User update(User user) {
+    return user;
     // Do nothing for now. The only field in the users table is username, and that's the primary key.
   }
 
@@ -97,6 +119,7 @@ public class UserDao implements Dao<User, String> {
    */
   private User userFromResultSet(ResultSet resultSet) throws SQLException {
     String username = resultSet.getString("username");
-    return new User(username);
+    Integer id = resultSet.getInt("id");
+    return new User(id, username);
   }
 }
