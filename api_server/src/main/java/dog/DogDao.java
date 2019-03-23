@@ -112,6 +112,15 @@ public class DogDao implements Dao<Dog, Integer> {
   }
 
   /**
+   * Delete a dog record from the database.
+   * @param dog The Dog to be deleted from the database. It's id will correspond to the id of the database record to be deleted.
+   */
+  @Override
+  public void delete(Dog dog) {
+    // Do nothing for now, deletion tricky to implement for the time being (what happens to active auctions?)
+  }
+
+  /**
    * Build a Dog object from the result of a database query.
    * @param resultSet Result of a database query with the cursor pointing to the dog object to be built.
    * @return A new Dog object based off of values of the record pointed to by the resultSet.
