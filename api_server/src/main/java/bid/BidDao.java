@@ -44,7 +44,6 @@ public class BidDao implements Dao<Bid, Integer> {
       while(resultSet.next()) {
         allBids.add(bidFromResultSet(resultSet));
       }
-      connection.c
     } catch (SQLException e) {
       System.out.println(e.getMessage());
     }

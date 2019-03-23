@@ -23,7 +23,6 @@ dependencies {
     compile "org.slf4j:slf4j-simple:1.7.25"
     compile 'org.postgresql:postgresql:42.2.5'
     compile 'commons-dbcp:commons-dbcp:1.4'
-    compile 'com.fatboyindustrial.gson-javatime-serialisers:gson-javatime-serialisers:1.1.1'
 
     implementation 'com.google.code.gson:gson:2.8.5'
 }
