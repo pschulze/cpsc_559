@@ -1,11 +1,19 @@
+import com.fatboyindustrial.gsonjavatime.InstantConverter;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
 
+import auction.Auction;
 import auction.AuctionController;
+import bid.BidController;
+import data.InstantDeserializer;
+import data.InstantSerializer;
 import dog.DogController;
 import io.javalin.Javalin;
 import io.javalin.json.JavalinJson;
+import io.javalin.validation.JavalinValidation;
+
+import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.Executors;
@@ -25,7 +33,12 @@ public class Main {
       1,
       1,
       TimeUnit.SECONDS);
-    Gson gson = new GsonBuilder().create();
+    // Gson gson = Converters.registerInstant(new GsonBuilder()).create();
+    GsonBuilder gsonBuilder = new GsonBuilder();
+    gsonBuilder.registerTypeAdapter(Instant.class, new InstantSerializer());
+    gsonBuilder.registerTypeAdapter(Instant.class, new InstantDeserializer());
+    Gson gson = gsonBuilder.create();
+
     JavalinJson.setFromJsonMapper(gson::fromJson);
     JavalinJson.setToJsonMapper(gson::toJson);
 
@@ -68,6 +81,9 @@ public class Main {
         path(":id", () -> {
           get(AuctionController.get);
           post(AuctionController.placeBid);
+          path("bids", () -> {
+            get(BidController.getBidsForAuction);
+          });
         });
       });
     });

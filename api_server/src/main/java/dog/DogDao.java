@@ -22,10 +22,9 @@ public class DogDao implements Dao<Dog, Integer> {
   @Override
   public Dog get(Integer id) {
     Dog foundDog = null;
-    try {
-      Connection connection = Database.getConnection();
-      PreparedStatement preparedStatement =
-          connection.prepareStatement("SELECT * FROM dogs WHERE id = ?");
+    try (Connection connection = Database.getConnection();
+        PreparedStatement preparedStatement =
+          connection.prepareStatement("SELECT * FROM dogs WHERE id = ?");) {
       preparedStatement.setInt(1, id);
       ResultSet resultSet = preparedStatement.executeQuery();
 
@@ -45,9 +44,8 @@ public class DogDao implements Dao<Dog, Integer> {
   @Override
   public List<Dog> getAll() {
     List<Dog> allDogs = new ArrayList<>();
-    try {
-      Connection connection = Database.getConnection();
-      PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM dogs");
+    try (Connection connection = Database.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM dogs");) {
       ResultSet resultSet = preparedStatement.executeQuery();
       while(resultSet.next()) {
         allDogs.add(dogFromResultSet(resultSet));
@@ -66,10 +64,9 @@ public class DogDao implements Dao<Dog, Integer> {
   public Dog save(Dog dog) {
     Dog savedDog = null;
 
-    try {
-      Connection connection = Database.getConnection();
-      PreparedStatement preparedStatement =
-          connection.prepareStatement("INSERT INTO dogs (name, breed, age, owner_id) VALUES (?, ?, ?, ?) RETURNING *");
+    try (Connection connection = Database.getConnection();
+        PreparedStatement preparedStatement =
+          connection.prepareStatement("INSERT INTO dogs (name, breed, age, owner_id) VALUES (?, ?, ?, ?) RETURNING *");) {
       preparedStatement.setString(1, dog.getName());
       preparedStatement.setString(2, dog.getBreed());
       preparedStatement.setInt(3, dog.getAge());
@@ -94,10 +91,9 @@ public class DogDao implements Dao<Dog, Integer> {
   public Dog update(Dog dog) {
     Dog updatedDog = null;
 
-    try {
-      Connection connection = Database.getConnection();
-      PreparedStatement preparedStatement =
-          connection.prepareStatement("UPDATE dogs SET name = ?, breed = ?, age = ?, owner_name = ? WHERE id = ? RETURNING *");
+    try (Connection connection = Database.getConnection();
+        PreparedStatement preparedStatement =
+          connection.prepareStatement("UPDATE dogs SET name = ?, breed = ?, age = ?, owner_name = ? WHERE id = ? RETURNING *");) {
       preparedStatement.setString(1, dog.getName());
       preparedStatement.setString(2, dog.getBreed());
       preparedStatement.setInt(3, dog.getAge());
@@ -113,24 +109,6 @@ public class DogDao implements Dao<Dog, Integer> {
       System.out.println(e.getMessage() );
     }
     return updatedDog;
-  }
-
-  /**
-   * Delete a dog record from the database.
-   * @param dog The Dog to be deleted from the database. It's id will correspond to the id of the database record to be deleted.
-   */
-  @Override
-  public void delete(Dog dog) {
-    // Do nothing for now, deletion tricky to implement for the time being (what happens to active auctions?)
-//    try {
-//      Connection connection = Database.getConnection();
-//      PreparedStatement preparedStatement =
-//          connection.prepareStatement("DELETE FROM dogs WHERE id = ?");
-//      preparedStatement.Integer(1, dog.getId());
-//      preparedStatement.executeUpdate();
-//    } catch (SQLException e) {
-//      System.out.println(e.getMessage());
-//    }
   }
 
   /**

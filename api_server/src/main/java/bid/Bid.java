@@ -1,5 +1,8 @@
 package bid;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Bid
  */
@@ -11,16 +14,18 @@ public class Bid {
   private Double amount;
 
 
-  public Bid(Integer auctionId, Double amount) {
+  public Bid(Integer auctionId, Integer bidderId, Double amount) {
     this.auctionId = auctionId;
+    this.bidderId = bidderId;
 
     // Truncate amount to 2 decimal places
     this.amount = Math.floor(amount * 100) / 100;
   }
 
-  public Bid(Integer id, Integer auctionId, Double amount) {
+  public Bid(Integer id, Integer auctionId, Integer bidderId, Double amount) {
     this.id = id;
     this.auctionId = auctionId;
+    this.bidderId = bidderId;
 
     // Truncate amount to 2 decimal places
     this.amount = Math.floor(amount * 100) / 100;
@@ -82,20 +87,19 @@ public class Bid {
     this.bidderId = bidderId;
   }
 
-  public boolean isValid() {
-    boolean valid = true;
-    if (this.amount == null || this.amount <= 0) {
-      valid = false;
-    }
+  public List<String> validate() {
+    List<String> errors = new ArrayList<>();
+    if (this.amount == null)
+      errors.add("amount is null");
+    else if (this.amount <= 0)
+      errors.add("amount is invalid");
 
-    if (this.auctionId == null) {
-      valid = false;
-    }
+    if (this.auctionId == null)
+      errors.add("auctionId is null");
 
-    if (this.bidderId == null) {
-      valid = false;
-    }
+    if (this.bidderId == null)
+      errors.add("bidderId is null");
 
-    return valid;
+    return errors;
   }
 }

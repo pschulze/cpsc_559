@@ -14,9 +14,9 @@ public class UserController {
     Integer id = Integer.parseInt(ctx.pathParam(":id"));
     User user = userDao.get(id);
     if (user == null) {
-      Map<String, String> message = new HashMap<>();
-      message.put("status", "404");
-      message.put("details", "User not found for id " + id);
+      Map<String, Object> message = new HashMap<>();
+      message.put("status", 404);
+      message.put("details", "user not found for id: " + id.toString());
       ctx.status(404).json(message);
     } else {
       ctx.json(user);
@@ -49,7 +49,7 @@ public class UserController {
     if (userToDelete == null) {
       Map<String, Object> message = new HashMap<>();
       message.put("status", 404);
-      message.put("details", "User not found for id " + id);
+      message.put("details", "user not found for id " + id.toString());
       ctx.status(404).json(message);
     } else {
       userDao.delete(userToDelete);

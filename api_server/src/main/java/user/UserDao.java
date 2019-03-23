@@ -21,13 +21,11 @@ public class UserDao implements Dao<User, Integer> {
    */
   public User get(Integer id) {
     User foundUser = null;
-    try {
-      Connection connection = Database.getConnection();
-      PreparedStatement preparedStatement =
-          connection.prepareStatement("SELECT * FROM users where id = ?");
+    try (Connection connection = Database.getConnection();
+        PreparedStatement preparedStatement =
+          connection.prepareStatement("SELECT * FROM users where id = ?");) {
       preparedStatement.setInt(1, id);
       ResultSet resultSet = preparedStatement.executeQuery();
-
       if (resultSet.next()) {
         foundUser = userFromResultSet(resultSet);
       }
@@ -39,9 +37,9 @@ public class UserDao implements Dao<User, Integer> {
 
   public User getByUsername(String username) {
     User foundUser = null;
-    try {
-      Connection connection = Database.getConnection();
-      PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM users WHERE username = ?");
+    try (Connection connection = Database.getConnection();
+        PreparedStatement preparedStatement =
+          connection.prepareStatement("SELECT * FROM users WHERE username = ?");) {
       preparedStatement.setString(1, username);
       ResultSet resultSet = preparedStatement.executeQuery();
 
@@ -60,9 +58,9 @@ public class UserDao implements Dao<User, Integer> {
    */
   public List<User> getAll() {
     List<User> allUsers = new ArrayList<>();
-    try {
-      Connection connection = Database.getConnection();
-      PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM users");
+    try (Connection connection = Database.getConnection();
+        PreparedStatement preparedStatement =
+          connection.prepareStatement("SELECT * FROM users");) {
       ResultSet resultSet = preparedStatement.executeQuery();
       while (resultSet.next()) {
         allUsers.add(userFromResultSet(resultSet));
@@ -79,10 +77,9 @@ public class UserDao implements Dao<User, Integer> {
    */
   public User save(User user) {
     User savedUser = null;
-    try {
-      Connection connection = Database.getConnection();
-      PreparedStatement preparedStatement =
-          connection.prepareStatement("INSERT INTO users (username) VALUES (?) RETURNING *");
+    try (Connection connection = Database.getConnection();
+        PreparedStatement preparedStatement =
+          connection.prepareStatement("INSERT INTO users (username) VALUES (?) RETURNING *");) {
       preparedStatement.setString(1, user.getUsername());
       preparedStatement.execute();
       ResultSet resultSet = preparedStatement.getResultSet();
