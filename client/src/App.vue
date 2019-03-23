@@ -20,9 +20,7 @@
             <NavbarLink to="/auctions">Auctions</NavbarLink>
             <NavbarLink to="/dogs">Dogs</NavbarLink>
           </ul>
-          <router-link class="btn btn-outline-primary my-2 my-sm-0" to="/login"
-            >Login</router-link
-          >
+          <NavbarAccount />
         </div>
       </nav>
     </header>
@@ -43,10 +41,12 @@
 
 <script>
 // @ is an alias to /src
+import NavbarAccount from "@/components/NavbarAccount.vue";
 import NavbarLink from "@/components/NavbarLink.vue";
 
 export default {
   components: {
+    NavbarAccount,
     NavbarLink
   }
 };
