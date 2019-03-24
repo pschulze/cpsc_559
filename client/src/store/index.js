@@ -3,6 +3,7 @@ import Vuex from "vuex";
 
 import actions from "./actions";
 
+import auctions from "./modules/auctions";
 import dogs from "./modules/dogs";
 
 Vue.use(Vuex);
@@ -40,6 +41,7 @@ export default new Vuex.Store({
   },
   actions,
   modules: {
+    auctions,
     dogs
   }
 });

@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <h1>Auction List</h1>
-    <CardList :loading="loading" :items="dogs">
+    <CardList :loading="loading" :items="auctions">
       <template v-slot:loading>
         <DogCard :outlineonly="true" />
       </template>
@@ -28,8 +28,18 @@ export default {
   data() {
     return {
       loading: false,
-      dogs: [{ id: 0, name: "A", breed: "B" }, { id: 1, name: "C", breed: "D" }]
     };
+  },
+  computed: {
+    ...mapGetters({
+      auctions: "auctions/auctions"
+    })
+  },
+  mounted() {
+    this.loading = true;
+    this.$store.dispatch("auctions/fetchAll").finally(() => {
+      this.loading = false;
+    });
   }
 };
 </script>
