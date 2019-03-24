@@ -2,7 +2,7 @@ import axios from "./axios";
 
 export default class BaseRoute {
   constructor(basepath) {
-    this.basepath = basepath;
+    this.basepath = basepath.replace(/\/$/, "");
   }
 
   getAll() {
