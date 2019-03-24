@@ -16,35 +16,11 @@
         </button>
         <div class="navbar-collapse collapse" id="navbarCollapse" style="">
           <ul class="navbar-nav mr-auto">
-            <router-link
-              to="/"
-              tag="li"
-              class="nav-item"
-              active-class="active"
-              exact
-            >
-              <a class="nav-link">Home</a>
-            </router-link>
-            <router-link
-              to="/about"
-              tag="li"
-              class="nav-item"
-              active-class="active"
-            >
-              <a class="nav-link">About</a>
-            </router-link>
-            <router-link
-              to="/dogs"
-              tag="li"
-              class="nav-item"
-              active-class="active"
-            >
-              <a class="nav-link">Dogs</a>
-            </router-link>
+            <NavbarLink to="/" exact>Home</NavbarLink>
+            <NavbarLink to="/auctions">Auctions</NavbarLink>
+            <NavbarLink to="/dogs">Dogs</NavbarLink>
           </ul>
-          <router-link class="btn btn-outline-primary my-2 my-sm-0" to="/login"
-            >Login</router-link
-          >
+          <NavbarAccount />
         </div>
       </nav>
     </header>
@@ -56,11 +32,61 @@
     <footer class="text-muted">
       <div class="container">
         <div class="d-flex justify-content-center">
-          <p>CPSC 559 - Group 2</p>
+          <small>CPSC 559 - Group 2</small>
         </div>
       </div>
     </footer>
   </div>
 </template>
+
+<script>
+// @ is an alias to /src
+import NavbarAccount from "@/components/NavbarAccount.vue";
+import NavbarLink from "@/components/NavbarLink.vue";
+
+export default {
+  components: {
+    NavbarAccount,
+    NavbarLink
+  },
+  data() {
+    return {
+      auctionsPolling: null,
+      dogsPolling: null,
+      usersPolling: null
+    };
+  },
+  mounted() {
+    this.$store.dispatch("auctions/fetchAll");
+    this.auctionsPolling = setInterval(
+      function() {
+        this.$store.dispatch("auctions/fetchAll");
+      }.bind(this),
+      3000
+    );
+
+    this.$store.dispatch("dogs/fetchAll");
+    this.dogsPolling = setInterval(
+      function() {
+        this.$store.dispatch("dogs/fetchAll");
+      }.bind(this),
+      15000
+    );
+
+    this.$store.dispatch("users/fetchAll");
+    this.usersPolling = setInterval(
+      function() {
+        this.$store.dispatch("users/fetchAll");
+      }.bind(this),
+      15000
+    );
+  },
+  beforeDestroy() {
+    clearInterval(this.auctionsPolling);
+    clearInterval(this.dogsPolling);
+    clearInterval(this.usersPolling);
+  }
+};
+</script>
 
 <style></style>

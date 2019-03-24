@@ -1,8 +1,7 @@
 import Vue from "vue";
 
-import { Dogs } from "@/api";
+import actions from "./actions";
 
-import find from "lodash/find";
 import map from "lodash/map";
 
 // https://forum.vuejs.org/t/updating-array-property-within-vuex/11411
@@ -32,23 +31,7 @@ const getters = {
     return map(state.dogsList, id => state.dogs[keyForDog({ id })]);
   },
   dogById: state => id => {
-    return find(state.dogs, { id });
-  }
-};
-
-const actions = {
-  fetchAll(context) {
-    return Dogs.getAll().then(dogs => {
-      for (let dog of dogs) {
-        context.commit("updateOrCreate", dog);
-      }
-    });
-  },
-
-  fetch(context, id) {
-    return Dogs.get(id).then(dog => {
-      context.commit("updateOrCreate", dog);
-    });
+    return state.dogs[keyForDog({ id })];
   }
 };
 

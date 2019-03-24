@@ -1,12 +1,12 @@
 <template>
   <div class="container">
-    <h1>Dogs List</h1>
-    <CardList :loading="loading" :items="dogs">
+    <h1>Users List</h1>
+    <CardList :loading="loading" :items="users">
       <template v-slot:loading>
-        <DogCard :outlineonly="true" />
+        <UserCard :outlineonly="true" />
       </template>
       <template v-slot:default="{ item }">
-        <DogCard :dog="item" />
+        <UserCard :user="item" />
       </template>
     </CardList>
     <button @click="loading = !loading" />
@@ -17,13 +17,13 @@
 import { mapGetters } from "vuex";
 
 import CardList from "@/components/CardList.vue";
-import DogCard from "@/components/DogCard.vue";
+import UserCard from "@/components/UserCard.vue";
 
 export default {
-  name: "doglist",
+  name: "userlist",
   components: {
     CardList,
-    DogCard
+    UserCard
   },
   data() {
     return {
@@ -32,7 +32,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      dogs: "dogs/dogs"
+      users: "users/users"
     })
   }
 };
