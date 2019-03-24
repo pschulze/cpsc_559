@@ -23,6 +23,12 @@ export default new Router({
         import(/* webpackChunkName: "auctionlist" */ "./views/AuctionList.vue")
     },
     {
+      path: "/auctions/:id",
+      name: "auction",
+      component: () =>
+        import(/* webpackChunkName: "auction" */ "./views/Auction.vue")
+    },
+    {
       path: "/dogs",
       name: "doglist",
       component: () =>
@@ -32,6 +38,17 @@ export default new Router({
       path: "/dogs/:id",
       name: "dog",
       component: () => import(/* webpackChunkName: "dog" */ "./views/Dog.vue")
+    },
+    {
+      path: "/users",
+      name: "userlist",
+      component: () =>
+        import(/* webpackChunkName: "userlist" */ "./views/UserList.vue")
+    },
+    {
+      path: "/users/:id",
+      name: "user",
+      component: () => import(/* webpackChunkName: "user" */ "./views/User.vue")
     }
   ]
 });
