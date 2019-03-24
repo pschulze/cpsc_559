@@ -48,6 +48,43 @@ export default {
   components: {
     NavbarAccount,
     NavbarLink
+  },
+  data() {
+    return {
+      auctionsPolling: null,
+      dogsPolling: null,
+      usersPolling: null
+    };
+  },
+  mounted() {
+    this.$store.dispatch("auctions/fetchAll");
+    this.auctionsPolling = setInterval(
+      function() {
+        this.$store.dispatch("auctions/fetchAll");
+      }.bind(this),
+      3000
+    );
+
+    this.$store.dispatch("dogs/fetchAll");
+    this.dogsPolling = setInterval(
+      function() {
+        this.$store.dispatch("dogs/fetchAll");
+      }.bind(this),
+      15000
+    );
+
+    this.$store.dispatch("users/fetchAll");
+    this.usersPolling = setInterval(
+      function() {
+        this.$store.dispatch("users/fetchAll");
+      }.bind(this),
+      15000
+    );
+  },
+  beforeDestroy() {
+    clearInterval(this.auctionsPolling);
+    clearInterval(this.dogsPolling);
+    clearInterval(this.usersPolling);
   }
 };
 </script>

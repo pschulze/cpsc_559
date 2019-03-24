@@ -34,12 +34,6 @@ export default {
     ...mapGetters({
       dogs: "dogs/dogs"
     })
-  },
-  mounted() {
-    this.loading = true;
-    this.$store.dispatch("dogs/fetchAll").finally(() => {
-      this.loading = false;
-    });
   }
 };
 </script>

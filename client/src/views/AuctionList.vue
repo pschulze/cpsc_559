@@ -34,12 +34,6 @@ export default {
     ...mapGetters({
       auctions: "auctions/auctions"
     })
-  },
-  mounted() {
-    this.loading = true;
-    this.$store.dispatch("auctions/fetchAll").finally(() => {
-      this.loading = false;
-    });
   }
 };
 </script>
