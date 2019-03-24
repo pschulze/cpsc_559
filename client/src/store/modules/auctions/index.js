@@ -50,7 +50,8 @@ const mutations = {
   updateOrCreate(state, auction) {
     const key = keyForAuction(auction);
     Vue.set(state.auctions, key, auction);
-    if (state.auctionsList.indexOf(auction.id) === -1) state.auctionsList.push(auction.id);
+    if (state.auctionsList.indexOf(auction.id) === -1)
+      state.auctionsList.push(auction.id);
   }
 };
 

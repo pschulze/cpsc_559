@@ -1,7 +1,7 @@
 import axios from "./axios";
 
 export default class BaseRoute {
-  constructor (basepath) {
+  constructor(basepath) {
     this.basepath = basepath;
   }
 
@@ -20,4 +20,4 @@ export default class BaseRoute {
   update(id, values) {
     return axios.patch(this.basepath + "/" + id, values);
   }
-};
+}
