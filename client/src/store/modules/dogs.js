@@ -20,8 +20,8 @@ state = {
 */
 
 const getters = {
-  dogs: List.getters.items,
-  dogById: List.getters.itemById
+  all: List.getters.items,
+  byId: List.getters.itemById
 };
 
 const actions = {

@@ -32,7 +32,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      dogs: "dogs/dogs"
+      dogs: "dogs/all"
     })
   }
 };

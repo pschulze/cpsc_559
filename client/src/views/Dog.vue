@@ -18,8 +18,8 @@ export default {
   name: "dog",
   computed: {
     ...mapGetters({
-      dogById: "dogs/dogById",
-      userById: "users/userById"
+      dogById: "dogs/byId",
+      userById: "users/byId"
     }),
     dog() {
       return this.dogById(this.$route.params.id);

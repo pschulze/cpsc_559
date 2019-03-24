@@ -24,9 +24,9 @@ export default {
   name: "auction",
   computed: {
     ...mapGetters({
-      auctionById: "auctions/auctionById",
-      dogById: "dogs/dogById",
-      userById: "users/userById"
+      auctionById: "auctions/byId",
+      dogById: "dogs/byId",
+      userById: "users/byId"
     }),
     auction() {
       return this.auctionById(this.$route.params.id);

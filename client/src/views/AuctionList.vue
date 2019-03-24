@@ -32,7 +32,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      auctions: "auctions/auctions"
+      auctions: "auctions/all"
     })
   }
 };

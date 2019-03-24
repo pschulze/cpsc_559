@@ -17,8 +17,8 @@ state = {
 */
 
 const getters = {
-  users: List.getters.items,
-  userById: List.getters.itemById
+  all: List.getters.items,
+  byId: List.getters.itemById
 };
 
 const actions = {

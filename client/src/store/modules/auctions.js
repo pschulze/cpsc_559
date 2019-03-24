@@ -21,8 +21,8 @@ state = {
 */
 
 const getters = {
-  auctions: List.getters.items,
-  auctionById: List.getters.itemById
+  all: List.getters.items,
+  byId: List.getters.itemById
 };
 
 const actions = {

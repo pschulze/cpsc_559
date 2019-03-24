@@ -17,7 +17,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      userById: "users/userById"
+      userById: "users/byId"
     }),
     user() {
       return this.userById(this.$route.params.id);

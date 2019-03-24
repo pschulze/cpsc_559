@@ -32,7 +32,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      users: "users/users"
+      users: "users/all"
     })
   }
 };
