@@ -1,5 +1,6 @@
 import { List } from "../reusable";
-import actions from "./actions";
+
+import { Auctions } from "@/api";
 
 /*
 state = {
@@ -24,10 +25,26 @@ const getters = {
   auctionById: List.getters.itemById
 };
 
+const actions = {
+  fetchAll(context) {
+    return Auctions.getAll().then(auctions => {
+      for (let auction of auctions) {
+        context.commit("updateOrCreate", auction);
+      }
+    });
+  },
+
+  fetch(context, id) {
+    return Auctions.get(id).then(auction => {
+      context.commit("updateOrCreate", auction);
+    });
+  }
+};
+
 export default {
   namespaced: true,
   state: List.state,
+  mutations: List.mutations,
   getters,
-  actions,
-  mutations: List.mutations
+  actions
 };

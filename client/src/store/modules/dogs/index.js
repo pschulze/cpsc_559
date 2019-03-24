@@ -1,5 +1,6 @@
 import { List } from "../reusable";
-import actions from "./actions";
+
+import { Dogs } from "@/api";
 
 /*
 state = {
@@ -23,10 +24,26 @@ const getters = {
   dogById: List.getters.itemById
 };
 
+const actions = {
+  fetchAll(context) {
+    return Dogs.getAll().then(dogs => {
+      for (let dog of dogs) {
+        context.commit("updateOrCreate", dog);
+      }
+    });
+  },
+
+  fetch(context, id) {
+    return Dogs.get(id).then(dog => {
+      context.commit("updateOrCreate", dog);
+    });
+  }
+};
+
 export default {
   namespaced: true,
   state: List.state,
+  mutations: List.mutations,
   getters,
-  actions,
-  mutations: List.mutations
+  actions
 };

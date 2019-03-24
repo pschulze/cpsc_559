@@ -1,5 +1,6 @@
 import { List } from "../reusable";
-import actions from "./actions";
+
+import { Users } from "@/api";
 
 /*
 state = {
@@ -20,10 +21,26 @@ const getters = {
   userById: List.getters.itemById
 };
 
+const actions = {
+  fetchAll(context) {
+    return Users.getAll().then(users => {
+      for (let user of users) {
+        context.commit("updateOrCreate", user);
+      }
+    });
+  },
+
+  fetch(context, id) {
+    return Users.get(id).then(user => {
+      context.commit("updateOrCreate", user);
+    });
+  }
+};
+
 export default {
   namespaced: true,
   state: List.state,
+  mutations: List.mutations,
   getters,
-  actions,
-  mutations: List.mutations
+  actions
 };
