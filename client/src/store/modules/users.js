@@ -1,4 +1,4 @@
-import { List } from "../reusable";
+import { List } from "./reusable";
 
 import { Users } from "@/api";
 

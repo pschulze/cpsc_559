@@ -1,4 +1,4 @@
-import { List } from "../reusable";
+import { List } from "./reusable";
 
 import { Dogs } from "@/api";
 
