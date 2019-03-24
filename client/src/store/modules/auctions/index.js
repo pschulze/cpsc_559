@@ -1,19 +1,10 @@
-import Vue from "vue";
-
+import { List } from "../reusable";
 import actions from "./actions";
 
-import map from "lodash/map";
-
-// https://forum.vuejs.org/t/updating-array-property-within-vuex/11411
-
-function keyForAuction({ id }) {
-  return `auction_${id}`;
-}
-
-const state = {
-  auctions: {
-    /*
-    auction_id: {
+/*
+state = {
+  items: {
+    item_id: {
       id,
       dogId,
       expirationTime,
@@ -21,44 +12,22 @@ const state = {
       name,
       completed
     }
-    */
   },
-  auctionsList: [
-    /* ...ids */
+  ids: [
+    ...ids
   ]
-};
+}
+*/
 
 const getters = {
-  auctions(state) {
-    return map(state.auctionsList, id => state.auctions[keyForAuction({ id })]);
-  },
-  auctionById: state => id => {
-    return state.auctions[keyForAuction({ id })];
-  }
-};
-
-const mutations = {
-  add(state, auction) {
-    const key = keyForAuction(auction);
-    Vue.set(state.auctions, key, auction);
-    state.auctionsList.push(auction.id);
-  },
-  set(state, auction) {
-    const key = keyForAuction(auction);
-    Vue.set(state.auctions, key, auction);
-  },
-  updateOrCreate(state, auction) {
-    const key = keyForAuction(auction);
-    Vue.set(state.auctions, key, auction);
-    if (state.auctionsList.indexOf(auction.id) === -1)
-      state.auctionsList.push(auction.id);
-  }
+  auctions: List.getters.items,
+  auctionById: List.getters.itemById
 };
 
 export default {
   namespaced: true,
-  state,
+  state: List.state,
   getters,
   actions,
-  mutations
+  mutations: List.mutations
 };

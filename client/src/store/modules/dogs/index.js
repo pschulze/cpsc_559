@@ -1,61 +1,32 @@
-import Vue from "vue";
-
+import { List } from "../reusable";
 import actions from "./actions";
 
-import map from "lodash/map";
-
-// https://forum.vuejs.org/t/updating-array-property-within-vuex/11411
-
-function keyForDog({ id }) {
-  return `dog_${id}`;
-}
-
-const state = {
-  dogs: {
-    /*
-    dog_id: {
+/*
+state = {
+  items: {
+    item_id: {
       id,
       name,
       breed,
-      age
+      age,
+      ownerId
     }
-    */
   },
-  dogsList: [
-    /* ...ids */
+  ids: [
+    ...ids
   ]
-};
+}
+*/
 
 const getters = {
-  dogs(state) {
-    return map(state.dogsList, id => state.dogs[keyForDog({ id })]);
-  },
-  dogById: state => id => {
-    return state.dogs[keyForDog({ id })];
-  }
-};
-
-const mutations = {
-  add(state, dog) {
-    const key = keyForDog(dog);
-    Vue.set(state.dogs, key, dog);
-    state.dogsList.push(dog.id);
-  },
-  set(state, dog) {
-    const key = keyForDog(dog);
-    Vue.set(state.dogs, key, dog);
-  },
-  updateOrCreate(state, dog) {
-    const key = keyForDog(dog);
-    Vue.set(state.dogs, key, dog);
-    if (state.dogsList.indexOf(dog.id) === -1) state.dogsList.push(dog.id);
-  }
+  dogs: List.getters.items,
+  dogById: List.getters.itemById
 };
 
 export default {
   namespaced: true,
-  state,
+  state: List.state,
   getters,
   actions,
-  mutations
+  mutations: List.mutations
 };
