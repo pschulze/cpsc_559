@@ -5,6 +5,7 @@ import actions from "./actions";
 
 import auctions from "./modules/auctions";
 import dogs from "./modules/dogs";
+import users from "./modules/users";
 
 Vue.use(Vuex);
 
@@ -42,6 +43,7 @@ export default new Vuex.Store({
   actions,
   modules: {
     auctions,
-    dogs
+    dogs,
+    users
   }
 });
