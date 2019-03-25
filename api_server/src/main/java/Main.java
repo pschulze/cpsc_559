@@ -82,6 +82,17 @@ public class Main {
           });
         });
       });
+      path("account", () -> {
+        //post(UserController.create);
+        path("login", () -> {
+          //view login form
+        });
+        path(":id", () -> {
+          path("bids", () -> {
+            get(BidController.getBidsForUser);
+          });
+        });
+      });
     });
   }
 }
