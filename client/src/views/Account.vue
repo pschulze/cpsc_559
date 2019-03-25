@@ -14,8 +14,8 @@
         Add Dog
       </slot>
     </button>
-    <Modal ref="addDogModal" title="Add Dog">
-      <DogForm />
+    <Modal ref="addDogModal" title="Add Dog" @hide="$refs.addDogForm.reset()">
+      <DogForm ref="addDogForm" @submit="createDog" />
     </Modal>
     <hr />
     <h3>My Auctions</h3>
@@ -63,6 +63,12 @@ export default {
     },
     auctions() {
       return flatMap(this.dogs, dog => this.auctionsByDog(dog.id));
+    }
+  },
+  methods: {
+    createDog(dog) {
+      console.log("a", dog);
+      this.$refs.addDogModal.hideModal();
     }
   }
 };

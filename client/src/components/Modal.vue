@@ -37,11 +37,16 @@ export default {
     title: String
   },
   methods: {
+    // Show/hide using Bootstrap jQuery calls
     showModal() {
+      // eslint-disable-next-line no-undef
       $(this.$refs.modal).modal("show");
+      this.$emit("show");
     },
     hideModal() {
+      // eslint-disable-next-line no-undef
       $(this.$refs.modal).modal("hide");
+      this.$emit("hide");
     }
   }
 };
