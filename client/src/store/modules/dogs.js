@@ -2,6 +2,8 @@ import { List } from "./reusable";
 
 import { Dogs } from "@/api";
 
+import filter from "lodash/filter";
+
 /*
 state = {
   items: {
@@ -21,7 +23,10 @@ state = {
 
 const getters = {
   all: List.getters.items,
-  byId: List.getters.itemById
+  byId: List.getters.itemById,
+  byOwner: state => ownerId => {
+    return filter(List.getters.items(state), { ownerId });
+  }
 };
 
 const actions = {

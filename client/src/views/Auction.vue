@@ -8,20 +8,20 @@
         dog.name
       }}</router-link>
     </p>
-    <p>
-      Owner:
-      <router-link :to="{ name: 'user', params: { id: user.id } }">{{
-        user.username
-      }}</router-link>
-    </p>
+    <UserCard :user="user" sm />
   </div>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
 
+import UserCard from "@/components/UserCard.vue";
+
 export default {
   name: "auction",
+  components: {
+    UserCard
+  },
   computed: {
     ...mapGetters({
       auctionById: "auctions/byId",

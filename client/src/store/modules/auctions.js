@@ -2,6 +2,8 @@ import { List } from "./reusable";
 
 import { Auctions } from "@/api";
 
+import filter from "lodash/filter";
+
 /*
 state = {
   items: {
@@ -22,7 +24,10 @@ state = {
 
 const getters = {
   all: List.getters.items,
-  byId: List.getters.itemById
+  byId: List.getters.itemById,
+  byDog: state => dogId => {
+    return filter(List.getters.items(state), { dogId });
+  }
 };
 
 const actions = {
