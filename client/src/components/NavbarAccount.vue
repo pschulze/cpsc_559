@@ -46,7 +46,7 @@
         <router-link
           class="dropdown-item"
           active-class="active"
-          :to="`/account/${userID}`"
+          :to="`/account`"
           >My Account</router-link
         >
         <div class="dropdown-divider"></div>
@@ -69,15 +69,19 @@ export default {
     };
   },
   computed: {
+    ...mapState(["userId", "username"] ),
     loggedin() {
-      return this.userID !== null && this.userID !== undefined;
-    },
-    ...mapState(["userID", "username"])
+      return this.userId !== null && this.userId !== undefined;
+    }
   },
   methods: {
+    resetSigninForm() {
+      this.signinUsername = null;
+    },
     onSigninSubmit() {
       this.$store.dispatch("signin", this.signinUsername).then(() => {
-        this.signinUsername = null;
+        this.resetSigninForm();
+        this.$router.push({ name: "account" });
       });
     },
     onLogoutClick() {
