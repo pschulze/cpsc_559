@@ -5,10 +5,26 @@
     <CardList :items="dogs" v-slot="{ item }">
       <DogCard :dog="item" />
     </CardList>
+    <button
+      type="button"
+      class="btn btn-primary"
+      @click.prevent="$refs.addDogModal.showModal"
+    >
+      <slot name="button">
+        Add Dog
+      </slot>
+    </button>
+    <Modal ref="addDogModal" title="Add Dog">
+      <DogForm />
+    </Modal>
+    <hr />
     <h3>My Auctions</h3>
     <CardList :items="auctions" v-slot:default="{ item }">
       <AuctionCard :auction="item" />
     </CardList>
+    <hr />
+    <h3>My Bids</h3>
+    <p>TODO</p>
   </div>
 </template>
 
@@ -20,15 +36,20 @@ import CardList from "@/components/CardList.vue";
 import DogCard from "@/components/DogCard.vue";
 import AuctionCard from "@/components/AuctionCard.vue";
 
+import Modal from "@/components/Modal.vue";
+import DogForm from "@/components/DogForm.vue";
+
 export default {
   name: "account",
   components: {
     CardList,
     DogCard,
-    AuctionCard
+    AuctionCard,
+    DogForm,
+    Modal
   },
   computed: {
-    ...mapState(["userId", "username"] ),
+    ...mapState(["userId", "username"]),
     ...mapGetters({
       userById: "users/byId",
       dogsByOwner: "dogs/byOwner",

@@ -69,7 +69,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(["userId", "username"] ),
+    ...mapState(["userId", "username"]),
     loggedin() {
       return this.userId !== null && this.userId !== undefined;
     }
