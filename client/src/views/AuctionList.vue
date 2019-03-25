@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <h1>Auction List</h1>
-    <CardList :loading="loading" :items="auctions">
+    <CardList :items="auctions">
       <template v-slot:loading>
         <AuctionCard :outlineonly="true" />
       </template>
@@ -9,7 +9,6 @@
         <AuctionCard :auction="item" />
       </template>
     </CardList>
-    <button @click="loading = !loading" />
   </div>
 </template>
 
@@ -24,11 +23,6 @@ export default {
   components: {
     CardList,
     AuctionCard
-  },
-  data() {
-    return {
-      loading: false
-    };
   },
   computed: {
     ...mapGetters({
