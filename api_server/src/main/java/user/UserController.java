@@ -23,6 +23,19 @@ public class UserController {
     }
   };
 
+  public static Handler getUserByUsername = ctx -> {
+    String username = ctx.queryParam("username");
+    User user = userDao.getByUsername(username);
+    if (user == null) {
+      Map<String, Object> message = new HashMap<>();
+      message.put("status", 404);
+      message.put("details", "user not found for username: " + username);
+      ctx.status(404).json(message);
+    } else {
+      ctx.json(user);
+    }
+  };
+
   /**
    * JSON Body syntax:
    * {

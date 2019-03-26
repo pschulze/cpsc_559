@@ -83,9 +83,11 @@ public class Main {
         });
       });
       path("account", () -> {
-        //post(UserController.create);
-        path("login", () -> {
+        post(UserController.create);
+        path("login/user", () -> {
           //view login form
+          //user?username=blah
+          get(UserController.getUserByUsername);
         });
         path(":id", () -> {
           path("bids", () -> {
