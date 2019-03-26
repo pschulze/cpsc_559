@@ -10,12 +10,13 @@
       class="btn btn-primary"
       @click.prevent="$refs.addDogModal.showModal"
     >
-      <slot name="button">
-        Add Dog
-      </slot>
+      Add Dog
     </button>
     <Modal ref="addDogModal" title="Add Dog" @hide="$refs.addDogForm.reset()">
-      <DogForm ref="addDogForm" @submit="createDog" />
+      <DogForm
+        ref="addDogForm"
+        @sumbitSuccess="$refs.addDogModal.hideModal()"
+      />
     </Modal>
     <hr />
     <h3>My Auctions</h3>
@@ -63,12 +64,6 @@ export default {
     },
     auctions() {
       return flatMap(this.dogs, dog => this.auctionsByDog(dog.id));
-    }
-  },
-  methods: {
-    createDog(dog) {
-      console.log("a", dog);
-      this.$refs.addDogModal.hideModal();
     }
   }
 };
