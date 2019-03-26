@@ -38,6 +38,30 @@ public class DogDao implements Dao<Dog, Integer> {
   }
 
   /**
+   * Retrieve the information about a Dog for a given name/breed
+   * @param name The name of the Dog.
+   * @param breed The breed of the Dog.
+   * @return A Dog object corresponding to the database entry for the given name/breed.
+   */
+  public Dog get(String name, String breed) {
+    Dog foundDog = null;
+    try (Connection connection = Database.getConnection();
+         PreparedStatement preparedStatement =
+                 connection.prepareStatement("SELECT * FROM dogs WHERE (name = ? OR ? IS NULL) AND (breed = ? OR ? IS NULL)");) {
+      preparedStatement.setString(1, name);
+      preparedStatement.setString(2, breed);
+      ResultSet resultSet = preparedStatement.executeQuery();
+
+      if (resultSet.next()) {
+        foundDog = dogFromResultSet(resultSet);
+      }
+    } catch (SQLException e) {
+      System.out.println(e.getMessage());
+    }
+    return foundDog;
+  }
+
+  /**
    * Retrieve a list of all dogs in the database.
    * @return A List of all Dog records.
    */

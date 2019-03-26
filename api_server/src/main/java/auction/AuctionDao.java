@@ -32,6 +32,23 @@ public class AuctionDao implements Dao<Auction, Integer> {
     return foundAuction;
   }
 
+  public Auction get(String name) {
+    Auction foundAuction = null;
+    try (Connection connection = Database.getConnection();
+         PreparedStatement preparedStatement =
+                 connection.prepareStatement("SELECT * FROM auctions WHERE name = ?");) {
+      preparedStatement.setString(1, name);
+      ResultSet resultSet = preparedStatement.executeQuery();
+
+      if (resultSet.next()) {
+        foundAuction = auctionFromResultSet(resultSet);
+      }
+    } catch (SQLException e) {
+      System.out.println(e.getMessage());
+    }
+    return foundAuction;
+  }
+
 
   @Override
   public List<Auction> getAll() {

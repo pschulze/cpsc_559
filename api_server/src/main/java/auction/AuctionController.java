@@ -30,6 +30,19 @@ public class AuctionController {
     }
   };
 
+  public static Handler getOne = ctx -> {
+    String name = ctx.queryParam("name");
+    Auction auction = auctionDao.get(name);
+    if (auction == null) {
+      Map<String, Object> message = new HashMap<>();
+      message.put("status", 404);
+      message.put("details", "auction not found for name: " + name);
+      ctx.status(404).json(message);
+    } else {
+      ctx.json(auction);
+    }
+  };
+
   /**
    * JSON Body format:
    * {
@@ -158,6 +171,22 @@ public class AuctionController {
     } else {
       Auction savedAuction = auctionDao.save(newAuction);
       ctx.json(savedAuction);
+    }
+  };
+
+  public static Handler update = ctx -> {
+    Integer id = Integer.parseInt(ctx.pathParam(":id"));
+    Auction auction = auctionDao.get(id);
+    if (auction == null) {
+      Map<String, Object> message = new HashMap<>();
+      message.put("status", 404);
+      message.put("details", "Auction not found for ID " + id.toString());
+      ctx.status(404).json(message);
+    } else {
+      Auction updatedAuction = ctx.bodyAsClass(Auction.class);
+      auction.update(updatedAuction);
+      Auction newAuction = auctionDao.update(auction);
+      ctx.json(newAuction);
     }
   };
 
