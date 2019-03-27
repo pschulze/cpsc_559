@@ -23,6 +23,23 @@
     <CardList :items="auctions" v-slot:default="{ item }">
       <AuctionCard :auction="item" />
     </CardList>
+    <button
+      type="button"
+      class="btn btn-primary"
+      @click.prevent="$refs.addAuctionModal.showModal"
+    >
+      Add Auction
+    </button>
+    <Modal
+      ref="addAuctionModal"
+      title="Add Auction"
+      @hide="$refs.addAuctionForm.reset()"
+    >
+      <AuctionForm
+        ref="addAuctionForm"
+        @sumbitSuccess="$refs.addAuctionModal.hideModal()"
+      />
+    </Modal>
     <hr />
     <h3>My Bids</h3>
     <p>TODO</p>
@@ -39,6 +56,7 @@ import AuctionCard from "@/components/AuctionCard.vue";
 
 import Modal from "@/components/Modal.vue";
 import DogForm from "@/components/DogForm.vue";
+import AuctionForm from "@/components/AuctionForm.vue";
 
 export default {
   name: "account",
@@ -46,8 +64,9 @@ export default {
     CardList,
     DogCard,
     AuctionCard,
+    Modal,
     DogForm,
-    Modal
+    AuctionForm
   },
   computed: {
     ...mapState(["userId", "username"]),
