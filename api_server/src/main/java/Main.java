@@ -62,10 +62,10 @@ public class Main {
           get(UserController.get);
 //          delete(UserController.delete);
           path("dogs", () -> {
-            get(UserController.getDogs);
+            get(DogController.getUserDogs);
           });
           path( "auctions", () -> {
-            get(UserController.getAuctions);
+            get(AuctionController.getUserAuctions);
           });
         });
       });

@@ -134,4 +134,20 @@ public class AuctionDao implements Dao<Auction, Integer> {
     Boolean completed = resultSet.getBoolean("completed");
     return new Auction(id, dogId, expirationTime, startPrice, name, completed);
   }
+
+
+  public List<Auction> getUserAuctions(Integer userId) {
+    List<Auction> userAuctions = new ArrayList<>();
+    try (Connection connection = Database.getConnection();
+         PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM auctions WHERE dog_id IN(SELECT dog_id FROM dogs WHERE owner_id = ?)");) {
+      preparedStatement.setInt(1, userId);
+      ResultSet resultSet = preparedStatement.executeQuery();
+      while(resultSet.next()) {
+        userAuctions.add(auctionFromResultSet(resultSet));
+      }
+    } catch (SQLException e) {
+      System.out.println(e.getMessage());
+    }
+    return userAuctions;
+  }
 }
