@@ -24,20 +24,40 @@
     </div>
     <div class="form-group">
       <label for="auctionFormStartPrice">Start Price</label>
-      <input
-        type="number"
-        class="form-control"
-        id="auctionFormStartPrice"
-        value="0"
-        min="0"
-        step="1"
-        v-model="startPrice"
-        required
-      />
+      <div class="input-group mb-2">
+        <div class="input-group-prepend">
+          <div class="input-group-text">$</div>
+        </div>
+        <input
+          type="number"
+          class="form-control"
+          id="auctionFormStartPrice"
+          value="0"
+          min="0"
+          step="1"
+          v-model="startPrice"
+          required
+        />
+      </div>
     </div>
     <div class="form-group">
       <label for="auctionFormEndTime">End Time</label>
-      <VueCtkDateTimePicker id="auctionFormEndTime" :min-date="currentDate()" v-model="expirationTime" />
+      <VueCtkDateTimePicker
+        :min-date="currentDate()"
+        v-model="expirationTime"
+        noValueToCustomElem
+      >
+        <input
+          id="auctionFormEndTime"
+          placeholder="Select date &amp; time"
+          type="text"
+          @focus="setDateReadonly(true)"
+          @blur="setDateReadonly(false)"
+          class="form-control"
+          :value="formattedDateTime"
+          required
+        />
+      </VueCtkDateTimePicker>
     </div>
     <button type="submit" class="btn btn-primary">
       {{ submitLabel }}
@@ -49,8 +69,8 @@
 import Vue from "vue";
 import Moment from "moment";
 
-import VueCtkDateTimePicker from 'vue-ctk-date-time-picker';
-import 'vue-ctk-date-time-picker/dist/vue-ctk-date-time-picker.css';
+import VueCtkDateTimePicker from "vue-ctk-date-time-picker";
+import "vue-ctk-date-time-picker/dist/vue-ctk-date-time-picker.css";
 
 export default {
   name: "AuctionForm",
@@ -79,7 +99,9 @@ export default {
       id: this.auction ? Vue.util.extend({}, this.auction.id) : null,
       dogId: this.auction
         ? Vue.util.extend({}, this.auction.dogId)
-        : this.dog ? Vue.util.extend({}, this.dog.id) : null,
+        : this.dog
+        ? Vue.util.extend({}, this.dog.id)
+        : null,
       expirationTime: this.auction
         ? Vue.util.extend({}, this.auction.expirationTime)
         : null,
@@ -92,12 +114,21 @@ export default {
         : null
     };
   },
+  computed: {
+    formattedDateTime() {
+      return this.expirationTime
+        ? Moment(this.expirationTime, "YYYY-MM-DD hh:mm a").format("llll")
+        : null;
+    }
+  },
   methods: {
     reset() {
       this.id = this.auction ? Vue.util.extend({}, this.auction.id) : null;
       this.dogId = this.auction
         ? Vue.util.extend({}, this.auction.dogId)
-        : this.dog ? Vue.util.extend({}, this.dog.id) : null,
+        : this.dog
+        ? Vue.util.extend({}, this.dog.id)
+        : null;
       this.expirationTime = this.auction
         ? Vue.util.extend({}, this.auction.expirationTime)
         : null;
@@ -108,6 +139,11 @@ export default {
       this.completed = this.auction
         ? Vue.util.extend({}, this.auction.completed)
         : null;
+    },
+    setDateReadonly(bool) {
+      // jQuery loaded from cdn in browser for Bootstrap
+      // eslint-disable-next-line no-undef
+      $("#auctionFormEndTime").prop("readonly", bool);
     },
     currentDate() {
       return Moment().format("YYYY-MM-DD");
@@ -151,3 +187,10 @@ export default {
   }
 };
 </script>
+
+<style>
+#auctionFormEndTime {
+  background-color: inherit;
+  cursor: pointer;
+}
+</style>

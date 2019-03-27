@@ -39,11 +39,13 @@ export default {
   methods: {
     // Show/hide using Bootstrap jQuery calls
     showModal() {
+      // jQuery loaded from cdn in browser for Bootstrap
       // eslint-disable-next-line no-undef
       $(this.$refs.modal).modal("show");
       this.$emit("show");
     },
     hideModal() {
+      // jQuery loaded from cdn in browser for Bootstrap
       // eslint-disable-next-line no-undef
       $(this.$refs.modal).modal("hide");
       this.$emit("hide");
