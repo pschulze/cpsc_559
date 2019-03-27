@@ -61,6 +61,12 @@ public class Main {
         path(":id", () -> {
           get(UserController.get);
 //          delete(UserController.delete);
+          path("dogs", () -> {
+            get(UserController.getDogs);
+          });
+          path( "auctions", () -> {
+            get(UserController.getAuctions);
+          });
         });
       });
       path("dogs", () -> {
