@@ -47,7 +47,7 @@
           @focus="setDateReadonly(true)"
           @blur="setDateReadonly(false)"
           class="form-control"
-          :value="formattedDateTime"
+          :value="formattedExpirationTime"
           required
         />
       </VueCtkDateTimePicker>
@@ -110,7 +110,7 @@ export default {
     };
   },
   computed: {
-    formattedDateTime() {
+    formattedExpirationTime() {
       return this.expirationTime
         ? Moment(this.expirationTime, "YYYY-MM-DD hh:mm a").format("llll")
         : null;
@@ -134,6 +134,7 @@ export default {
       this.completed = this.auction
         ? Vue.util.extend({}, this.auction.completed)
         : null;
+      this.$refs.form.classList.remove("was-validated");
     },
     setDateReadonly(bool) {
       // jQuery loaded from cdn in browser for Bootstrap
@@ -142,6 +143,16 @@ export default {
     },
     currentDate() {
       return Moment().format("YYYY-MM-DD");
+    },
+    checkForm(e) {
+      // Do bootstrap's form validation
+      if (this.$refs.form.checkValidity() === false) {
+        this.$refs.form.classList.add("was-validated");
+        e.preventDefault();
+        e.stopPropagation();
+        return false;
+      }
+      return true;
     },
     createAuction() {
       return this.$store.dispatch("auctions/create", {
@@ -161,13 +172,7 @@ export default {
       });
     },
     onSubmit(e) {
-      // Do bootstrap's form validation
-      if (this.$refs.form.checkValidity() === false) {
-        this.$refs.form.classList.add("was-validated");
-        e.preventDefault();
-        e.stopPropagation();
-        return;
-      }
+      if (!this.checkForm(e)) return;
       let saveAction;
       if (this.auction && this.auction.id) {
         saveAction = this.updateAuction();

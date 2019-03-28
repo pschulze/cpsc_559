@@ -71,6 +71,17 @@ export default {
       this.name = this.dog ? Vue.util.extend({}, this.dog.name) : null;
       this.breed = this.dog ? Vue.util.extend({}, this.dog.breed) : null;
       this.age = this.dog ? Vue.util.extend({}, this.dog.age) : 0;
+      this.$refs.form.classList.remove("was-validated");
+    },
+    checkForm(e) {
+      // Do bootstrap's form validation
+      if (this.$refs.form.checkValidity() === false) {
+        this.$refs.form.classList.add("was-validated");
+        e.preventDefault();
+        e.stopPropagation();
+        return false;
+      }
+      return true;
     },
     createDog() {
       return this.$store.dispatch("dogs/create", {
@@ -88,13 +99,7 @@ export default {
       });
     },
     onSubmit(e) {
-      // Do bootstrap's form validation
-      if (this.$refs.form.checkValidity() === false) {
-        this.$refs.form.classList.add("was-validated");
-        e.preventDefault();
-        e.stopPropagation();
-        return;
-      }
+      if (!this.checkForm(e)) return;
       let saveAction;
       if (this.dog && this.dog.id) {
         saveAction = this.updateDog();
