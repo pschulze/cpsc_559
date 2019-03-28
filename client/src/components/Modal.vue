@@ -50,6 +50,18 @@ export default {
       $(this.$refs.modal).modal("hide");
       this.$emit("hide");
     }
+  },
+  mounted() {
+    // jQuery loaded from cdn in browser for Bootstrap
+    // eslint-disable-next-line no-undef
+    $(this.$refs.modal).on("hidden.bs.modal", () => {
+      this.$emit("hide");
+    });
+  },
+  beforeDestroy() {
+    // jQuery loaded from cdn in browser for Bootstrap
+    // eslint-disable-next-line no-undef
+    $(this.$refs.modal).off("hidden.bs.modal");
   }
 };
 </script>
