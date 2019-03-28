@@ -10,6 +10,7 @@ import java.util.List;
 import auction.Auction;
 import data.Dao;
 import data.Database;
+import user.User;
 
 /**
  * BidDao
@@ -129,5 +130,21 @@ public class BidDao implements Dao<Bid, Integer> {
     Integer bidderId = resultSet.getInt("bidder_id");
     Double amount = resultSet.getDouble("amount");
     return new Bid(id, auctionId, bidderId, amount);
+  }
+
+  public List<Bid> bidsForUser(User user) {
+    List<Bid> foundBids = new ArrayList<>();
+    try (Connection connection = Database.getConnection();
+         PreparedStatement preparedStatement =
+                 connection.prepareStatement("SELECT * FROM bids WHERE bidder_id = ?");) {
+      preparedStatement.setInt(1, user.getId());
+      ResultSet resultSet = preparedStatement.executeQuery();
+      while (resultSet.next()) {
+        foundBids.add(bidFromResultSet(resultSet));
+      }
+    } catch (SQLException e) {
+      System.out.println(e.getMessage());
+    }
+    return foundBids;
   }
 }
