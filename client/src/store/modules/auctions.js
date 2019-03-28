@@ -43,6 +43,18 @@ const actions = {
     return Auctions.get(id).then(auction => {
       context.commit("updateOrCreate", auction);
     });
+  },
+
+  create(context, values) {
+    return Auctions.create(values).then(auction => {
+      context.commit("updateOrCreate", auction);
+    });
+  },
+
+  update(context, id, values) {
+    return Auctions.update(id, values).then(auction => {
+      context.commit("updateOrCreate", auction);
+    });
   }
 };
 

@@ -95,7 +95,8 @@ export default {
     // jQuery loaded from cdn in browser for Bootstrap
     // eslint-disable-next-line no-undef
     $(this.$refs.dropdown).on("shown.bs.dropdown", () => {
-      if (!this.loggedin) this.$nextTick(() => this.$refs.loginUsername.focus());
+      if (!this.loggedin)
+        this.$nextTick(() => this.$refs.loginUsername.focus());
     });
   },
   beforeDestroy() {

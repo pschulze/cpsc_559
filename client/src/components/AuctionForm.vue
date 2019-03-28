@@ -37,7 +37,9 @@
       <label for="auctionFormEndTime">End Time</label>
       <VueCtkDateTimePicker
         :min-date="currentDate()"
-        v-model="expirationTime"
+        format="YYYY-MM-DDTHH:mm:ssZ"
+        :value="expirationTime"
+        @input="saveExpirationTimeUTC"
         noValueToCustomElem
       >
         <input
@@ -112,7 +114,7 @@ export default {
   computed: {
     formattedExpirationTime() {
       return this.expirationTime
-        ? Moment(this.expirationTime, "YYYY-MM-DD hh:mm a").format("llll")
+        ? Moment(this.expirationTime).format("llll")
         : null;
     }
   },
@@ -143,6 +145,11 @@ export default {
     },
     currentDate() {
       return Moment().format("YYYY-MM-DD");
+    },
+    saveExpirationTimeUTC(value) {
+      this.expirationTime = Moment.parseZone(value)
+        .utc()
+        .format();
     },
     checkForm(e) {
       // Do bootstrap's form validation
