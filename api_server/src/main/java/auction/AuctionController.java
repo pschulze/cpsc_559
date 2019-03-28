@@ -190,6 +190,16 @@ public class AuctionController {
     }
   };
 
+  public static Handler getUserAuctions = ctx -> {
+    Integer userId = Integer.parseInt(ctx.pathParam(":id"));
+    List<Auction> auctions = auctionDao.getUserAuctions(userId);
+    if (auctions.isEmpty()) {
+
+    } else {
+      ctx.json(auctions);
+    }
+  };
+
   public static void endAuctions() {
 
   }

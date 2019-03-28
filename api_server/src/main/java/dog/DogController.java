@@ -77,4 +77,15 @@ public class DogController {
       ctx.json(dog);
     }
   };
+
+  public static Handler getUserDogs = ctx -> {
+    Integer userId = Integer.parseInt(ctx.pathParam(":id"));
+    List<Dog> dogs = dogDao.getUserDogs(userId);
+    if (dogs.isEmpty()) {
+
+    } else {
+      ctx.json(dogs);
+    }
+  };
+
 }

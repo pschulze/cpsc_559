@@ -158,4 +158,19 @@ public class DogDao implements Dao<Dog, Integer> {
     Integer dogOwnerId = resultSet.getInt("owner_id");
     return new Dog(dogId, dogName, dogBreed, dogAge, dogOwnerId);
   }
+
+  public List<Dog> getUserDogs(int userId) {
+    List<Dog> userDogs = new ArrayList<>();
+    try (Connection connection = Database.getConnection();
+         PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM dogs WHERE owner_id = ?");) {
+      preparedStatement.setInt(1, userId);
+      ResultSet resultSet = preparedStatement.executeQuery();
+      while(resultSet.next()) {
+        userDogs.add(dogFromResultSet(resultSet));
+      }
+    } catch (SQLException e) {
+      System.out.println(e.getMessage());
+    }
+    return userDogs;
+  }
 }
