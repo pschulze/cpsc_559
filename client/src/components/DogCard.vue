@@ -32,12 +32,19 @@
             >More Information</router-link
           >
         </div>
+        <div class="card-footer text-muted" v-if="auction">
+          <router-link :to="{ name: 'auction', params: { id: auction.id } }">
+            {{ auction.name }}
+          </router-link>
+        </div>
       </template>
     </template>
   </div>
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+import head from "lodash/head";
 import VueContentLoading from "vue-content-loading";
 
 export default {
@@ -49,6 +56,14 @@ export default {
     dog: Object,
     outlineonly: Boolean,
     sm: Boolean
+  },
+  computed: {
+    ...mapGetters({
+      auctionsByDog: "auctions/byDog"
+    }),
+    auction() {
+      return head(this.auctionsByDog(this.dog.id));
+    }
   }
 };
 </script>

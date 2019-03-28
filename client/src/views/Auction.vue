@@ -2,31 +2,34 @@
   <div class="container">
     <h1>{{ auction.name }}</h1>
     <h3>{{ auction.id }}</h3>
+    <BidForm :auction="auction" />
     <p>
       Dog:
       <router-link :to="{ name: 'dog', params: { id: dog.id } }">{{
         dog.name
       }}</router-link>
     </p>
-    <p>
-      Owner:
-      <router-link :to="{ name: 'user', params: { id: user.id } }">{{
-        user.username
-      }}</router-link>
-    </p>
+    <UserCard :user="user" sm />
   </div>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
 
+import UserCard from "@/components/UserCard.vue";
+import BidForm from "@/components/BidForm.vue";
+
 export default {
   name: "auction",
+  components: {
+    UserCard,
+    BidForm
+  },
   computed: {
     ...mapGetters({
-      auctionById: "auctions/auctionById",
-      dogById: "dogs/dogById",
-      userById: "users/userById"
+      auctionById: "auctions/byId",
+      dogById: "dogs/byId",
+      userById: "users/byId"
     }),
     auction() {
       return this.auctionById(this.$route.params.id);

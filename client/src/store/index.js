@@ -11,14 +11,14 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    userID: null,
+    userId: null,
     username: null,
     apiAvailable: true,
     apiErrors: []
   },
   mutations: {
-    setUserID(state, userID) {
-      state.userID = userID;
+    setUserId(state, userId) {
+      state.userId = userId;
     },
     setUsername(state, username) {
       state.username = username;

@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <h1>Users List</h1>
-    <CardList :loading="loading" :items="users">
+    <CardList :items="users">
       <template v-slot:loading>
         <UserCard :outlineonly="true" />
       </template>
@@ -9,7 +9,6 @@
         <UserCard :user="item" />
       </template>
     </CardList>
-    <button @click="loading = !loading" />
   </div>
 </template>
 
@@ -25,14 +24,9 @@ export default {
     CardList,
     UserCard
   },
-  data() {
-    return {
-      loading: false
-    };
-  },
   computed: {
     ...mapGetters({
-      users: "users/users"
+      users: "users/all"
     })
   }
 };

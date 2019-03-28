@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <h1>Dogs List</h1>
-    <CardList :loading="loading" :items="dogs">
+    <CardList :items="dogs">
       <template v-slot:loading>
         <DogCard :outlineonly="true" />
       </template>
@@ -9,7 +9,6 @@
         <DogCard :dog="item" />
       </template>
     </CardList>
-    <button @click="loading = !loading" />
   </div>
 </template>
 
@@ -25,14 +24,9 @@ export default {
     CardList,
     DogCard
   },
-  data() {
-    return {
-      loading: false
-    };
-  },
   computed: {
     ...mapGetters({
-      dogs: "dogs/dogs"
+      dogs: "dogs/all"
     })
   }
 };
