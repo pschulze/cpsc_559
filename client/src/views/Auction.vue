@@ -2,6 +2,7 @@
   <div class="container">
     <h1>{{ auction.name }}</h1>
     <h3>{{ auction.id }}</h3>
+    <BidForm :auction="auction" />
     <p>
       Dog:
       <router-link :to="{ name: 'dog', params: { id: dog.id } }">{{
@@ -16,11 +17,13 @@
 import { mapGetters } from "vuex";
 
 import UserCard from "@/components/UserCard.vue";
+import BidForm from "@/components/BidForm.vue";
 
 export default {
   name: "auction",
   components: {
-    UserCard
+    UserCard,
+    BidForm
   },
   computed: {
     ...mapGetters({
