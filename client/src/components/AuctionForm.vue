@@ -13,14 +13,7 @@
     </div>
     <div class="form-group">
       <label for="auctionFormDog">Dog</label>
-      <input
-        type="text"
-        class="form-control"
-        id="auctionFormDog"
-        placeholder="Dog"
-        v-model="dogId"
-        required
-      />
+      <DogPicker class="form-control" v-model="dogId" required />
     </div>
     <div class="form-group">
       <label for="auctionFormStartPrice">Start Price</label>
@@ -69,12 +62,14 @@
 import Vue from "vue";
 import Moment from "moment";
 
+import DogPicker from "@/components/DogPicker.vue";
 import VueCtkDateTimePicker from "vue-ctk-date-time-picker";
 import "vue-ctk-date-time-picker/dist/vue-ctk-date-time-picker.css";
 
 export default {
   name: "AuctionForm",
   components: {
+    DogPicker,
     VueCtkDateTimePicker
   },
   props: {
