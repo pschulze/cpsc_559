@@ -70,6 +70,9 @@ public class Main {
           get(DogController.get);
           patch(DogController.update);
         });
+        path("search", ()->{
+          get(DogController.getOne);
+        });
       });
       path("auctions", () -> {
         get(AuctionController.getAll);
@@ -77,9 +80,13 @@ public class Main {
         path(":id", () -> {
           get(AuctionController.get);
           post(AuctionController.placeBid);
+          patch(AuctionController.update);
           path("bids", () -> {
             get(BidController.getBidsForAuction);
           });
+        });
+        path("search", () ->{
+          get(AuctionController.getOne);
         });
       });
       path("account", () -> {

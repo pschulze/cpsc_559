@@ -117,6 +117,31 @@ public class Auction {
     this.completed = completed;
   }
 
+  /**
+   * Update an Auction with the non-null fields of a newer Auction.
+   * @param updatedAuction The Auction containing fields to be applied to the existing Auction.
+   */
+  public void update(Auction updatedAuction) {
+
+    if (updatedAuction.id != null)
+      this.id = updatedAuction.id;
+
+    if (updatedAuction.dogId != null)
+      this.dogId = updatedAuction.dogId;
+
+    if (updatedAuction.name != null)
+      this.name = updatedAuction.name;
+
+    if (updatedAuction.expirationTime != null)
+      this.expirationTime = updatedAuction.expirationTime;
+
+    if (updatedAuction.startPrice != null)
+      this.startPrice = updatedAuction.startPrice;
+
+    if (updatedAuction.completed != null)
+      this.completed = updatedAuction.completed;
+  }
+
   public List<String> validate() {
     List<String> errors = new ArrayList<>();
     if (this.dogId == null)
