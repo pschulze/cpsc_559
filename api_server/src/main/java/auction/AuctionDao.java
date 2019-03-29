@@ -167,4 +167,18 @@ public class AuctionDao implements Dao<Auction, Integer> {
     }
     return userAuctions;
   }
+
+  public List<Auction> getRunningAuctions() {
+    List<Auction> runningAuctions = new ArrayList<>();
+    try (Connection connection = Database.getConnection();
+         PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM auctions WHERE completed = false");) {
+      ResultSet resultSet = preparedStatement.executeQuery();
+      while(resultSet.next()) {
+        runningAuctions.add(auctionFromResultSet(resultSet));
+      }
+    } catch (SQLException e) {
+      System.out.println(e.getMessage());
+    }
+    return runningAuctions;
+  }
 }
