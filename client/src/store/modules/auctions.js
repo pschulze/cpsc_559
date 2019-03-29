@@ -33,9 +33,7 @@ const getters = {
 const actions = {
   fetchAll(context) {
     return Auctions.getAll().then(auctions => {
-      for (let auction of auctions) {
-        context.commit("updateOrCreate", auction);
-      }
+      context.commit("synchronize", auctions);
     });
   },
 

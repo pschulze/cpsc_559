@@ -24,9 +24,7 @@ const getters = {
 const actions = {
   fetchAll(context) {
     return Users.getAll().then(users => {
-      for (let user of users) {
-        context.commit("updateOrCreate", user);
-      }
+      context.commit("synchronize", users);
     });
   },
 
