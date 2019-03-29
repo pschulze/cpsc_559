@@ -30,6 +30,7 @@ public class Main {
       1,
       1,
       TimeUnit.SECONDS);
+
     GsonBuilder gsonBuilder = new GsonBuilder();
     gsonBuilder.registerTypeAdapter(Instant.class, new InstantSerializer());
     gsonBuilder.registerTypeAdapter(Instant.class, new InstantDeserializer());

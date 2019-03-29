@@ -12,6 +12,7 @@ public class Dog {
   private String breed;
   private Integer age;
   private Integer ownerId;
+  private String imageUrl;
 
   public Integer getId() {
     return id;
@@ -49,6 +50,14 @@ public class Dog {
     this.ownerId = ownerId;
   }
 
+  public String getImageUrl() {
+    return imageUrl;
+  }
+
+  public void setImageUrl(String imageUrl) {
+    this.imageUrl = imageUrl;
+  }
+
   /**
    * Create a new dog object without an id. Must be added to the database and be assigned an id before it will be valid.
    * @param name The name of the new dog.
@@ -63,12 +72,13 @@ public class Dog {
     this.ownerId = ownerId;
   }
 
-  public Dog(Integer id, String name, String breed, Integer age, Integer ownerId) {
+  public Dog(Integer id, String name, String breed, Integer age, Integer ownerId, String imageUrl) {
     this.id = id;
     this.name = name;
     this.breed = breed;
     this.age = age;
     this.ownerId = ownerId;
+    this.imageUrl = imageUrl;
   }
 
   /**
@@ -117,5 +127,8 @@ public class Dog {
 
     if (updatedDog.ownerId !=  null)
       this.ownerId = updatedDog.ownerId;
+
+    if (updatedDog.imageUrl != null)
+      this.imageUrl = updatedDog.imageUrl;
   }
 }

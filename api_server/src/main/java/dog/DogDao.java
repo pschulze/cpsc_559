@@ -156,7 +156,8 @@ public class DogDao implements Dao<Dog, Integer> {
     String dogBreed = resultSet.getString("breed");
     Integer dogAge = resultSet.getInt("age");
     Integer dogOwnerId = resultSet.getInt("owner_id");
-    return new Dog(dogId, dogName, dogBreed, dogAge, dogOwnerId);
+    String dogImageUrl = resultSet.getString("image_url");
+    return new Dog(dogId, dogName, dogBreed, dogAge, dogOwnerId, dogImageUrl);
   }
 
   public List<Dog> getUserDogs(int userId) {
