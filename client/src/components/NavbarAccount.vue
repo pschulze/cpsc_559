@@ -1,5 +1,5 @@
 <template>
-  <div class="account dropdown">
+  <div class="account dropdown" ref="dropdown">
     <button
       class="btn btn-outline-secondary my-2 my-sm-0 dropdown-toggle"
       type="button"
@@ -24,6 +24,7 @@
           <div class="form-group">
             <label for="loginDropdownFormUsername">Username</label>
             <input
+              ref="loginUsername"
               type="text"
               class="form-control"
               id="loginDropdownFormUsername"
@@ -46,7 +47,7 @@
         <router-link
           class="dropdown-item"
           active-class="active"
-          :to="`/account/${userID}`"
+          :to="`/account`"
           >My Account</router-link
         >
         <div class="dropdown-divider"></div>
@@ -69,15 +70,19 @@ export default {
     };
   },
   computed: {
+    ...mapState(["userId", "username"]),
     loggedin() {
-      return this.userID !== null && this.userID !== undefined;
-    },
-    ...mapState(["userID", "username"])
+      return this.userId !== null && this.userId !== undefined;
+    }
   },
   methods: {
+    resetSigninForm() {
+      this.signinUsername = null;
+    },
     onSigninSubmit() {
       this.$store.dispatch("signin", this.signinUsername).then(() => {
-        this.signinUsername = null;
+        this.resetSigninForm();
+        this.$router.push({ name: "account" });
       });
     },
     onLogoutClick() {
@@ -85,6 +90,19 @@ export default {
         this.$router.push({ name: "home" });
       });
     }
+  },
+  mounted() {
+    // jQuery loaded from cdn in browser for Bootstrap
+    // eslint-disable-next-line no-undef
+    $(this.$refs.dropdown).on("shown.bs.dropdown", () => {
+      if (!this.loggedin)
+        this.$nextTick(() => this.$refs.loginUsername.focus());
+    });
+  },
+  beforeDestroy() {
+    // jQuery loaded from cdn in browser for Bootstrap
+    // eslint-disable-next-line no-undef
+    $(this.$refs.dropdown).off("shown.bs.dropdown");
   }
 };
 </script>
