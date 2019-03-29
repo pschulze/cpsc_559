@@ -15,13 +15,11 @@
 <script>
 import { mapGetters } from "vuex";
 
-import UserCard from "@/components/UserCard.vue";
 import BidForm from "@/components/BidForm.vue";
 
 export default {
   name: "auction",
   components: {
-    UserCard,
     BidForm
   },
   computed: {
