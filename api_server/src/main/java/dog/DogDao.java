@@ -117,7 +117,7 @@ public class DogDao implements Dao<Dog, Integer> {
 
     try (Connection connection = Database.getConnection();
         PreparedStatement preparedStatement =
-          connection.prepareStatement("UPDATE dogs SET name = ?, breed = ?, age = ?, owner_name = ? WHERE id = ? RETURNING *");) {
+          connection.prepareStatement("UPDATE dogs SET name = ?, breed = ?, age = ?, owner_id = ? WHERE id = ? RETURNING *");) {
       preparedStatement.setString(1, dog.getName());
       preparedStatement.setString(2, dog.getBreed());
       preparedStatement.setInt(3, dog.getAge());
@@ -156,7 +156,8 @@ public class DogDao implements Dao<Dog, Integer> {
     String dogBreed = resultSet.getString("breed");
     Integer dogAge = resultSet.getInt("age");
     Integer dogOwnerId = resultSet.getInt("owner_id");
-    return new Dog(dogId, dogName, dogBreed, dogAge, dogOwnerId);
+    String dogImageUrl = resultSet.getString("image_url");
+    return new Dog(dogId, dogName, dogBreed, dogAge, dogOwnerId, dogImageUrl);
   }
 
   public List<Dog> getUserDogs(int userId) {
