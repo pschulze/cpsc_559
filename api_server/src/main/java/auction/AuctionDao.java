@@ -93,7 +93,7 @@ public class AuctionDao implements Dao<Auction, Integer> {
     Auction updatedAuction = null;
     try (Connection connection = Database.getConnection();
         PreparedStatement preparedStatement =
-          connection.prepareStatement("UPDATE auctions SET expiration_date = ?, dog_id = ?, start_price = ?, name = ?, completed = ? WHERE id = ? RETURNING *");) {
+          connection.prepareStatement("UPDATE auctions SET expiration_time = ?, dog_id = ?, start_price = ?, name = ?, completed = ? WHERE id = ? RETURNING *");) {
       preparedStatement.setTimestamp(1, Timestamp.from(auction.getExpirationTime()));
       preparedStatement.setInt(2, auction.getDogId());
       preparedStatement.setDouble(3, auction.getStartPrice());
