@@ -1,4 +1,4 @@
-import axios from "./axios";
+import axios from "./axiosconfig";
 
 export default class BaseRoute {
   constructor(basepath) {
