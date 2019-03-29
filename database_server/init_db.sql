@@ -9,7 +9,8 @@ CREATE TABLE dogs (
   name VARCHAR NOT NULL,
   breed VARCHAR NOT NULL,
   age integer NOT NULL,
-  owner_id integer REFERENCES users (id) NOT NULL
+  owner_id integer REFERENCES users (id) NOT NULL,
+  image_url VARCHAR
 );
 
 CREATE TABLE auctions (
