@@ -1,5 +1,3 @@
-import axios from "./axios";
-
 import BaseRoute from "./baseroute";
 
 export class AuctionsRoute extends BaseRoute {
