@@ -17,11 +17,14 @@ export default new Vuex.Store({
     apiErrors: []
   },
   mutations: {
-    setUserId(state, userId) {
-      state.userId = userId;
-    },
-    setUsername(state, username) {
-      state.username = username;
+    setUser(state, user) {
+      if (!user) {
+        state.userId = null;
+        state.username = null;
+      } else {
+        state.userId = user.id;
+        state.username = user.username;
+      }
     },
     apiAvailable(state) {
       state.apiAvailable = true;
