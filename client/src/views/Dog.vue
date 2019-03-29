@@ -3,7 +3,7 @@
     <h1>{{ dog.name }}</h1>
     <h3>{{ dog.id }}</h3>
     <AuctionCard v-if="auction" :auction="auction" />
-    <UserCard :user="user" sm />
+    <UserCard :user="owner" sm />
   </div>
 </template>
 
@@ -29,7 +29,7 @@ export default {
     dog() {
       return this.dogById(this.$route.params.id);
     },
-    user() {
+    owner() {
       return this.userById(this.dog.ownerId);
     },
     auction() {

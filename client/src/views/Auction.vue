@@ -9,7 +9,6 @@
         dog.name
       }}</router-link>
     </p>
-    <UserCard :user="user" sm />
   </div>
 </template>
 
@@ -28,17 +27,13 @@ export default {
   computed: {
     ...mapGetters({
       auctionById: "auctions/byId",
-      dogById: "dogs/byId",
-      userById: "users/byId"
+      dogById: "dogs/byId"
     }),
     auction() {
       return this.auctionById(this.$route.params.id);
     },
     dog() {
       return this.dogById(this.auction.dogId);
-    },
-    user() {
-      return this.userById(this.dog.ownerId);
     }
   }
 };
