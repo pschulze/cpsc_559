@@ -166,8 +166,7 @@ export default {
         dogId: this.dogId,
         expirationTime: this.expirationTime,
         startPrice: this.startPrice,
-        name: this.name,
-        completed: this.completed
+        name: this.name
       });
     },
     updateAuction() {
@@ -175,8 +174,7 @@ export default {
         id: this.id,
         expirationTime: this.expirationTime,
         startPrice: this.startPrice,
-        name: this.name,
-        completed: this.completed
+        name: this.name
       });
     },
     onSubmit(e) {
