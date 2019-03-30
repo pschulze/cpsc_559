@@ -20,7 +20,10 @@
             <NavbarLink to="/auctions">Auctions</NavbarLink>
             <NavbarLink to="/dogs">Dogs</NavbarLink>
           </ul>
-          <NavbarAccount />
+          <div class="d-flex">
+            <NavbarStatus class="ml-3" />
+            <NavbarAccount class="ml-3" />
+          </div>
         </div>
       </nav>
     </header>
@@ -42,11 +45,13 @@
 <script>
 // @ is an alias to /src
 import NavbarAccount from "@/components/NavbarAccount.vue";
+import NavbarStatus from "@/components/NavbarStatus.vue";
 import NavbarLink from "@/components/NavbarLink.vue";
 
 export default {
   components: {
     NavbarAccount,
+    NavbarStatus,
     NavbarLink
   },
   data() {
@@ -56,35 +61,43 @@ export default {
       usersPolling: null
     };
   },
+  methods: {
+    startPollingAPI() {
+      this.$store.dispatch("auctions/fetchAll");
+      this.auctionsPolling = setInterval(
+        function() {
+          this.$store.dispatch("auctions/fetchAll");
+        }.bind(this),
+        3000
+      );
+
+      this.$store.dispatch("dogs/fetchAll");
+      this.dogsPolling = setInterval(
+        function() {
+          this.$store.dispatch("dogs/fetchAll");
+        }.bind(this),
+        15000
+      );
+
+      this.$store.dispatch("users/fetchAll");
+      this.usersPolling = setInterval(
+        function() {
+          this.$store.dispatch("users/fetchAll");
+        }.bind(this),
+        15000
+      );
+    },
+    stopPollingAPI() {
+      clearInterval(this.auctionsPolling);
+      clearInterval(this.dogsPolling);
+      clearInterval(this.usersPolling);
+    }
+  },
   mounted() {
-    this.$store.dispatch("auctions/fetchAll");
-    this.auctionsPolling = setInterval(
-      function() {
-        this.$store.dispatch("auctions/fetchAll");
-      }.bind(this),
-      3000
-    );
-
-    this.$store.dispatch("dogs/fetchAll");
-    this.dogsPolling = setInterval(
-      function() {
-        this.$store.dispatch("dogs/fetchAll");
-      }.bind(this),
-      15000
-    );
-
-    this.$store.dispatch("users/fetchAll");
-    this.usersPolling = setInterval(
-      function() {
-        this.$store.dispatch("users/fetchAll");
-      }.bind(this),
-      15000
-    );
+    this.startPollingAPI();
   },
   beforeDestroy() {
-    clearInterval(this.auctionsPolling);
-    clearInterval(this.dogsPolling);
-    clearInterval(this.usersPolling);
+    this.stopPollingAPI();
   }
 };
 </script>
