@@ -53,6 +53,10 @@ const actions = {
     return Auctions.update(id, values).then(auction => {
       context.commit("updateOrCreate", auction);
     });
+  },
+
+  placeBid(context, auctionId, values) {
+    return Auctions.bid(auctionId, values);
   }
 };
 
