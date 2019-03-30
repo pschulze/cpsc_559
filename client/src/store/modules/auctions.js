@@ -49,13 +49,13 @@ const actions = {
     });
   },
 
-  update(context, id, values) {
+  update(context, { id, ...values }) {
     return Auctions.update(id, values).then(auction => {
       context.commit("updateOrCreate", auction);
     });
   },
 
-  placeBid(context, auctionId, values) {
+  placeBid(context, { auctionId, ...values }) {
     return Auctions.bid(auctionId, values);
   }
 };

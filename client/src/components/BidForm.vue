@@ -66,7 +66,8 @@ export default {
       return true;
     },
     createBid() {
-      return this.$store.dispatch("auctions/placeBid", this.auction.id, {
+      return this.$store.dispatch("auctions/placeBid", {
+        auctionId: this.auction.id,
         bidderId: this.userId,
         amount: this.amount
       });

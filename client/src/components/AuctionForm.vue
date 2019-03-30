@@ -171,7 +171,8 @@ export default {
       });
     },
     updateAuction() {
-      return this.$store.dispatch("auctions/update", this.id, {
+      return this.$store.dispatch("auctions/update", {
+        id: this.id,
         expirationTime: this.expirationTime,
         startPrice: this.startPrice,
         name: this.name,

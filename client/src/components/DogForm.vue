@@ -92,7 +92,8 @@ export default {
       });
     },
     updateDog() {
-      return this.$store.dispatch("dogs/update", this.dog.id, {
+      return this.$store.dispatch("dogs/update", {
+        id: this.dog.id,
         name: this.name,
         breed: this.breed,
         age: this.age

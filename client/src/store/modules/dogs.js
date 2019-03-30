@@ -48,7 +48,7 @@ const actions = {
     });
   },
 
-  update(context, id, values) {
+  update(context, { id, ...values }) {
     return Dogs.update(id, values).then(dog => {
       context.commit("updateOrCreate", dog);
     });
