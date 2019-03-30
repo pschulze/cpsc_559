@@ -8,5 +8,10 @@ export default {
   },
   signout(context) {
     context.commit("setUser", null);
+  },
+  createAccount(context, username) {
+    return Account.create(username).then(user => {
+      context.commit("setUser", user);
+    });
   }
 };
