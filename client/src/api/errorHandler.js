@@ -3,7 +3,7 @@ const response = {
   recieved(error) {
     console.log("API ERROR (Response):", error.response);
     return Promise.reject({
-      msg: null,
+      msg: "Bad server response. Please try again later.",
       data: error.response.data,
       status: error.response.status,
       error
