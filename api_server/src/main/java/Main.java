@@ -34,6 +34,7 @@ public class Main {
     GsonBuilder gsonBuilder = new GsonBuilder();
     gsonBuilder.registerTypeAdapter(Instant.class, new InstantSerializer());
     gsonBuilder.registerTypeAdapter(Instant.class, new InstantDeserializer());
+    gsonBuilder.serializeNulls();
     Gson gson = gsonBuilder.create();
 
     JavalinJson.setFromJsonMapper(gson::fromJson);

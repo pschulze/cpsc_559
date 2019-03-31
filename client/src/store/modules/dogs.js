@@ -32,9 +32,7 @@ const getters = {
 const actions = {
   fetchAll(context) {
     return Dogs.getAll().then(dogs => {
-      for (let dog of dogs) {
-        context.commit("updateOrCreate", dog);
-      }
+      context.commit("synchronize", dogs);
     });
   },
 
@@ -50,7 +48,7 @@ const actions = {
     });
   },
 
-  update(context, id, values) {
+  update(context, { id, ...values }) {
     return Dogs.update(id, values).then(dog => {
       context.commit("updateOrCreate", dog);
     });
