@@ -128,7 +128,7 @@ public class AuctionDao implements Dao<Auction, Integer> {
     Auction foundAuction = null;
     try (Connection connection = Database.getConnection();
         PreparedStatement preparedStatement =
-          connection.prepareStatement("SELECT * FROM auctions WHERE dog_id = ?");) {
+          connection.prepareStatement("SELECT * FROM auctions WHERE dog_id = ? AND completed = false");) {
       preparedStatement.setInt(1, dogId);
       preparedStatement.executeQuery();
       ResultSet resultSet = preparedStatement.getResultSet();
