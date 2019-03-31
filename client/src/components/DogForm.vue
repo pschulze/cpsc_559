@@ -73,7 +73,8 @@ export default {
     return {
       name: this.dog ? this.dog.name : null,
       breed: this.dog ? this.dog.breed : null,
-      age: this.dog ? this.dog.age : 0
+      age: this.dog ? this.dog.age : 0,
+      imageUrl: this.dog ? this.dog.imageUrl : 0
     };
   },
   methods: {
@@ -81,6 +82,7 @@ export default {
       this.name = this.dog ? this.dog.name : null;
       this.breed = this.dog ? this.dog.breed : null;
       this.age = this.dog ? this.dog.age : 0;
+      imageUrl: this.dog ? this.dog.imageUrl : 0;
       this.$refs.form.classList.remove("was-validated");
     },
     checkForm(e) {
@@ -98,7 +100,8 @@ export default {
         name: this.name,
         breed: this.breed,
         age: this.age,
-        ownerId: this.$store.state.userId
+        ownerId: this.$store.state.userId,
+        imageUrl: this.imageUrl
       });
     },
     updateDog() {
@@ -106,7 +109,8 @@ export default {
         id: this.dog.id,
         name: this.name,
         breed: this.breed,
-        age: this.age
+        age: this.age,
+        imageUrl: this.imageUrl
       });
     },
     onSubmit(e) {
@@ -118,7 +122,7 @@ export default {
         saveAction = this.createDog();
       }
       saveAction.then(() => {
-        this.$emit("sumbitSuccess");
+        this.$emit("submitSuccess");
         this.reset();
       });
     }
