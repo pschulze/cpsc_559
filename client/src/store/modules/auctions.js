@@ -1,4 +1,6 @@
-import { List } from "./reusable";
+import Vue from "vue";
+
+import { List, keyForItem } from "./reusable";
 
 import { Auctions } from "@/api";
 
@@ -27,6 +29,21 @@ const getters = {
   byId: List.getters.itemById,
   byDog: state => dogId => {
     return filter(List.getters.items(state), { dogId });
+  }
+};
+
+const mutations = {
+  ...List.mutations,
+
+  deleteRealtimeData(state) {
+    for (let i = 0; i < state.ids.length; i++) {
+      const id = state.ids[i];
+      const key = keyForItem({ id });
+      const item = state.items[key];
+      console.log(id, item);
+      Vue.set(item, "startPrice", null);
+      Vue.set(item, "expirationTime", null);
+    }
   }
 };
 
@@ -63,7 +80,7 @@ const actions = {
 export default {
   namespaced: true,
   state: List.state,
-  mutations: List.mutations,
+  mutations,
   getters,
   actions
 };

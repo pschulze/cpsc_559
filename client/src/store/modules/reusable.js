@@ -5,7 +5,7 @@ import differenceWith from "lodash/differenceWith";
 
 // https://forum.vuejs.org/t/updating-array-property-within-vuex/11411
 
-function keyForItem({ id }) {
+export function keyForItem({ id }) {
   return `item_${id}`;
 }
 
