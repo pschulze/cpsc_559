@@ -14,7 +14,7 @@ KillMode=process
 
 TimeoutSec=30
 
-Restart=no
+Restart=always
 
 [Install]
 WantedBy=multi-user.targ
