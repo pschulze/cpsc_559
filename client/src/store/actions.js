@@ -1,10 +1,5 @@
 import { Account, Ping } from "@/api";
 
-const removeRealtimeData = function() {
-  // TODO remove time-sensitive auction info from store
-  console.log("TODO: remove realtime data from store");
-};
-
 export default {
   apiUnavailable(context) {
     context.commit("apiUnavailable");
@@ -20,7 +15,7 @@ export default {
       }.bind(polling),
       5000
     );
-    removeRealtimeData();
+    context.commit("auctions/deleteRealtimeData");
   },
   signin(context, username) {
     return Account.login(username).then(user => {
