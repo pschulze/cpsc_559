@@ -42,7 +42,9 @@
     </Modal>
     <hr />
     <h3>My Bids</h3>
-    <p>TODO</p>
+    <CardList :items="bids" v-slot:default="{ item }">
+          <BidCard :bid="item" />
+        </CardList>
   </div>
 </template>
 

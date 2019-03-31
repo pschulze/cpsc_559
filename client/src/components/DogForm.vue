@@ -35,6 +35,17 @@
         required
       />
     </div>
+    <div class="form-group">
+      <label for="dogFormImageUrl">Image URL</label>
+      <input
+        type="text"
+        class="form-control"
+        id="dogFormImageUrl"
+        placeholder="url"
+        v-model="imageUrl"
+        required
+      />
+    </div>
     <button type="submit" class="btn btn-primary">
       {{ submitLabel }}
     </button>
@@ -52,7 +63,8 @@ export default {
       name: String,
       breed: String,
       age: Number,
-      ownerId: Number
+      ownerId: Number,
+      imageUrl: String
     },
     submitLabel: {
       type: String,
