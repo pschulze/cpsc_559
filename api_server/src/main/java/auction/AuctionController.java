@@ -22,6 +22,8 @@ public class AuctionController {
 
   public static Handler getAll = ctx -> ctx.json(auctionDao.getAll());
 
+  public static Handler getAllActive = ctx -> ctx.json(auctionDao.getAllActive());
+
   public static Handler get = ctx -> {
     Integer id = Integer.parseInt(ctx.pathParam(":id"));
     Auction auction = auctionDao.get(id);
@@ -31,7 +33,11 @@ public class AuctionController {
       message.put("details", "auction not found for id: " + id.toString());
       ctx.status(404).json(message);
     } else {
-      ctx.json(auction);
+      Bid highestBid = getHighestBid(auction);
+      Map<String, Object> resultsMap = new HashMap<>();
+      resultsMap.put("highestBid", highestBid);
+      resultsMap.put("auction", auction);
+      ctx.json(resultsMap);
     }
   };
 
@@ -89,22 +95,14 @@ public class AuctionController {
       }
 
       // get the current highest bid
-      Bid highestBid = null;
-      List<Bid> bids = bidDao.bidsForAuction(auction);
-      for (Bid bid : bids) {
-        if (highestBid == null) {
-          highestBid = bid;
-        } else if (bid.getAmount() > highestBid.getAmount()) {
-          highestBid = bid;
-        }
-      }
+      Bid highestBid = getHighestBid(auction);
 
       // Place the bid if it's higher than the current bid, otherwise give an error
       if (highestBid == null || newBid.getAmount() > highestBid.getAmount()) {
         Bid placedBid = bidDao.save(newBid);
 
         // Make sure this is the only bid at the given price
-        bids = bidDao.bidsForAuction(auction);
+        List<Bid> bids = bidDao.bidsForAuction(auction);
         List<Bid> equalValueBids = new ArrayList<>();
 
         for (Bid bid : bids) {
@@ -213,19 +211,9 @@ public class AuctionController {
         auction.setCompleted(true);
         auctionDao.update(auction);
 
-        Bid highestBid = null;
-        List<Bid> bids = bidDao.bidsForAuction(auction);
+        Bid highestBid = getHighestBid(auction);
 
-        if (!bids.isEmpty()) {
-          // get the current highest bid
-          for (Bid bid : bids) {
-            if (highestBid == null) {
-              highestBid = bid;
-            } else if (bid.getAmount() > highestBid.getAmount()) {
-              highestBid = bid;
-            }
-          }
-
+        if (highestBid != null) {
           // change the owner of the dog
           int dogId = auction.getDogId();
           int newOwnerId = highestBid.getBidderId();
@@ -235,5 +223,22 @@ public class AuctionController {
         }
       }
     }
+  }
+
+  private static Bid getHighestBid(Auction auction) {
+    Bid highestBid = null;
+    List<Bid> bids = bidDao.bidsForAuction(auction);
+    if (!bids.isEmpty()) {
+      // get the current highest bid
+      for (Bid bid : bids) {
+        if (highestBid == null) {
+          highestBid = bid;
+        } else if (bid.getAmount() > highestBid.getAmount()) {
+          highestBid = bid;
+        }
+      }
+    }
+
+    return highestBid;
   }
 }
