@@ -15,7 +15,7 @@
       <label for="auctionFormDog">Dog</label>
       <DogPicker class="form-control" v-model="dogId" required />
     </div>
-    <div class="form-group">
+    <div class="form-group" v-if="!auction">
       <label for="auctionFormStartPrice">Start Price</label>
       <div class="input-group mb-2">
         <div class="input-group-prepend">

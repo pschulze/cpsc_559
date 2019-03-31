@@ -9,6 +9,19 @@
         dog.name
       }}</router-link>
     </p>
+    <button
+      type="button"
+      class="btn btn-primary"
+      @click.prevent="$refs.editAuctionModal.showModal"
+    >
+      Edit Auction
+    </button>
+    <Modal ref="editAuctionModal" title="Edit Dog" @hide="$refs.editAuctionForm.reset()">
+      <AuctionForm :auction="auction"
+        ref="editAuctionForm"
+        @submitSuccess="$refs.editAuctionModal.hideModal()"
+      />
+    </Modal>
   </div>
 </template>
 
@@ -17,10 +30,15 @@ import { mapGetters } from "vuex";
 
 import BidForm from "@/components/BidForm.vue";
 
+import Modal from "@/components/Modal.vue";
+import AuctionForm from "@/components/AuctionForm.vue";
+
 export default {
   name: "auction",
   components: {
-    BidForm
+    BidForm,
+    Modal,
+    AuctionForm
   },
   computed: {
     ...mapGetters({
