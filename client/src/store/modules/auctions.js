@@ -43,6 +43,14 @@ const actions = {
     });
   },
 
+  requireCached(context, id) {
+    return Auctions.get(id)
+      .then(auction => {
+        context.commit("updateOrCreate", auction);
+      })
+      .catch(() => {});
+  },
+
   create(context, values) {
     return Auctions.create(values).then(auction => {
       context.commit("updateOrCreate", auction);
