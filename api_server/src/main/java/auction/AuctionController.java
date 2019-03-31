@@ -190,19 +190,23 @@ public class AuctionController {
     } else {
       Auction updatedAuction = ctx.bodyAsClass(Auction.class);
       auction.update(updatedAuction);
-      Auction newAuction = auctionDao.update(auction);
-      ctx.json(newAuction);
+      List<String> errors = auction.validate();
+      if (!errors.isEmpty()) {
+          Map<String, Object> errorsMap = new HashMap<>();
+          errorsMap.put("status", 409);
+          errorsMap.put("errors", errors);
+          ctx.status(409).json(errorsMap);
+      } else {
+          Auction newAuction = auctionDao.update(auction);
+          ctx.json(newAuction);
+      }
     }
   };
 
   public static Handler getUserAuctions = ctx -> {
     Integer userId = Integer.parseInt(ctx.pathParam(":id"));
     List<Auction> auctions = auctionDao.getUserAuctions(userId);
-    if (auctions.isEmpty()) {
-
-    } else {
-      ctx.json(auctions);
-    }
+    ctx.json(auctions);
   };
 
   public static void endAuctions() {
