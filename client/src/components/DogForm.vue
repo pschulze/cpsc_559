@@ -53,8 +53,6 @@
 </template>
 
 <script>
-import Vue from "vue";
-
 export default {
   name: "DogForm",
   props: {
@@ -73,16 +71,16 @@ export default {
   },
   data() {
     return {
-      name: this.dog ? Vue.util.extend({}, this.dog.name) : null,
-      breed: this.dog ? Vue.util.extend({}, this.dog.breed) : null,
-      age: this.dog ? Vue.util.extend({}, this.dog.age) : 0
+      name: this.dog ? this.dog.name : null,
+      breed: this.dog ? this.dog.breed : null,
+      age: this.dog ? this.dog.age : 0
     };
   },
   methods: {
     reset() {
-      this.name = this.dog ? Vue.util.extend({}, this.dog.name) : null;
-      this.breed = this.dog ? Vue.util.extend({}, this.dog.breed) : null;
-      this.age = this.dog ? Vue.util.extend({}, this.dog.age) : 0;
+      this.name = this.dog ? this.dog.name : null;
+      this.breed = this.dog ? this.dog.breed : null;
+      this.age = this.dog ? this.dog.age : 0;
       this.$refs.form.classList.remove("was-validated");
     },
     checkForm(e) {
