@@ -4,6 +4,19 @@
     <h3>{{ dog.id }}</h3>
     <AuctionCard v-if="auction" :auction="auction" />
     <UserCard :user="owner" sm />
+    <button
+      type="button"
+      class="btn btn-primary"
+      @click.prevent="$refs.editDogModal.showModal"
+    >
+      Edit Dog
+    </button>
+    <Modal ref="editDogModal" title="Edit Dog" @hide="$refs.editDogForm.reset()">
+      <DogForm :dog="dog"
+        ref="editDogForm"
+        @submitSuccess="$refs.editDogModal.hideModal()"
+      />
+    </Modal>
   </div>
 </template>
 
@@ -14,11 +27,16 @@ import head from "lodash/head";
 import AuctionCard from "@/components/AuctionCard.vue";
 import UserCard from "@/components/UserCard.vue";
 
+import Modal from "@/components/Modal.vue";
+import DogForm from "@/components/DogForm.vue";
+
 export default {
   name: "dog",
   components: {
     AuctionCard,
-    UserCard
+    UserCard,
+    Modal,
+    DogForm
   },
   computed: {
     ...mapGetters({
