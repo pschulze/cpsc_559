@@ -43,6 +43,8 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+
 // @ is an alias to /src
 import NavbarAccount from "@/components/NavbarAccount.vue";
 import NavbarStatus from "@/components/NavbarStatus.vue";
@@ -60,6 +62,15 @@ export default {
       dogsPolling: null,
       usersPolling: null
     };
+  },
+  computed: {
+    ...mapState(["apiAvailable"])
+  },
+  watch: {
+    apiAvailable(available) {
+      if (available) this.startPollingAPI();
+      else this.stopPollingAPI();
+    }
   },
   methods: {
     startPollingAPI() {
