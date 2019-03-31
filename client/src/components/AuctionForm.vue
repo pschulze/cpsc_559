@@ -169,7 +169,7 @@ export default {
         saveAction = this.createAuction();
       }
       saveAction.then(() => {
-        this.$emit("sumbitSuccess");
+        this.$emit("submitSuccess");
         this.reset();
       });
     }

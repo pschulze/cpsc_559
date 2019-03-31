@@ -74,7 +74,7 @@ export default {
       name: this.dog ? this.dog.name : null,
       breed: this.dog ? this.dog.breed : null,
       age: this.dog ? this.dog.age : 0,
-      imageUrl: this.dog ? this.dog.imageUrl : 0
+      imageUrl: this.dog ? this.dog.imageUrl : null
     };
   },
   methods: {
@@ -82,7 +82,7 @@ export default {
       this.name = this.dog ? this.dog.name : null;
       this.breed = this.dog ? this.dog.breed : null;
       this.age = this.dog ? this.dog.age : 0;
-      imageUrl: this.dog ? this.dog.imageUrl : 0;
+      imageUrl: this.dog ? this.dog.imageUrl : null;
       this.$refs.form.classList.remove("was-validated");
     },
     checkForm(e) {

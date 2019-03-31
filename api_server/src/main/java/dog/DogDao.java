@@ -123,7 +123,7 @@ public class DogDao implements Dao<Dog, Integer> {
       preparedStatement.setInt(3, dog.getAge());
       preparedStatement.setInt(4, dog.getOwnerId());
       preparedStatement.setInt(5, dog.getId());
-      preparedStatement.executeUpdate();
+      preparedStatement.execute();
       ResultSet resultSet = preparedStatement.getResultSet();
 
       if (resultSet.next()) {
