@@ -9,36 +9,49 @@
         dog.name
       }}</router-link>
     </p>
-    <UserCard :user="user" sm />
+    <button v-if="loggedin && dog.ownerId === userId"
+      type="button"
+      class="btn btn-primary"
+      @click.prevent="$refs.editAuctionModal.showModal"
+    >
+      Edit Auction
+    </button>
+    <Modal ref="editAuctionModal" title="Edit Auction" @hide="$refs.editAuctionForm.reset()">
+      <AuctionForm :auction="auction"
+        ref="editAuctionForm"
+        @submitSuccess="$refs.editAuctionModal.hideModal()"
+      />
+    </Modal>
   </div>
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapState } from "vuex";
 
-import UserCard from "@/components/UserCard.vue";
 import BidForm from "@/components/BidForm.vue";
+
+import Modal from "@/components/Modal.vue";
+import AuctionForm from "@/components/AuctionForm.vue";
 
 export default {
   name: "auction",
   components: {
-    UserCard,
-    BidForm
+    BidForm,
+    Modal,
+    AuctionForm
   },
   computed: {
+    ...mapState(["userId"]),
     ...mapGetters({
       auctionById: "auctions/byId",
       dogById: "dogs/byId",
-      userById: "users/byId"
+      loggedin: "loggedin"
     }),
     auction() {
       return this.auctionById(this.$route.params.id);
     },
     dog() {
       return this.dogById(this.auction.dogId);
-    },
-    user() {
-      return this.userById(this.dog.ownerId);
     }
   }
 };

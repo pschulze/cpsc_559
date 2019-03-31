@@ -93,7 +93,7 @@ public class AuctionDao implements Dao<Auction, Integer> {
     Auction updatedAuction = null;
     try (Connection connection = Database.getConnection();
         PreparedStatement preparedStatement =
-          connection.prepareStatement("UPDATE auctions SET expiration_date = ?, dog_id = ?, start_price = ?, name = ?, completed = ? WHERE id = ? RETURNING *");) {
+          connection.prepareStatement("UPDATE auctions SET expiration_time = ?, dog_id = ?, start_price = ?, name = ?, completed = ? WHERE id = ? RETURNING *");) {
       preparedStatement.setTimestamp(1, Timestamp.from(auction.getExpirationTime()));
       preparedStatement.setInt(2, auction.getDogId());
       preparedStatement.setDouble(3, auction.getStartPrice());
@@ -128,7 +128,7 @@ public class AuctionDao implements Dao<Auction, Integer> {
     Auction foundAuction = null;
     try (Connection connection = Database.getConnection();
         PreparedStatement preparedStatement =
-          connection.prepareStatement("SELECT * FROM auctions WHERE dog_id = ?");) {
+          connection.prepareStatement("SELECT * FROM auctions WHERE dog_id = ? AND completed = false");) {
       preparedStatement.setInt(1, dogId);
       preparedStatement.executeQuery();
       ResultSet resultSet = preparedStatement.getResultSet();
@@ -166,5 +166,19 @@ public class AuctionDao implements Dao<Auction, Integer> {
       System.out.println(e.getMessage());
     }
     return userAuctions;
+  }
+
+  public List<Auction> getRunningAuctions() {
+    List<Auction> runningAuctions = new ArrayList<>();
+    try (Connection connection = Database.getConnection();
+         PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM auctions WHERE completed = false");) {
+      ResultSet resultSet = preparedStatement.executeQuery();
+      while(resultSet.next()) {
+        runningAuctions.add(auctionFromResultSet(resultSet));
+      }
+    } catch (SQLException e) {
+      System.out.println(e.getMessage());
+    }
+    return runningAuctions;
   }
 }

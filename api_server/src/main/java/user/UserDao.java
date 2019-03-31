@@ -83,9 +83,8 @@ public class UserDao implements Dao<User, Integer> {
       preparedStatement.setString(1, user.getUsername());
       preparedStatement.execute();
       ResultSet resultSet = preparedStatement.getResultSet();
-      Boolean saved = resultSet.first();
 
-      if (saved) {
+      if (resultSet.next()) {
         savedUser = userFromResultSet(resultSet);
       }
     } catch (SQLException e) {

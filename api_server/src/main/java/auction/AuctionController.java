@@ -5,8 +5,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import java.time.Instant;
+
 import bid.Bid;
 import bid.BidDao;
+import dog.Dog;
+import dog.DogDao;
 import io.javalin.Handler;
 import user.UserDao;
 
@@ -14,6 +18,7 @@ public class AuctionController {
 
   private static AuctionDao auctionDao = new AuctionDao();
   private static BidDao bidDao = new BidDao();
+  private static DogDao dogDao = new DogDao();
 
   public static Handler getAll = ctx -> ctx.json(auctionDao.getAll());
 
@@ -140,7 +145,7 @@ public class AuctionController {
    * JSON Body Syntax:
    * {
    *   "dogId": 1,
-   *   "expirationTime": 1553378626,
+   *   "expirationTime": "2019-03-31T17:47:57Z",
    *   "startPrice": 10.0,
    *   "name": "my fabulous dog auction"
    * }
@@ -201,6 +206,34 @@ public class AuctionController {
   };
 
   public static void endAuctions() {
+    List<Auction> auctions = auctionDao.getRunningAuctions();
+    for (Auction auction : auctions) {
+      if (auction.getExpirationTime().isBefore(Instant.now())) {
 
+        auction.setCompleted(true);
+        auctionDao.update(auction);
+
+        Bid highestBid = null;
+        List<Bid> bids = bidDao.bidsForAuction(auction);
+
+        if (!bids.isEmpty()) {
+          // get the current highest bid
+          for (Bid bid : bids) {
+            if (highestBid == null) {
+              highestBid = bid;
+            } else if (bid.getAmount() > highestBid.getAmount()) {
+              highestBid = bid;
+            }
+          }
+
+          // change the owner of the dog
+          int dogId = auction.getDogId();
+          int newOwnerId = highestBid.getBidderId();
+          Dog dog = dogDao.get(dogId);
+          dog.setOwnerId(newOwnerId);
+          dogDao.update(dog);
+        }
+      }
+    }
   }
 }
