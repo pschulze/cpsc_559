@@ -4,7 +4,7 @@
     <h3>{{ dog.id }}</h3>
     <AuctionCard v-if="auction" :auction="auction" />
     <UserCard :user="owner" sm />
-    <button
+    <button v-if="loggedin && dog.ownerId === userId"
       type="button"
       class="btn btn-primary"
       @click.prevent="$refs.editDogModal.showModal"
@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapState } from "vuex";
 import head from "lodash/head";
 
 import AuctionCard from "@/components/AuctionCard.vue";
@@ -39,10 +39,12 @@ export default {
     DogForm
   },
   computed: {
+    ...mapState(["userId"]),
     ...mapGetters({
       dogById: "dogs/byId",
       userById: "users/byId",
-      auctionsByDog: "auctions/byDog"
+      auctionsByDog: "auctions/byDog",
+      loggedin: "loggedin"
     }),
     dog() {
       return this.dogById(this.$route.params.id);

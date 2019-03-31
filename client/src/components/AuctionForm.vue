@@ -11,7 +11,7 @@
         required
       />
     </div>
-    <div class="form-group">
+    <div class="form-group" v-if="!auction">
       <label for="auctionFormDog">Dog</label>
       <DogPicker class="form-control" v-model="dogId" required />
     </div>
