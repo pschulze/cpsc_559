@@ -145,7 +145,7 @@ public class AuctionController {
    * JSON Body Syntax:
    * {
    *   "dogId": 1,
-   *   "expirationTime": 1553378626,
+   *   "expirationTime": "2019-03-31T17:47:57Z",
    *   "startPrice": 10.0,
    *   "name": "my fabulous dog auction"
    * }
