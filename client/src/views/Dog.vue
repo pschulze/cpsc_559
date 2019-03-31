@@ -1,7 +1,10 @@
 <template>
   <div class="container">
     <h1>{{ dog.name }}</h1>
-    <h3>{{ dog.id }}</h3>
+    <img :src="dog.imageUrl">
+    <h4>ID: {{ dog.id }}</h4>
+    <h4>Age: {{ dog.age }}</h4>
+    <h4>Breed: {{ dog.breed }}</h4>
     <AuctionCard v-if="auction" :auction="auction" />
     <UserCard :user="owner" sm />
     <button v-if="loggedin && dog.ownerId === userId"
