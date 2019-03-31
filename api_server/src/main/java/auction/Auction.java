@@ -4,6 +4,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
+import bid.Bid;
 import dog.DogDao;
 
 public class Auction {
@@ -14,6 +15,7 @@ public class Auction {
   private Double startPrice;
   private String name;
   private Boolean completed = false;
+  private Bid highestBid;
 
   public Auction() {}
   public Auction(Integer dogId, Instant expirationTime, Double startPrice, String name, Boolean completed) {
@@ -117,6 +119,10 @@ public class Auction {
     this.completed = completed;
   }
 
+  public void setHighestBid(Bid highestBid) {
+    this.highestBid = highestBid;
+  }
+
   /**
    * Update an Auction with the non-null fields of a newer Auction.
    * @param updatedAuction The Auction containing fields to be applied to the existing Auction.
@@ -151,7 +157,7 @@ public class Auction {
 
     if (this.expirationTime == null)
       errors.add("expirationTime is null");
-    else if (this.expirationTime.isBefore(Instant.now()));
+    else if (this.expirationTime.isBefore(Instant.now()))
       errors.add("expirationTime is before the current time");
 
     if (this.startPrice == null)

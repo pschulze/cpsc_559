@@ -20,9 +20,23 @@ public class AuctionController {
   private static BidDao bidDao = new BidDao();
   private static DogDao dogDao = new DogDao();
 
-  public static Handler getAll = ctx -> ctx.json(auctionDao.getAll());
+  public static Handler getAll = ctx -> {
+    List<Auction> auctions = auctionDao.getAll();
+    for (Auction auction : auctions) {
+      Bid highestBid = getHighestBid(auction);
+      auction.setHighestBid(highestBid);
+    }
+    ctx.json(auctions);
+  };
 
-  public static Handler getAllActive = ctx -> ctx.json(auctionDao.getAllActive());
+  public static Handler getAllActive = ctx -> {
+    List<Auction> auctions = auctionDao.getAllActive();
+    for (Auction auction : auctions) {
+      Bid highestBid = getHighestBid(auction);
+      auction.setHighestBid(highestBid);
+    }
+    ctx.json(auctions);
+  };
 
   public static Handler get = ctx -> {
     Integer id = Integer.parseInt(ctx.pathParam(":id"));
@@ -34,10 +48,8 @@ public class AuctionController {
       ctx.status(404).json(message);
     } else {
       Bid highestBid = getHighestBid(auction);
-      Map<String, Object> resultsMap = new HashMap<>();
-      resultsMap.put("highestBid", highestBid);
-      resultsMap.put("auction", auction);
-      ctx.json(resultsMap);
+      auction.setHighestBid(highestBid);      
+      ctx.json(auction);
     }
   };
 
@@ -50,6 +62,8 @@ public class AuctionController {
       message.put("details", "auction not found for name: " + name);
       ctx.status(404).json(message);
     } else {
+      Bid highestBid = getHighestBid(auction);
+      auction.setHighestBid(highestBid);
       ctx.json(auction);
     }
   };
@@ -82,7 +96,7 @@ public class AuctionController {
       newBid.setAuctionId(auctionId);
       List<String> errors = newBid.validate();
 
-      if (new UserDao().get(newBid.getBidderId()) == null) {
+      if (errors.isEmpty() && new UserDao().get(newBid.getBidderId()) == null) {
         errors.add("user not found for id: " + newBid.getBidderId().toString());
       }
 
@@ -189,6 +203,8 @@ public class AuctionController {
       Auction updatedAuction = ctx.bodyAsClass(Auction.class);
       auction.update(updatedAuction);
       Auction newAuction = auctionDao.update(auction);
+      Bid highestBid = getHighestBid(newAuction);
+      newAuction.setHighestBid(highestBid);
       ctx.json(newAuction);
     }
   };
@@ -199,7 +215,12 @@ public class AuctionController {
     if (auctions.isEmpty()) {
 
     } else {
+      for (Auction auction : auctions) {
+        Bid highestBid = getHighestBid(auction);
+        auction.setHighestBid(highestBid);
+      }
       ctx.json(auctions);
+
     }
   };
 
