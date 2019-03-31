@@ -31,21 +31,6 @@ public class AuctionController {
       message.put("details", "auction not found for id: " + id.toString());
       ctx.status(404).json(message);
     } else {
-        Bid highestBid = null;
-        List<Bid> bids = bidDao.bidsForAuction(auction);
-
-        if (!bids.isEmpty()) {
-            // get the current highest bid
-            for (Bid bid : bids) {
-                if (highestBid == null) {
-                    highestBid = bid;
-                } else if (bid.getAmount() > highestBid.getAmount()) {
-                    highestBid = bid;
-                }
-            }
-        }
-
-
       ctx.json(auction);
     }
   };
