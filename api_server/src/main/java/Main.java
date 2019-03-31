@@ -88,6 +88,9 @@ public class Main {
         path("search", () ->{
           get(AuctionController.getOne);
         });
+        path("active", () -> {
+          get(AuctionController.getAllActive);
+        });
         path(":id", () -> {
           get(AuctionController.get);
           post(AuctionController.placeBid);

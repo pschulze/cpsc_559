@@ -4,6 +4,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
+import bid.Bid;
 import dog.DogDao;
 
 public class Auction {
@@ -14,6 +15,7 @@ public class Auction {
   private Double startPrice;
   private String name;
   private Boolean completed = false;
+  private Bid highestBid;
 
   public Auction() {}
   public Auction(Integer dogId, Instant expirationTime, Double startPrice, String name, Boolean completed) {
@@ -115,6 +117,10 @@ public class Auction {
    */
   public void setCompleted(Boolean completed) {
     this.completed = completed;
+  }
+
+  public void setHighestBid(Bid highestBid) {
+    this.highestBid = highestBid;
   }
 
   /**
