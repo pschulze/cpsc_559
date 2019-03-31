@@ -1,10 +1,10 @@
 <template>
   <div class="container">
     <h1>{{ dog.name }}</h1>
+    <image src="{{ dog.imageUrl }}"</h4>
     <h4>ID: {{ dog.id }}</h4>
     <h4>Age: {{ dog.age }}</h4>
     <h4>Breed: {{ dog.breed }}</h4>
-    <h4>Image: {{ dog.imageUrl }}</h4>
     <AuctionCard v-if="auction" :auction="auction" />
     <UserCard :user="user" sm />
   </div>
