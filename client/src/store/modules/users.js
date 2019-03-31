@@ -34,7 +34,19 @@ const actions = {
     return Users.get(id).then(user => {
       context.commit("updateOrCreate", user);
     });
-  }
+  },
+
+    create(context, values) {
+      return Users.create(values).then(user => {
+        context.commit("updateOrCreate", user);
+      });
+    },
+
+    update(context, id, values) {
+      return Users.update(id, values).then(user => {
+        context.commit("updateOrCreate", user);
+      });
+    }
 };
 
 export default {

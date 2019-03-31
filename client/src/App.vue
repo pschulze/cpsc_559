@@ -19,6 +19,7 @@
             <NavbarLink to="/" exact>Home</NavbarLink>
             <NavbarLink to="/auctions">Auctions</NavbarLink>
             <NavbarLink to="/dogs">Dogs</NavbarLink>
+            <NavbarLink to="/search">Search</NavbarLink>
           </ul>
           <NavbarAccount />
         </div>

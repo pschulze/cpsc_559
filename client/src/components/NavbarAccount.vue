@@ -41,7 +41,13 @@
           </button>
         </form>
         <div class="dropdown-divider"></div>
-        <a class="dropdown-item" href="#">New around here? Create an account</a>
+        <button class="dropdown-item" @click.prevent="$refs.regFormModal.showModal">New around here? Create an account</button>
+        <Modal ref="regFormModal" title="Sign Up" @hide="$refs.addRegForm.reset()">
+          <RegForm
+            ref="addRegForm"
+            @sumbitSuccess="$refs.regFormModal.hideModal()"
+          />
+        </Modal>
       </template>
       <template v-else>
         <router-link
@@ -61,9 +67,15 @@
 
 <script>
 import { mapState } from "vuex";
+import Modal from "@/components/Modal.vue";
+import RegForm from "@/components/RegForm.vue";
 
 export default {
   name: "navbaraccount",
+  components: {
+    Modal,
+    RegForm
+  },
   data() {
     return {
       signinUsername: null

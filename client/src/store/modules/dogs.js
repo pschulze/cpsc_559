@@ -44,6 +44,19 @@ const actions = {
     });
   },
 
+    fetchName(context, name) {
+      return Dogs.get(name).then(dog => {
+        context.commit("updateOrCreate", dog);
+      });
+    },
+
+    fetchBreed(context, breed) {
+      return Dogs.get(breed).then(dog => {
+        context.commit("updateOrCreate", dog);
+      });
+    },
+
+
   create(context, values) {
     return Dogs.create(values).then(dog => {
       context.commit("updateOrCreate", dog);
