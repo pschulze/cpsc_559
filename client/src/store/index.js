@@ -43,6 +43,11 @@ export default new Vuex.Store({
       state.apiErrors = [];
     }
   },
+  getters: {
+    loggedin(state) {
+      return state.userId !== null && state.userId !== undefined;
+    }
+  },
   actions,
   modules: {
     auctions,
