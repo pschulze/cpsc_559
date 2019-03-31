@@ -49,7 +49,9 @@ public class DogDao implements Dao<Dog, Integer> {
          PreparedStatement preparedStatement =
                  connection.prepareStatement("SELECT * FROM dogs WHERE (name = ? OR ? IS NULL) AND (breed = ? OR ? IS NULL)");) {
       preparedStatement.setString(1, name);
-      preparedStatement.setString(2, breed);
+      preparedStatement.setString(2, name);
+      preparedStatement.setString(3, breed);
+      preparedStatement.setString(4, breed);
       ResultSet resultSet = preparedStatement.executeQuery();
 
       if (resultSet.next()) {
