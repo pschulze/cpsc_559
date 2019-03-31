@@ -1,14 +1,6 @@
 import Vue from "vue";
 import Router from "vue-router";
-
 import Home from "./views/Home.vue";
-import AuctionList from "./views/AuctionList.vue";
-import Auction from "./views/Auction.vue";
-import DogList from "./views/DogList.vue";
-import Dog from "./views/Dog.vue";
-import UserList from "./views/UserList.vue";
-import User from "./views/User.vue";
-import Account from "./views/Account.vue";
 
 Vue.use(Router);
 
@@ -27,39 +19,42 @@ export default new Router({
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      //component: () =>
-      //  import(/* webpackChunkName: "auctionlist" */ "./views/AuctionList.vue")
-      component: AuctionList
+      component: () =>
+        import(/* webpackChunkName: "auctionlist" */ "./views/AuctionList.vue")
     },
     {
       path: "/auctions/:id",
       name: "auction",
-      component: Auction
+      component: () =>
+        import(/* webpackChunkName: "auction" */ "./views/Auction.vue")
     },
     {
       path: "/dogs",
       name: "doglist",
-      component: DogList
+      component: () =>
+        import(/* webpackChunkName: "doglist" */ "./views/DogList.vue")
     },
     {
       path: "/dogs/:id",
       name: "dog",
-      component: Dog
+      component: () => import(/* webpackChunkName: "dog" */ "./views/Dog.vue")
     },
     {
       path: "/users",
       name: "userlist",
-      component: UserList
+      component: () =>
+        import(/* webpackChunkName: "userlist" */ "./views/UserList.vue")
     },
     {
       path: "/users/:id",
       name: "user",
-      component: User
+      component: () => import(/* webpackChunkName: "user" */ "./views/User.vue")
     },
     {
       path: "/account",
       name: "account",
-      component: Account
+      component: () =>
+        import(/* webpackChunkName: "account" */ "./views/Account.vue")
     }
   ]
 });
