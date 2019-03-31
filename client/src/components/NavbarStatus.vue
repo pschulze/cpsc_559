@@ -31,6 +31,13 @@ export default {
   computed: {
     ...mapState(["apiAvailable"])
   },
+  watch: {
+    apiAvailable(available) {
+      // jQuery loaded from cdn in browser for Bootstrap
+      // eslint-disable-next-line no-undef
+      if (!available) this.$nextTick(() => $(this.$refs.tooltip).tooltip());
+    }
+  },
   methods: {
     refreshNow() {
       this.refreshing = true;
@@ -38,11 +45,6 @@ export default {
         this.refreshing = false;
       }, 3000);
     }
-  },
-  mounted() {
-    // jQuery loaded from cdn in browser for Bootstrap
-    // eslint-disable-next-line no-undef
-    $(this.$refs.tooltip).tooltip();
   }
 };
 </script>

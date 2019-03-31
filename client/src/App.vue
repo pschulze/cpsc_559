@@ -73,27 +73,53 @@ export default {
     }
   },
   methods: {
+    errorHandler(err) {
+      switch (err.status) {
+        case 418:
+          // Internal error sending request
+          // Ignore
+          break;
+        case 521:
+        default:
+          this.$store.dispatch("apiUnavailable");
+      }
+    },
+    fetchAuctions() {
+      return this.$store
+        .dispatch("auctions/fetchAll")
+        .catch(err => this.errorHandler(err));
+    },
+    fetchDogs() {
+      return this.$store
+        .dispatch("dogs/fetchAll")
+        .catch(err => this.errorHandler(err));
+    },
+    fetchUsers() {
+      return this.$store
+        .dispatch("users/fetchAll")
+        .catch(err => this.errorHandler(err));
+    },
     startPollingAPI() {
-      this.$store.dispatch("auctions/fetchAll");
+      this.fetchAuctions();
       this.auctionsPolling = setInterval(
         function() {
-          this.$store.dispatch("auctions/fetchAll");
+          this.fetchAuctions();
         }.bind(this),
         3000
       );
 
-      this.$store.dispatch("dogs/fetchAll");
+      this.fetchDogs();
       this.dogsPolling = setInterval(
         function() {
-          this.$store.dispatch("dogs/fetchAll");
+          this.fetchDogs();
         }.bind(this),
         15000
       );
 
-      this.$store.dispatch("users/fetchAll");
+      this.fetchUsers();
       this.usersPolling = setInterval(
         function() {
-          this.$store.dispatch("users/fetchAll");
+          this.fetchUsers();
         }.bind(this),
         15000
       );
