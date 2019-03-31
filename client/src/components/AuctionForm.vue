@@ -166,16 +166,15 @@ export default {
         dogId: this.dogId,
         expirationTime: this.expirationTime,
         startPrice: this.startPrice,
-        name: this.name,
-        completed: this.completed
+        name: this.name
       });
     },
     updateAuction() {
-      return this.$store.dispatch("auctions/update", this.id, {
+      return this.$store.dispatch("auctions/update", {
+        id: this.id,
         expirationTime: this.expirationTime,
         startPrice: this.startPrice,
-        name: this.name,
-        completed: this.completed
+        name: this.name
       });
     },
     onSubmit(e) {

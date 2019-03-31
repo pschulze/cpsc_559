@@ -33,9 +33,7 @@ const getters = {
 const actions = {
   fetchAll(context) {
     return Auctions.getAll().then(auctions => {
-      for (let auction of auctions) {
-        context.commit("updateOrCreate", auction);
-      }
+      context.commit("synchronize", auctions);
     });
   },
 
@@ -51,10 +49,14 @@ const actions = {
     });
   },
 
-  update(context, id, values) {
+  update(context, { id, ...values }) {
     return Auctions.update(id, values).then(auction => {
       context.commit("updateOrCreate", auction);
     });
+  },
+
+  placeBid(context, { auctionId, ...values }) {
+    return Auctions.bid(auctionId, values);
   }
 };
 
