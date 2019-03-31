@@ -64,7 +64,7 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapGetters, mapState } from "vuex";
 
 export default {
   name: "navbaraccount",
@@ -76,9 +76,7 @@ export default {
   },
   computed: {
     ...mapState(["userId", "username"]),
-    loggedin() {
-      return this.userId !== null && this.userId !== undefined;
-    }
+    ...mapGetters(["loggedin"])
   },
   methods: {
     resetSigninForm() {
