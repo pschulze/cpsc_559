@@ -61,7 +61,6 @@
 </template>
 
 <script>
-import Vue from "vue";
 import Moment from "moment";
 
 import DogPicker from "@/components/DogPicker.vue";
@@ -93,22 +92,12 @@ export default {
   },
   data() {
     return {
-      id: this.auction ? Vue.util.extend({}, this.auction.id) : null,
-      dogId: this.auction
-        ? Vue.util.extend({}, this.auction.dogId)
-        : this.dog
-        ? Vue.util.extend({}, this.dog.id)
-        : null,
-      expirationTime: this.auction
-        ? Vue.util.extend({}, this.auction.expirationTime)
-        : null,
-      startPrice: this.auction
-        ? Vue.util.extend({}, this.auction.startPrice)
-        : 0,
-      name: this.auction ? Vue.util.extend({}, this.auction.name) : null,
-      completed: this.auction
-        ? Vue.util.extend({}, this.auction.completed)
-        : null
+      id: this.auction ? this.auction.id : null,
+      dogId: this.auction ? this.auction.dogId : this.dog ? this.dog.id : null,
+      expirationTime: this.auction ? this.auction.expirationTime : null,
+      startPrice: this.auction ? this.auction.startPrice : 0,
+      name: this.auction ? this.auction.name : null,
+      completed: this.auction ? this.auction.completed : null
     };
   },
   computed: {
@@ -120,22 +109,16 @@ export default {
   },
   methods: {
     reset() {
-      this.id = this.auction ? Vue.util.extend({}, this.auction.id) : null;
+      this.id = this.auction ? this.auction.id : null;
       this.dogId = this.auction
-        ? Vue.util.extend({}, this.auction.dogId)
+        ? this.auction.dogId
         : this.dog
-        ? Vue.util.extend({}, this.dog.id)
+        ? this.dog.id
         : null;
-      this.expirationTime = this.auction
-        ? Vue.util.extend({}, this.auction.expirationTime)
-        : null;
-      this.startPrice = this.auction
-        ? Vue.util.extend({}, this.auction.startPrice)
-        : 0;
-      this.name = this.auction ? Vue.util.extend({}, this.auction.name) : null;
-      this.completed = this.auction
-        ? Vue.util.extend({}, this.auction.completed)
-        : null;
+      this.expirationTime = this.auction ? this.auction.expirationTime : null;
+      this.startPrice = this.auction ? this.auction.startPrice : 0;
+      this.name = this.auction ? this.auction.name : null;
+      this.completed = this.auction ? this.auction.completed : null;
       this.$refs.form.classList.remove("was-validated");
     },
     setDateReadonly(bool) {
