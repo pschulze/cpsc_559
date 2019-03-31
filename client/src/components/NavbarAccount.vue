@@ -27,10 +27,14 @@
               ref="loginUsername"
               type="text"
               class="form-control"
+              :class="{ 'is-invalid': loginError }"
               id="loginDropdownFormUsername"
               placeholder="username"
               v-model="signinUsername"
             />
+            <div v-if="loginError" class="invalid-feedback">
+              {{ loginError }}
+            </div>
           </div>
           <button
             type="submit"
@@ -60,30 +64,37 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapGetters, mapState } from "vuex";
 
 export default {
   name: "navbaraccount",
   data() {
     return {
-      signinUsername: null
+      signinUsername: null,
+      loginError: null
     };
   },
   computed: {
     ...mapState(["userId", "username"]),
-    loggedin() {
-      return this.userId !== null && this.userId !== undefined;
-    }
+    ...mapGetters(["loggedin"])
   },
   methods: {
     resetSigninForm() {
       this.signinUsername = null;
     },
     onSigninSubmit() {
-      this.$store.dispatch("signin", this.signinUsername).then(() => {
-        this.resetSigninForm();
-        this.$router.push({ name: "account" });
-      });
+      this.loginError = null;
+      this.$store
+        .dispatch("signin", this.signinUsername)
+        .then(() => {
+          this.resetSigninForm();
+          this.$router.push({ name: "account" });
+        })
+        .catch(error => {
+          if (error.data && error.data.details)
+            this.loginError = error.data.details;
+          else this.loginError = error.msg;
+        });
     },
     onLogoutClick() {
       this.$store.dispatch("signout").then(() => {

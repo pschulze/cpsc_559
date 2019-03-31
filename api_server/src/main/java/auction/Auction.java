@@ -158,7 +158,7 @@ public class Auction {
     if (this.expirationTime == null)
       errors.add("expirationTime is null");
     else if (this.expirationTime.isBefore(Instant.now()))
-      errors.add("expirationTime is before the current time");
+      errors.add("expirationTime is invalid");
 
     if (this.startPrice == null)
       errors.add("startPrice is null");

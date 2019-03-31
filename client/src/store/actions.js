@@ -1,10 +1,33 @@
+import { Account, Ping } from "@/api";
+
 export default {
+  apiUnavailable(context) {
+    context.commit("apiUnavailable");
+    let polling;
+    polling = setInterval(
+      function() {
+        Ping()
+          .then(() => {
+            clearInterval(polling);
+            context.commit("apiAvailable");
+          })
+          .catch(() => {});
+      }.bind(polling),
+      5000
+    );
+    context.commit("auctions/deleteRealtimeData");
+  },
   signin(context, username) {
-    context.commit("setUserId", 1);
-    context.commit("setUsername", username);
+    return Account.login(username).then(user => {
+      context.commit("setUser", user);
+    });
   },
   signout(context) {
-    context.commit("setUserId", null);
-    context.commit("setUsername", null);
+    context.commit("setUser", null);
+  },
+  createAccount(context, username) {
+    return Account.create(username).then(user => {
+      context.commit("setUser", user);
+    });
   }
 };
