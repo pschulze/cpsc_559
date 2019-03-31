@@ -1,39 +1,27 @@
-import store from "@/store";
-
 const response = {
   // The request was made and the server responded
   recieved(error) {
-    console.log(
-      "API ERROR: The request was made and the server responded",
-      error.response
-    );
-    store.commit("apiUnavailable");
-    store.commit("addAPIError", {
-      msg: error.response.status,
-      req: {
-        method: error.config.method,
-        url: error.config.url
-      }
+    console.log("API ERROR (Response):", error.response);
+    return Promise.reject({
+      msg: "Bad server response. Please try again later.",
+      data: error.response.data,
+      status: error.response.status,
+      error
     });
-    return Promise.reject();
   },
 
   // The request was made but no response was received
   notRecieved(error) {
     console.log(
-      "API ERROR: The request was made but no response was received",
+      "API ERROR (No Response):",
       error.config.method,
       error.config.url
     );
-    store.commit("apiUnavailable");
-    store.commit("addAPIError", {
-      msg: "API did not respond",
-      req: {
-        method: error.config.method,
-        url: error.config.url
-      }
+    return Promise.reject({
+      msg: "Could not connect to the API server. Please try again later",
+      status: 521,
+      error
     });
-    return Promise.reject();
   },
 
   // Something happened in setting up the request that triggered an Error
@@ -42,8 +30,11 @@ const response = {
       "API ERROR: Something happened in setting up the request that triggered an Error",
       error
     );
-    store.commit("apiUnavailable");
-    return Promise.reject();
+    return Promise.reject({
+      msg: "Something went wrong, please try again later.",
+      status: 418,
+      error
+    });
   }
 };
 

@@ -55,11 +55,6 @@ export default {
       this.amount = null;
       this.$refs.form.classList.remove("was-validated");
     },
-    saveExpirationTimeUTC(value) {
-      this.expirationTime = Moment.parseZone(value)
-        .utc()
-        .format();
-    },
     checkForm(e) {
       // Do bootstrap's form validation
       if (this.$refs.form.checkValidity() === false) {
@@ -70,19 +65,19 @@ export default {
       }
       return true;
     },
-    createAuction() {},
+    createBid() {
+      return this.$store.dispatch("auctions/placeBid", {
+        auctionId: this.auction.id,
+        bidderId: this.userId,
+        amount: this.amount
+      });
+    },
     onSubmit(e) {
       if (!this.checkForm(e)) return;
-      this.$store
-        .dispatch("bids/create", {
-          auctionId: this.auction.id,
-          bidderId: this.userId,
-          amount: this.amount
-        })
-        .then(() => {
-          this.$emit("sumbitSuccess");
-          this.reset();
-        });
+      this.createBid().then(() => {
+        this.$emit("sumbitSuccess");
+        this.reset();
+      });
     }
   }
 };

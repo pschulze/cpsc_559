@@ -1,4 +1,4 @@
-import axios from "./axios";
+import axios from "./axiosconfig";
 
 export default class BaseRoute {
   constructor(basepath) {
@@ -19,5 +19,9 @@ export default class BaseRoute {
 
   update(id, values) {
     return axios.patch(this.basepath + "/" + id, values);
+  }
+
+  search(params) {
+    return axios.get(this.basepath + "/search", { params });
   }
 }

@@ -34,6 +34,7 @@ public class Main {
     GsonBuilder gsonBuilder = new GsonBuilder();
     gsonBuilder.registerTypeAdapter(Instant.class, new InstantSerializer());
     gsonBuilder.registerTypeAdapter(Instant.class, new InstantDeserializer());
+    gsonBuilder.serializeNulls();
     Gson gson = gsonBuilder.create();
 
     JavalinJson.setFromJsonMapper(gson::fromJson);
@@ -73,17 +74,20 @@ public class Main {
       path("dogs", () -> {
         get(DogController.getAll);
         post(DogController.create);
+        path("search", ()->{
+          get(DogController.getOne);
+        });
         path(":id", () -> {
           get(DogController.get);
           patch(DogController.update);
-        });
-        path("search", ()->{
-          get(DogController.getOne);
         });
       });
       path("auctions", () -> {
         get(AuctionController.getAll);
         post(AuctionController.create);
+        path("search", () ->{
+          get(AuctionController.getOne);
+        });
         path(":id", () -> {
           get(AuctionController.get);
           post(AuctionController.placeBid);
@@ -91,9 +95,6 @@ public class Main {
           path("bids", () -> {
             get(BidController.getBidsForAuction);
           });
-        });
-        path("search", () ->{
-          get(AuctionController.getOne);
         });
       });
       path("account", () -> {

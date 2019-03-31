@@ -1,10 +1,17 @@
+import { Account } from "@/api";
+
 export default {
   signin(context, username) {
-    context.commit("setUserId", 1);
-    context.commit("setUsername", username);
+    return Account.login(username).then(user => {
+      context.commit("setUser", user);
+    });
   },
   signout(context) {
-    context.commit("setUserId", null);
-    context.commit("setUsername", null);
+    context.commit("setUser", null);
+  },
+  createAccount(context, username) {
+    return Account.create(username).then(user => {
+      context.commit("setUser", user);
+    });
   }
 };
