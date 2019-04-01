@@ -40,6 +40,8 @@
         </div>
       </div>
     </footer>
+
+    <portal-target name="modals" multiple />
   </div>
 </template>
 
