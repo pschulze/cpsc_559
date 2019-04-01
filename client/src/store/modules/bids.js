@@ -22,10 +22,7 @@ state = {
 
 const getters = {
   all: List.getters.items,
-  byId: List.getters.itemById,
-  byBidder: state => bidderId => {
-      return filter(List.getters.items(state), { bidderId });
-    }
+  byId: List.getters.itemById
 };
 
 const actions = {
