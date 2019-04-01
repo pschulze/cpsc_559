@@ -71,8 +71,7 @@ export default {
   data() {
     return {
       signinUsername: null,
-      loginError: null,
-      bidsPolling: null
+      loginError: null
     };
   },
   computed: {
@@ -90,13 +89,6 @@ export default {
         .then(() => {
           this.resetSigninForm();
           this.$router.push({ name: "account" });
-          this.$store.dispatch("bids/fetchAll");
-          this.bidsPolling = setInterval(
-            function() {
-              this.$store.dispatch("bids/fetchAll");
-            }.bind(this),
-            15000
-          );
         })
         .catch(error => {
           if (error.data && error.data.details)
@@ -108,7 +100,6 @@ export default {
       this.$store.dispatch("signout").then(() => {
         this.$router.push({ name: "home" });
       });
-      clearInterval(this.bidsPolling);
     }
   },
   mounted() {
