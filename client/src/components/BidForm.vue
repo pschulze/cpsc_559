@@ -1,5 +1,5 @@
 <template>
-  <form ref="form" @submit="onSubmit" class="form-inline" novalidate>
+  <form ref="form" @submit.prevent="onSubmit" class="form-inline" novalidate>
     <div class="form-group">
       <label class="sr-only" for="bidFormInput">Bid Amount</label>
       <div class="input-group mb-2 mr-sm-2">

@@ -1,5 +1,5 @@
 <template>
-  <form ref="form" @submit="onSubmit" novalidate>
+  <form ref="form" @submit.prevent="onSubmit" novalidate>
     <div class="form-group">
       <label for="auctionFormName">Name</label>
       <input

@@ -20,7 +20,7 @@
       aria-labelledby="accountMenuButton"
     >
       <template v-if="!loggedin">
-        <form class="px-4 py-3">
+        <form class="px-4 py-3" @submit.prevent="onSigninSubmit">
           <div class="form-group">
             <label for="loginDropdownFormUsername">Username</label>
             <input
@@ -36,11 +36,7 @@
               {{ loginError }}
             </div>
           </div>
-          <button
-            type="submit"
-            class="btn btn-primary"
-            @click.prevent="onSigninSubmit"
-          >
+          <button type="submit" class="btn btn-primary">
             Sign in
           </button>
         </form>
