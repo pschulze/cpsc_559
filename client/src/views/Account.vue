@@ -15,7 +15,7 @@
     <Modal ref="addDogModal" title="Add Dog" @hide="$refs.addDogForm.reset()">
       <DogForm
         ref="addDogForm"
-        @sumbitSuccess="$refs.addDogModal.hideModal()"
+        @submitSuccess="$refs.addDogModal.hideModal()"
       />
     </Modal>
     <hr />
@@ -37,12 +37,14 @@
     >
       <AuctionForm
         ref="addAuctionForm"
-        @sumbitSuccess="$refs.addAuctionModal.hideModal()"
+        @submitSuccess="$refs.addAuctionModal.hideModal()"
       />
     </Modal>
     <hr />
     <h3>My Bids</h3>
-    <p>TODO</p>
+    <CardList :items="bids" v-slot="{ item }">
+      <BidCard :bid="item" />
+    </CardList>
   </div>
 </template>
 
@@ -52,6 +54,7 @@ import flatMap from "lodash/flatMap";
 
 import CardList from "@/components/CardList.vue";
 import DogCard from "@/components/DogCard.vue";
+import BidCard from "@/components/BidCard.vue";
 import AuctionCard from "@/components/AuctionCard.vue";
 
 import Modal from "@/components/Modal.vue";
@@ -64,6 +67,7 @@ export default {
     CardList,
     DogCard,
     AuctionCard,
+    BidCard,
     Modal,
     DogForm,
     AuctionForm
@@ -73,10 +77,14 @@ export default {
     ...mapGetters({
       userById: "users/byId",
       dogsByOwner: "dogs/byOwner",
-      auctionsByDog: "auctions/active/byDog"
+      auctionsByDog: "auctions/active/byDog",
+      bidsAll: "bids/all"
     }),
     user() {
       return this.userById(this.userId);
+    },
+    bids() {
+      return this.bidsAll;
     },
     dogs() {
       return this.dogsByOwner(this.userId);

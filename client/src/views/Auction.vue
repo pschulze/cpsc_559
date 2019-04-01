@@ -9,15 +9,21 @@
         dog.name
       }}</router-link>
     </p>
-    <button v-if="loggedin && dog.ownerId === userId"
+    <button
+      v-if="loggedin && dog.ownerId === userId"
       type="button"
       class="btn btn-primary"
       @click.prevent="$refs.editAuctionModal.showModal"
     >
       Edit Auction
     </button>
-    <Modal ref="editAuctionModal" title="Edit Auction" @hide="$refs.editAuctionForm.reset()">
-      <AuctionForm :auction="auction"
+    <Modal
+      ref="editAuctionModal"
+      title="Edit Auction"
+      @hide="$refs.editAuctionForm.reset()"
+    >
+      <AuctionForm
+        :auction="auction"
         ref="editAuctionForm"
         @submitSuccess="$refs.editAuctionModal.hideModal()"
       />

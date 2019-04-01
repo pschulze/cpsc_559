@@ -35,6 +35,21 @@ const getters = {
   }
 };
 
+const mutations = {
+  ...List.mutations,
+
+  deleteRealtimeData(state) {
+    for (let i = 0; i < state.ids.length; i++) {
+      const id = state.ids[i];
+      const key = keyForItem({ id });
+      const item = state.items[key];
+      console.log(id, item);
+      Vue.set(item, "startPrice", null);
+      Vue.set(item, "expirationTime", null);
+    }
+  }
+};
+
 const actions = {
   fetchAll(context) {
     return Auctions.getAll().then(auctions => {
@@ -163,7 +178,7 @@ const archive = {
 export default {
   namespaced: true,
   state: List.state,
-  mutations: List.mutations,
+  mutations,
   getters,
   actions,
   modules: {
