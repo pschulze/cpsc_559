@@ -43,7 +43,7 @@
     <hr />
     <h3>My Bids</h3>
     <CardList :items="bids" v-slot="{ item }">
-       <BidCard :bid="item" />
+      <BidCard :bid="item" />
     </CardList>
   </div>
 </template>
