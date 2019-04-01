@@ -16,12 +16,19 @@
     >
       Edit Auction
     </button>
-    <Modal ref="editAuctionModal" title="Edit Auction" @hide="$refs.editAuctionForm.reset()">
-      <AuctionForm :auction="auction"
-        ref="editAuctionForm"
-        @submitSuccess="$refs.editAuctionModal.hideModal()"
-      />
-    </Modal>
+    <portal to="modals">
+      <Modal
+        ref="editAuctionModal"
+        title="Edit Auction"
+        @hide="$refs.editAuctionForm.reset()"
+      >
+        <AuctionForm
+          :auction="auction"
+          ref="editAuctionForm"
+          @submitSuccess="$refs.editAuctionModal.hideModal()"
+        />
+      </Modal>
+    </portal>
   </div>
 </template>
 
