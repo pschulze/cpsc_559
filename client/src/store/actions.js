@@ -4,19 +4,12 @@ export default {
   apiUnavailable(context) {
     if (!context.state.apiAvailable) return;
     context.commit("apiUnavailable");
-    let polling;
-    polling = setInterval(
-      function() {
-        Ping()
-          .then(() => {
-            clearInterval(polling);
-            context.commit("apiAvailable");
-          })
-          .catch(() => {});
-      }.bind(polling),
-      5000
-    );
     context.commit("auctions/deleteRealtimeData");
+  },
+  pingAPI(context) {
+    return Ping().then(() => {
+      context.commit("apiAvailable");
+    });
   },
   signin(context, username) {
     return Account.login(username).then(user => {

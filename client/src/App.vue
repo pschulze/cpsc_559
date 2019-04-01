@@ -45,7 +45,7 @@
 <script>
 import { mapState, mapGetters } from "vuex";
 
-import { Auctions, Bids, Dogs, Users, setStore } from "@/api_polling";
+import { Auctions, Bids, Dogs, Ping, Users, setStore } from "@/api_polling";
 
 // @ is an alias to /src
 import NavbarAccount from "@/components/NavbarAccount.vue";
@@ -64,40 +64,41 @@ export default {
   },
   watch: {
     apiAvailable(available) {
-      if (available) this.startPollingAPI();
-      else this.stopPollingAPI();
+      if (available) this.apiIsAvailable();
+      else this.apiIsUnavailable();
     },
-    loggedin(loggedin) {
-      if (loggedin) this.startPollingBids();
-      else this.stopPollingBids();
+    loggedin() {
+      if (this.loggedin && this.apiAvailable) Bids.startPolling();
+      else Bids.stopPolling();
     }
   },
   methods: {
-    startPollingAPI() {
+    apiIsAvailable() {
+      Ping.stopPolling();
       Auctions.startPolling();
       Dogs.startPolling();
       Users.startPolling();
-      if (this.loggedin) this.startPollingBids();
+      if (this.loggedin) Bids.startPolling();
     },
-    startPollingBids() {
-      Bids.startPolling();
-    },
-    stopPollingAPI() {
+    apiIsUnavailable() {
+      Ping.startPolling();
       Auctions.stopPolling();
+      Bids.stopPolling();
       Dogs.stopPolling();
       Users.stopPolling();
-      if (this.loggedin) this.stopPollingBids();
-    },
-    stopPollingBids() {
-      Bids.stopPolling();
     }
   },
   mounted() {
     setStore(this.$store);
-    this.startPollingAPI();
+    if (this.apiAvailable) this.apiIsAvailable();
+    else this.apiIsUnavailable();
   },
   beforeDestroy() {
-    this.stopPollingAPI();
+    Auctions.stopPolling();
+    Bids.stopPolling();
+    Dogs.stopPolling();
+    Ping.stopPolling();
+    Users.stopPolling();
   }
 };
 </script>

@@ -43,9 +43,20 @@ export const Bids = new BasePolling("bids/fetchAll", 15000);
 export const Dogs = new BasePolling("dogs/fetchAll", 15000);
 export const Users = new BasePolling("users/fetchAll", 15000);
 
+class PingPolling extends BasePolling {
+  constructor(dispatch, period, store) {
+    super(dispatch, period, store);
+  }
+
+  errorHandler() {}
+}
+
+export const Ping = new PingPolling("pingAPI", 5000);
+
 export function setStore(store) {
   Auctions.setStore(store);
   Bids.setStore(store);
   Dogs.setStore(store);
+  Ping.setStore(store);
   Users.setStore(store);
 }
