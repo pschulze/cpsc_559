@@ -43,8 +43,8 @@ const mutations = {
       const id = state.ids[i];
       const key = keyForItem({ id });
       const item = state.items[key];
-      console.log(id, item);
       Vue.set(item, "startPrice", null);
+      Vue.set(item, "highestBid", null);
       Vue.set(item, "expirationTime", null);
     }
   }
