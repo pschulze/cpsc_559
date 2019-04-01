@@ -45,6 +45,8 @@
 <script>
 import { mapState, mapGetters } from "vuex";
 
+import { Auctions, Bids, Dogs, Users, setStore } from "@/api_polling";
+
 // @ is an alias to /src
 import NavbarAccount from "@/components/NavbarAccount.vue";
 import NavbarStatus from "@/components/NavbarStatus.vue";
@@ -56,102 +58,42 @@ export default {
     NavbarStatus,
     NavbarLink
   },
-  data() {
-    return {
-      auctionsPolling: null,
-      dogsPolling: null,
-      usersPolling: null,
-      bidsPolling: null
-    };
-  },
   computed: {
     ...mapState(["apiAvailable"]),
-    ...mapGetters(["loggedin"]),
-    pollBids() {
-      return this.loggedin && this.apiAvailable;
-    }
+    ...mapGetters(["loggedin"])
   },
   watch: {
     apiAvailable(available) {
       if (available) this.startPollingAPI();
       else this.stopPollingAPI();
     },
-    pollBids(enabled) {
-      if (enabled) this.startPollingBids();
+    loggedin(loggedin) {
+      if (loggedin) this.startPollingBids();
       else this.stopPollingBids();
     }
   },
   methods: {
-    errorHandler(err) {
-      switch (err.status) {
-        case 418:
-          // Internal error sending request
-          // Ignore
-          break;
-        case 521:
-        default:
-          this.$store.dispatch("apiUnavailable");
-      }
-    },
-    fetchAuctions() {
-      return this.$store
-        .dispatch("auctions/fetchAll")
-        .catch(err => this.errorHandler(err));
-    },
-    fetchDogs() {
-      return this.$store
-        .dispatch("dogs/fetchAll")
-        .catch(err => this.errorHandler(err));
-    },
-    fetchUsers() {
-      return this.$store
-        .dispatch("users/fetchAll")
-        .catch(err => this.errorHandler(err));
-    },
     startPollingAPI() {
-      this.fetchAuctions();
-      this.auctionsPolling = setInterval(
-        function() {
-          this.fetchAuctions();
-        }.bind(this),
-        3000
-      );
-
-      this.fetchDogs();
-      this.dogsPolling = setInterval(
-        function() {
-          this.fetchDogs();
-        }.bind(this),
-        15000
-      );
-
-      this.fetchUsers();
-      this.usersPolling = setInterval(
-        function() {
-          this.fetchUsers();
-        }.bind(this),
-        15000
-      );
+      Auctions.startPolling();
+      Dogs.startPolling();
+      Users.startPolling();
+      if (this.loggedin) this.startPollingBids();
     },
     startPollingBids() {
-      this.$store.dispatch("bids/fetchAll");
-      this.bidsPolling = setInterval(
-        function() {
-          this.$store.dispatch("bids/fetchAll");
-        }.bind(this),
-        15000
-      );
+      Bids.startPolling();
     },
     stopPollingAPI() {
-      clearInterval(this.auctionsPolling);
-      clearInterval(this.dogsPolling);
-      clearInterval(this.usersPolling);
+      Auctions.stopPolling();
+      Dogs.stopPolling();
+      Users.stopPolling();
+      if (this.loggedin) this.stopPollingBids();
     },
     stopPollingBids() {
-      clearInterval(this.bidsPolling);
+      Bids.stopPolling();
     }
   },
   mounted() {
+    setStore(this.$store);
     this.startPollingAPI();
   },
   beforeDestroy() {
