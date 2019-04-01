@@ -47,7 +47,9 @@ export default {
   computed: {
     ...mapState(["userId"]),
     minimumBid() {
-      return this.auction.startPrice;
+      if (this.auction.highestBid && this.auction.highestBid.amount)
+        return this.auction.highestBid.amount + 0.01;
+      else return this.auction.startPrice + 0.01;
     }
   },
   methods: {

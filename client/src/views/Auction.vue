@@ -58,6 +58,11 @@ export default {
     },
     dog() {
       return this.dogById(this.auction.dogId);
+    },
+    currentAmount() {
+      if (this.auction.highestBid && this.auction.highestBid.amount)
+        return this.auction.highestBid.amount;
+      else return this.auction.startPrice;
     }
   }
 };
