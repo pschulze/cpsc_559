@@ -43,7 +43,7 @@ export default {
     ...mapGetters({
       dogById: "dogs/byId",
       userById: "users/byId",
-      auctionsByDog: "auctions/byDog",
+      auctionsByDog: "auctions/active/byDog",
       loggedin: "loggedin"
     }),
     dog() {
