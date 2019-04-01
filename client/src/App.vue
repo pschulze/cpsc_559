@@ -43,7 +43,7 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState, mapGetters } from "vuex";
 
 // @ is an alias to /src
 import NavbarAccount from "@/components/NavbarAccount.vue";
@@ -60,16 +60,25 @@ export default {
     return {
       auctionsPolling: null,
       dogsPolling: null,
-      usersPolling: null
+      usersPolling: null,
+      bidsPolling: null
     };
   },
   computed: {
-    ...mapState(["apiAvailable"])
+    ...mapState(["apiAvailable"]),
+    ...mapGetters(["loggedin"]),
+    pollBids() {
+      return this.loggedin && this.apiAvailable;
+    }
   },
   watch: {
     apiAvailable(available) {
       if (available) this.startPollingAPI();
       else this.stopPollingAPI();
+    },
+    pollBids(enabled) {
+      if (enabled) this.startPollingBids();
+      else this.stopPollingBids();
     }
   },
   methods: {
@@ -124,10 +133,22 @@ export default {
         15000
       );
     },
+    startPollingBids() {
+      this.$store.dispatch("bids/fetchAll");
+      this.bidsPolling = setInterval(
+        function() {
+          this.$store.dispatch("bids/fetchAll");
+        }.bind(this),
+        15000
+      );
+    },
     stopPollingAPI() {
       clearInterval(this.auctionsPolling);
       clearInterval(this.dogsPolling);
       clearInterval(this.usersPolling);
+    },
+    stopPollingBids() {
+      clearInterval(this.bidsPolling);
     }
   },
   mounted() {
