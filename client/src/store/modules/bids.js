@@ -31,11 +31,20 @@ const actions = {
       const toAdd = differenceWith(bids, context.state.ids, (item, id) => {
         return id === item.id;
       });
-      context.commit("synchronize", bids);
       for (let i = 0; i < toAdd.length; i++)
-        context.dispatch("auctions/requireCached", toAdd[i].auctionId, {
+        context.dispatch("auctions/archive/require", toAdd[i].auctionId, {
           root: true
         });
+      const toRemove = differenceWith(context.state.ids, bids, (id, item) => {
+        return id === item.id;
+      });
+      for (let i = 0; i < toRemove.length; i++) {
+        const bid = context.getters.byId(toRemove[i]);
+        context.dispatch("auctions/archive/release", bid.auctionId, {
+          root: true
+        });
+      }
+      context.commit("synchronize", bids);
     });
   }
 };

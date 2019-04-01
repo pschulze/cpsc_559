@@ -31,7 +31,7 @@ export default {
     ...mapGetters({
       userById: "users/byId",
       dogsByOwner: "dogs/byOwner",
-      auctionsByDog: "auctions/byDog"
+      auctionsByDog: "auctions/active/byDog"
     }),
     user() {
       return this.userById(this.$route.params.id);

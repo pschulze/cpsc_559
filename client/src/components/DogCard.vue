@@ -59,7 +59,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      auctionsByDog: "auctions/byDog"
+      auctionsByDog: "auctions/active/byDog"
     }),
     auction() {
       return head(this.auctionsByDog(this.dog.id));
