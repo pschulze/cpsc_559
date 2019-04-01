@@ -45,13 +45,24 @@
           </button>
         </form>
         <div class="dropdown-divider"></div>
-        <button class="dropdown-item" @click.prevent="$refs.regFormModal.showModal">New around here? Create an account</button>
-        <Modal ref="regFormModal" title="Sign Up" @hide="$refs.addRegForm.reset()">
-          <RegForm
-            ref="addRegForm"
-            @sumbitSuccess="$refs.regFormModal.hideModal()"
-          />
-        </Modal>
+        <button
+          class="dropdown-item"
+          @click.prevent="$refs.regFormModal.showModal"
+        >
+          New around here? Create an account
+        </button>
+        <portal to="modals">
+          <Modal
+            ref="regFormModal"
+            title="Sign Up"
+            @hide="$refs.addRegForm.reset()"
+          >
+            <RegForm
+              ref="addRegForm"
+              @sumbitSuccess="$refs.regFormModal.hideModal()"
+            />
+          </Modal>
+        </portal>
       </template>
       <template v-else>
         <router-link
