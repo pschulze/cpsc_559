@@ -2,6 +2,7 @@ import { Account, Ping } from "@/api";
 
 export default {
   apiUnavailable(context) {
+    if (!context.state.apiAvailable) return;
     context.commit("apiUnavailable");
     let polling;
     polling = setInterval(
