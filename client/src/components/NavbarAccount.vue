@@ -93,6 +93,12 @@ export default {
             typeof error.data.details === "string"
           )
             this.loginError = error.data.details;
+          else if (
+            error.data &&
+            error.data.errors &&
+            typeof error.data.errors[0] === "string"
+          )
+            this.loginError = error.data.errors[0];
           else this.loginError = error.msg;
         });
     },

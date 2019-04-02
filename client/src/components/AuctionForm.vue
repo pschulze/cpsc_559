@@ -185,6 +185,12 @@ export default {
             typeof error.data.details === "string"
           )
             this.error = error.data.details;
+          else if (
+            error.data &&
+            error.data.errors &&
+            typeof error.data.errors[0] === "string"
+          )
+            this.error = error.data.errors[0];
           else this.error = error.msg;
         });
     }
