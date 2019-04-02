@@ -43,7 +43,6 @@
         id="dogFormImageUrl"
         placeholder="url"
         v-model="imageUrl"
-        required
       />
     </div>
     <div v-if="error" class="alert alert-danger fade show" role="alert">
