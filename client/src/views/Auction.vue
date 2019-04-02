@@ -66,10 +66,11 @@ export default {
       else return this.auction.startPrice;
     },
     endtimeString() {
+      if (!this.auction.expirationTime) return "Endtimes unavailable offline";
       const now = Moment();
       const endtime = Moment(this.auction.expirationTime);
-      if (now.diff(endtime) > 0) return "Ends " + endtime.toNow();
-      else return "Ended " + endtime.toNow();
+      if (now.diff(endtime) > 0) return "Ended " + endtime.fromNow();
+      else return "Ends " + endtime.fromNow();
     }
   }
 };
