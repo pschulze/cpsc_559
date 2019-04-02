@@ -22,18 +22,18 @@
         </button>
       </div>
       <portal to="modals">
-				<Modal
-		ref="editDogModal"
-		title="Edit Dog"
-		@hide="$refs.editDogForm.reset()"
-				>
-		<DogForm
-			:dog="dog"
-			ref="editDogForm"
-			@submitSuccess="$refs.editDogModal.hideModal()"
-		/>
-				</Modal>
-			</portal>
+        <Modal
+          ref="editDogModal"
+          title="Edit Dog"
+          @hide="$refs.editDogForm.reset()"
+        >
+          <DogForm
+            :dog="dog"
+            ref="editDogForm"
+            @submitSuccess="$refs.editDogModal.hideModal()"
+          />
+        </Modal>
+      </portal>
     </div>
   </div>
 </template>
