@@ -100,8 +100,10 @@ export default {
         return false;
       }
     },
-    searchDog() {
-      return this.$api.Dogs.search({
+    searchDog(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      this.$api.Dogs.search({
         name: this.DogName,
         breed: this.DogBreed
       })
@@ -111,8 +113,10 @@ export default {
         })
         .catch(() => {});
     },
-    searchAuction() {
-      return this.$api.Auctions.search({ name: this.AuctionName })
+    searchAuction(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      this.$api.Auctions.search({ name: this.AuctionName })
         .then(auctions => {
           this.$emit("searchResult", auctions);
           this.reset();
