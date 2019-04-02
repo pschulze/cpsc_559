@@ -63,6 +63,11 @@ export default {
       AuctionName: null
     };
   },
+  watch: {
+    $route () {
+      this.reset();
+    }
+  },
   methods: {
     reset() {
       this.DogName = null;
@@ -83,26 +88,24 @@ export default {
         return false;
       }
     },
-    searchDog(e) {
-      e.preventDefault();
-      e.stopPropagation();
+    searchDog() {
+      if (!this.DogName && !this.DogBreed)
+        return this.$emit("searchResult", null);
       this.$api.Dogs.search({
         name: this.DogName,
         breed: this.DogBreed
       })
         .then(dogs => {
           this.$emit("searchResult", dogs);
-          this.reset();
         })
         .catch(() => {});
     },
-    searchAuction(e) {
-      e.preventDefault();
-      e.stopPropagation();
+    searchAuction() {
+      if (!this.AuctionName)
+        return this.$emit("searchResult", null);
       this.$api.Auctions.search({ name: this.AuctionName })
         .then(auctions => {
           this.$emit("searchResult", auctions);
-          this.reset();
         })
         .catch(() => {});
     }
