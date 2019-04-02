@@ -36,8 +36,8 @@ public class AuctionDao implements Dao<Auction, Integer> {
     List<Auction> auctions = new ArrayList<>();
     try (Connection connection = Database.getConnection();
          PreparedStatement preparedStatement =
-                 connection.prepareStatement("SELECT * FROM auctions WHERE name = ?");) {
-      preparedStatement.setString(1, name);
+                 connection.prepareStatement("SELECT * FROM auctions WHERE name LIKE ?");) {
+      preparedStatement.setString(1, "%"+name+"%");
       ResultSet resultSet = preparedStatement.executeQuery();
 
       while (resultSet.next()) {
