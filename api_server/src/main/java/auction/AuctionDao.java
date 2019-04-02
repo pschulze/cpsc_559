@@ -36,8 +36,8 @@ public class AuctionDao implements Dao<Auction, Integer> {
     List<Auction> auctions = new ArrayList<>();
     try (Connection connection = Database.getConnection();
          PreparedStatement preparedStatement =
-                 connection.prepareStatement("SELECT * FROM auctions WHERE name = ?");) {
-      preparedStatement.setString(1, name);
+                 connection.prepareStatement("SELECT * FROM auctions WHERE name LIKE ?");) {
+      preparedStatement.setString(1, "%"+name+"%");
       ResultSet resultSet = preparedStatement.executeQuery();
 
       while (resultSet.next()) {
@@ -53,8 +53,10 @@ public class AuctionDao implements Dao<Auction, Integer> {
   @Override
   public List<Auction> getAll() {
     List<Auction> allAuctions = new ArrayList<>();
+    String currentTime = Instant.now().toString();
     try (Connection connection = Database.getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM auctions");) {
+         PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM auctions WHERE auctions.expiration_time < ? ::timestamp");) {
+      preparedStatement.setString(1, currentTime);
       ResultSet resultSet = preparedStatement.executeQuery();
       while (resultSet.next()) {
         allAuctions.add(auctionFromResultSet(resultSet));

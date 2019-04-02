@@ -53,10 +53,10 @@ public class DogDao implements Dao<Dog, Integer> {
     else if((name != null && name != "") && (breed != null && breed != "")) {
         try (Connection connection = Database.getConnection();
              PreparedStatement preparedStatement =
-                     connection.prepareStatement("SELECT * FROM dogs WHERE (name = ? OR ? IS NULL) AND (breed = ? OR ? IS NULL)");) {
-          preparedStatement.setString(1, name);
+                     connection.prepareStatement("SELECT * FROM dogs WHERE (name LIKE ? OR ? IS NULL) AND (breed LIKE ? OR ? IS NULL)");) {
+          preparedStatement.setString(1, "%"+name+"%");
           preparedStatement.setString(2, name);
-          preparedStatement.setString(3, breed);
+          preparedStatement.setString(3, "%"+breed+"%");
           preparedStatement.setString(4, breed);
           ResultSet resultSet = preparedStatement.executeQuery();
 
@@ -72,8 +72,8 @@ public class DogDao implements Dao<Dog, Integer> {
       else if((name != null && name != "") && (breed == null || breed == "")) {
         try (Connection connection = Database.getConnection();
              PreparedStatement preparedStatement =
-                     connection.prepareStatement("SELECT * FROM dogs WHERE name = ?");) {
-          preparedStatement.setString(1, name);
+                     connection.prepareStatement("SELECT * FROM dogs WHERE name LIKE ?");) {
+          preparedStatement.setString(1, "%"+name+"%");
           ResultSet resultSet = preparedStatement.executeQuery();
 
           while(resultSet.next()) {
@@ -88,8 +88,8 @@ public class DogDao implements Dao<Dog, Integer> {
       else {
         try (Connection connection = Database.getConnection();
              PreparedStatement preparedStatement =
-                     connection.prepareStatement("SELECT * FROM dogs WHERE breed = ?");) {
-          preparedStatement.setString(1, breed);
+                     connection.prepareStatement("SELECT * FROM dogs WHERE breed LIKE ?");) {
+          preparedStatement.setString(1, "%"+breed+"%");
           ResultSet resultSet = preparedStatement.executeQuery();
 
           while(resultSet.next()) {
