@@ -1,5 +1,5 @@
 <template>
-  <div class="card" style="width: 18rem;">
+  <div class="card userCard">
     <template v-if="sm">
       <div v-if="outlineonly" class="card-body">
         <vue-content-loading :width="124" :height="60" class="userCardBody">
@@ -54,6 +54,9 @@ export default {
 </script>
 
 <style>
+.userCard {
+  width: 265px;
+}
 svg.userCardBody {
   width: 124px;
   vertical-align: top;

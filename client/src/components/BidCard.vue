@@ -1,5 +1,5 @@
 <template>
-  <div class="card" style="width: 18rem;">
+  <div class="card bidCard">
     <div class="card-body">
       <h5 class="card-title">{{ auction.name }}</h5>
       <h6 class="card-subtitle mb-2 text-muted">Bid ID: {{ bid.id }}</h6>
@@ -37,6 +37,9 @@ export default {
 </script>
 
 <style>
+.bidCard {
+  width: 265px;
+}
 svg.bidCardBody {
   width: 124px;
   vertical-align: top;

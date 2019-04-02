@@ -1,5 +1,5 @@
 <template>
-  <div class="card" style="width: 18rem;">
+  <div class="card auctionCard">
     <template v-if="sm">
       <div v-if="outlineonly" class="card-body">
         <vue-content-loading :width="124" :height="60" class="auctionCardBody">
@@ -73,6 +73,9 @@ export default {
 </script>
 
 <style>
+.auctionCard {
+  width: 265px;
+}
 svg.auctionCardBody {
   width: 124px;
   vertical-align: top;
