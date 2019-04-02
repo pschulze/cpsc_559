@@ -32,6 +32,7 @@
 </template>
 
 <script>
+import Moment from "moment";
 import { mapGetters, mapState } from "vuex";
 
 import BidForm from "@/components/BidForm.vue";
@@ -63,6 +64,12 @@ export default {
       if (this.auction.highestBid && this.auction.highestBid.amount)
         return this.auction.highestBid.amount;
       else return this.auction.startPrice;
+    },
+    endtimeString() {
+      const now = Moment();
+      const endtime = Moment(this.auction.expirationTime);
+      if (now.diff(endtime) > 0) return "Ends " + endtime.toNow();
+      else return "Ended " + endtime.toNow();
     }
   }
 };
