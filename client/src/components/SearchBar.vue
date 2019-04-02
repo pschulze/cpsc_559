@@ -1,7 +1,7 @@
 <template>
   <div>
     <template v-if="dogsPage()">
-      <form @submit.prevent="searchDog">
+      <form @submit.prevent.stop="searchDog">
         <div class="input-group">
           <input
             type="text"
@@ -28,7 +28,7 @@
       </form>
     </template>
     <template v-else-if="auctionsPage()">
-      <form @submit.prevent="searchAuction">
+      <form @submit.prevent.stop="searchAuction">
         <div class="input-group">
           <input
             type="text"
