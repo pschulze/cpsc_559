@@ -30,11 +30,10 @@
       </template>
       <template v-else>
         <div class="card-body">
-          <h5 class="card-title">{{ auction.name }}</h5>
+          <router-link :to="{ name: 'auction', params: { id: auction.id } }">
+            <h5 class="card-title">{{ auction.name }}</h5>
+          </router-link>
           <h6 class="card-subtitle mb-2 text-muted">${{ currentAmount }}</h6>
-          <router-link :to="{ name: 'auction', params: { id: auction.id } }"
-            >More Information</router-link
-          >
         </div>
         <div class="card-footer text-muted">{{ endtimeString }}</div>
       </template>

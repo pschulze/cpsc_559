@@ -22,24 +22,31 @@ export default {
   },
   match: {
     items() {
-      this.masonry();
-    }
-  },
-  methods: {
-    masonry() {
-      this.$nextTick(() => {
-        // jQuery loaded from cdn in browser for Bootstrap
-        // eslint-disable-next-line no-undef
-        $(this.$refs.ul).masonry({
-          itemSelector: ".masonry-item",
-          columnWidth: 270,
-          gutter: 10
-        });
-      });
+      // jQuery loaded from cdn in browser for Bootstrap
+      // eslint-disable-next-line no-undef
+      $(this.$refs.ul).masonry("reloadItems");
     }
   },
   mounted() {
-    this.masonry();
+    this.$nextTick(() => {
+      // jQuery loaded from cdn in browser for Bootstrap
+      // eslint-disable-next-line no-undef
+      $(this.$refs.ul).masonry({
+        itemSelector: ".masonry-item",
+        columnWidth: 270,
+        gutter: 10
+      });
+    });
+    setTimeout(() => {
+      // jQuery loaded from cdn in browser for Bootstrap
+      // eslint-disable-next-line no-undef
+      $(this.$refs.ul).masonry("reloadItems");
+    }, 3000);
+  },
+  beforeDestroy() {
+    // jQuery loaded from cdn in browser for Bootstrap
+    // eslint-disable-next-line no-undef
+    $(this.$refs.ul).masonry("destroy");
   }
 };
 </script>
