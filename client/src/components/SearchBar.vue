@@ -51,13 +51,6 @@
 export default {
   name: "SearchBar",
   props: {
-    dog: {
-      DogName: String,
-      DogBreed: String
-    },
-    auction: {
-      AuctionName: String
-    },
     submitLabel: {
       type: String,
       default: "Search"
@@ -65,26 +58,16 @@ export default {
   },
   data() {
     return {
-      DogName: this.dog ? this.dog.DogName : null,
-      DogBreed: this.dog ? this.dog.DogBreed : null,
-      AuctionName: this.auction ? this.auction.AuctionName : null
+      DogName: null,
+      DogBreed: null,
+      AuctionName: null
     };
   },
   methods: {
     reset() {
-      this.DogName = this.dog ? this.dog.DogName : null;
-      this.DogBreed = this.dog ? this.dog.DogBreed : null;
-      this.AuctionName = this.auction ? this.auction.AuctionName : null;
-    },
-    checkForm(e) {
-      // Do bootstrap's form validation
-      if (this.$refs.form.checkValidity() === false) {
-        this.$refs.form.classList.add("was-validated");
-        e.preventDefault();
-        e.stopPropagation();
-        return false;
-      }
-      return true;
+      this.DogName = null;
+      this.DogBreed = null;
+      this.AuctionName = null;
     },
     dogsPage() {
       if (this.$route.path == "/dogs") {

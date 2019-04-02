@@ -1,9 +1,7 @@
 <template>
   <div class="container">
+    <SearchBar @searchResult="searchDogs = $event" />
     <h1>Dogs List</h1>
-    <portal to="searchbar">
-      <SearchBar @searchResult="searchDogs = $event"> </SearchBar>
-    </portal>
     <CardList v-if="searchDogs" :items="searchDogs">
       <template v-slot:default="{ item }">
         <DogCard :dog="item" />
