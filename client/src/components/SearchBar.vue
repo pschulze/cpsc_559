@@ -1,50 +1,50 @@
 <template>
-  <form>
+  <div>
     <template v-if="dogsPage()">
-      <div class="input-group">
-        <input
-          type="text"
-          class="form-control"
-          aria-label="Text input"
-          placeholder="Search Dog Name..."
-          id="searchDogName"
-          v-model="DogName"
-        />
-        <div class="input-group-append">
+      <form @submit.prevent="searchDog">
+        <div class="input-group">
           <input
             type="text"
             class="form-control"
             aria-label="Text input"
-            placeholder="Search Dog Breed..."
-            id="searchDogBreed"
-            v-model="DogBreed"
+            placeholder="Search Dog Name..."
+            id="searchDogName"
+            v-model="DogName"
           />
+          <div class="input-group-append">
+            <input
+              type="text"
+              class="form-control"
+              aria-label="Text input"
+              placeholder="Search Dog Breed..."
+              id="searchDogBreed"
+              v-model="DogBreed"
+            />
+          </div>
+          <button type="submit" class="btn btn-primary">
+            {{ submitLabel }}
+          </button>
         </div>
-        <button type="submit" class="btn btn-primary" v-on:click="searchDog()">
-          {{ submitLabel }}
-        </button>
-      </div>
+      </form>
     </template>
     <template v-else-if="auctionsPage()">
-      <div class="input-group">
-        <input
-          type="text"
-          class="form-control"
-          aria-label="Text input"
-          placeholder="Search Auction Name..."
-          id="searchAuctionName"
-          v-model="AuctionName"
-        />
-        <button
-          type="submit"
-          class="btn btn-primary"
-          v-on:click="searchAuction()"
-        >
-          {{ submitLabel }}
-        </button>
-      </div>
+      <form @submit.prevent="searchAuction">
+        <div class="input-group">
+          <input
+            type="text"
+            class="form-control"
+            aria-label="Text input"
+            placeholder="Search Auction Name..."
+            id="searchAuctionName"
+            v-model="AuctionName"
+          />
+          <button type="submit" class="btn btn-primary">
+            {{ submitLabel }}
+          </button>
+        </div>
+      </form>
     </template>
-  </form>
+  </div>
 </template>
 
 <script>
