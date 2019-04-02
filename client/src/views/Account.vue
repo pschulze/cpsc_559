@@ -12,6 +12,7 @@
     >
       Add Dog
     </button>
+
     <portal to="modals">
       <Modal ref="addDogModal" title="Add Dog" @hide="$refs.addDogForm.reset()">
         <DogForm
@@ -20,6 +21,14 @@
         />
       </Modal>
     </portal>
+
+    <Modal ref="addDogModal" title="Add Dog" @hide="$refs.addDogForm.reset()">
+      <DogForm
+        ref="addDogForm"
+        @submitSuccess="$refs.addDogModal.hideModal()"
+      />
+    </Modal>
+
     <hr />
     <h3>My Auctions</h3>
     <CardList :items="auctions" v-slot:default="{ item }">
@@ -32,6 +41,7 @@
     >
       Add Auction
     </button>
+
     <portal to="modals">
       <Modal
         ref="addAuctionModal"
@@ -44,9 +54,23 @@
         />
       </Modal>
     </portal>
+
+    <Modal
+      ref="addAuctionModal"
+      title="Add Auction"
+      @hide="$refs.addAuctionForm.reset()"
+    >
+      <AuctionForm
+        ref="addAuctionForm"
+        @submitSuccess="$refs.addAuctionModal.hideModal()"
+      />
+    </Modal>
+
     <hr />
     <h3>My Bids</h3>
-    <p>TODO</p>
+    <CardList :items="bids" v-slot="{ item }">
+      <BidCard :bid="item" />
+    </CardList>
   </div>
 </template>
 
@@ -56,6 +80,7 @@ import flatMap from "lodash/flatMap";
 
 import CardList from "@/components/CardList.vue";
 import DogCard from "@/components/DogCard.vue";
+import BidCard from "@/components/BidCard.vue";
 import AuctionCard from "@/components/AuctionCard.vue";
 
 import Modal from "@/components/Modal.vue";
@@ -68,6 +93,7 @@ export default {
     CardList,
     DogCard,
     AuctionCard,
+    BidCard,
     Modal,
     DogForm,
     AuctionForm
@@ -77,10 +103,14 @@ export default {
     ...mapGetters({
       userById: "users/byId",
       dogsByOwner: "dogs/byOwner",
-      auctionsByDog: "auctions/byDog"
+      auctionsByDog: "auctions/byDog",
+      bidsAll: "bids/all"
     }),
     user() {
       return this.userById(this.userId);
+    },
+    bids() {
+      return this.bidsAll;
     },
     dogs() {
       return this.dogsByOwner(this.userId);

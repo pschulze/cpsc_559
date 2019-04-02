@@ -67,14 +67,14 @@ public class DogController {
   public static Handler getOne = ctx -> {
     String name = ctx.queryParam("name");
     String breed = ctx.queryParam("breed");
-    Dog dog = dogDao.get(name, breed);
-    if (dog == null) {
+    List<Dog> dogs = dogDao.get(name, breed);
+    if (dogs.size() < 1) {
       Map<String, Object> message = new HashMap<>();
       message.put("status", 404);
-      message.put("details", "Dog not found for name " + name + "and breed" + breed);
+      message.put("details", "Dog not found for name " + name + " and breed " + breed);
       ctx.status(404).json(message);
     } else {
-      ctx.json(dog);
+      ctx.json(dogs);
     }
   };
 

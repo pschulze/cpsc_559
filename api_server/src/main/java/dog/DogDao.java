@@ -43,24 +43,63 @@ public class DogDao implements Dao<Dog, Integer> {
    * @param breed The breed of the Dog.
    * @return A Dog object corresponding to the database entry for the given name/breed.
    */
-  public Dog get(String name, String breed) {
-    Dog foundDog = null;
-    try (Connection connection = Database.getConnection();
-         PreparedStatement preparedStatement =
-                 connection.prepareStatement("SELECT * FROM dogs WHERE (name = ? OR ? IS NULL) AND (breed = ? OR ? IS NULL)");) {
-      preparedStatement.setString(1, name);
-      preparedStatement.setString(2, name);
-      preparedStatement.setString(3, breed);
-      preparedStatement.setString(4, breed);
-      ResultSet resultSet = preparedStatement.executeQuery();
+  public List<Dog> get(String name, String breed) {
+    List<Dog> foundDogs = new ArrayList<>();
 
-      if (resultSet.next()) {
-        foundDog = dogFromResultSet(resultSet);
-      }
-    } catch (SQLException e) {
-      System.out.println(e.getMessage());
+    if ((name == null || name == "") && (breed == null || breed == "")) {
+      return foundDogs;
     }
-    return foundDog;
+
+    else if((name != null && name != "") && (breed != null && breed != "")) {
+        try (Connection connection = Database.getConnection();
+             PreparedStatement preparedStatement =
+                     connection.prepareStatement("SELECT * FROM dogs WHERE (name = ? OR ? IS NULL) AND (breed = ? OR ? IS NULL)");) {
+          preparedStatement.setString(1, name);
+          preparedStatement.setString(2, name);
+          preparedStatement.setString(3, breed);
+          preparedStatement.setString(4, breed);
+          ResultSet resultSet = preparedStatement.executeQuery();
+
+          while(resultSet.next()) {
+            foundDogs.add(dogFromResultSet(resultSet));
+          }
+        } catch (SQLException e) {
+          System.out.println(e.getMessage());
+        }
+        return foundDogs;
+      }
+
+      else if((name != null && name != "") && (breed == null || breed == "")) {
+        try (Connection connection = Database.getConnection();
+             PreparedStatement preparedStatement =
+                     connection.prepareStatement("SELECT * FROM dogs WHERE name = ?");) {
+          preparedStatement.setString(1, name);
+          ResultSet resultSet = preparedStatement.executeQuery();
+
+          while(resultSet.next()) {
+            foundDogs.add(dogFromResultSet(resultSet));
+          }
+        } catch (SQLException e) {
+          System.out.println(e.getMessage());
+        }
+          return foundDogs;
+      }
+
+      else {
+        try (Connection connection = Database.getConnection();
+             PreparedStatement preparedStatement =
+                     connection.prepareStatement("SELECT * FROM dogs WHERE breed = ?");) {
+          preparedStatement.setString(1, breed);
+          ResultSet resultSet = preparedStatement.executeQuery();
+
+          while(resultSet.next()) {
+            foundDogs.add(dogFromResultSet(resultSet));
+          }
+          } catch (SQLException e) {
+          System.out.println(e.getMessage());
+          }
+          return foundDogs;
+      }
   }
 
   /**
@@ -125,7 +164,7 @@ public class DogDao implements Dao<Dog, Integer> {
       preparedStatement.setInt(3, dog.getAge());
       preparedStatement.setInt(4, dog.getOwnerId());
       preparedStatement.setInt(5, dog.getId());
-      preparedStatement.executeUpdate();
+      preparedStatement.execute();
       ResultSet resultSet = preparedStatement.getResultSet();
 
       if (resultSet.next()) {

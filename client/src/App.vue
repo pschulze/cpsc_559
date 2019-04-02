@@ -19,8 +19,10 @@
             <NavbarLink to="/" exact>Home</NavbarLink>
             <NavbarLink to="/auctions">Auctions</NavbarLink>
             <NavbarLink to="/dogs">Dogs</NavbarLink>
-            <NavbarLink to="/search">Search</NavbarLink>
           </ul>
+            <div style="margin: auto; width: 50%; ">
+              <portal-target name="searchbar" />
+            </div>
           <div class="d-flex">
             <NavbarStatus class="ml-3" />
             <NavbarAccount class="ml-3" />
@@ -52,18 +54,21 @@ import { mapState } from "vuex";
 import NavbarAccount from "@/components/NavbarAccount.vue";
 import NavbarStatus from "@/components/NavbarStatus.vue";
 import NavbarLink from "@/components/NavbarLink.vue";
+import SearchBar from "@/components/SearchBar.vue";
 
 export default {
   components: {
     NavbarAccount,
     NavbarStatus,
-    NavbarLink
+    NavbarLink,
+    SearchBar
   },
   data() {
     return {
       auctionsPolling: null,
       dogsPolling: null,
-      usersPolling: null
+      usersPolling: null,
+      searchResult: null
     };
   },
   computed: {

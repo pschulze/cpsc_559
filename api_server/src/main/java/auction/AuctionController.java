@@ -55,16 +55,14 @@ public class AuctionController {
 
   public static Handler getOne = ctx -> {
     String name = ctx.queryParam("name");
-    Auction auction = auctionDao.get(name);
-    if (auction == null) {
+    List<Auction> auctions = auctionDao.get(name);
+    if (auctions.size() < 1) {
       Map<String, Object> message = new HashMap<>();
       message.put("status", 404);
       message.put("details", "auction not found for name: " + name);
       ctx.status(404).json(message);
     } else {
-      Bid highestBid = getHighestBid(auction);
-      auction.setHighestBid(highestBid);
-      ctx.json(auction);
+      ctx.json(auctions);
     }
   };
 

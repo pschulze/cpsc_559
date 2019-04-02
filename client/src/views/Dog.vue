@@ -1,16 +1,21 @@
 <template>
   <div class="container">
     <h1>{{ dog.name }}</h1>
-    <h3>{{ dog.id }}</h3>
+    <img :src="dog.imageUrl" />
+    <h4>ID: {{ dog.id }}</h4>
+    <h4>Age: {{ dog.age }}</h4>
+    <h4>Breed: {{ dog.breed }}</h4>
     <AuctionCard v-if="auction" :auction="auction" />
     <UserCard :user="owner" sm />
-    <button v-if="loggedin && dog.ownerId === userId"
+    <button
+      v-if="loggedin && dog.ownerId === userId"
       type="button"
       class="btn btn-primary"
       @click.prevent="$refs.editDogModal.showModal"
     >
       Edit Dog
     </button>
+
     <portal to="modals">
       <Modal
         ref="editDogModal"
@@ -24,6 +29,19 @@
         />
       </Modal>
     </portal>
+
+    <Modal
+      ref="editDogModal"
+      title="Edit Dog"
+      @hide="$refs.editDogForm.reset()"
+    >
+      <DogForm
+        :dog="dog"
+        ref="editDogForm"
+        @submitSuccess="$refs.editDogModal.hideModal()"
+      />
+    </Modal>
+
   </div>
 </template>
 

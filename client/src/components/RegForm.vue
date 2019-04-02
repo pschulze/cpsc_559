@@ -10,6 +10,7 @@
         v-model="username"
         required
       />
+      <span id="errorMsg" style="color:red; display: none">Username already taken, please enter another Username.</span>
     </div>
     <button type="submit" class="btn btn-primary">
       {{ submitLabel }}
@@ -33,7 +34,7 @@ export default {
   },
   data() {
     return {
-      username: this.user ? Vue.util.extend({}, this.user.username) : null,
+      username: this.user ? Vue.util.extend({}, this.user.username) : null
     };
   },
   methods: {
@@ -61,8 +62,13 @@ export default {
       let saveAction;
       saveAction = this.createUser();
       saveAction.then(() => {
-        this.$emit("sumbitSuccess");
+        this.$emit("submitSuccess");
         this.reset();
+      })
+      .catch(error => {
+          console.log(error);
+          var x = document.getElementById("errorMsg");
+          x.style.display = "block";
       });
     }
   }
