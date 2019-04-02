@@ -36,13 +36,14 @@
             >More Information</router-link
           >
         </div>
-        <div class="card-footer text-muted">{{ auction.expirationTime }}</div>
+        <div class="card-footer text-muted">{{ endtimeString }}</div>
       </template>
     </template>
   </div>
 </template>
 
 <script>
+import Moment from "moment";
 import VueContentLoading from "vue-content-loading";
 
 export default {
@@ -60,6 +61,12 @@ export default {
       if (this.auction.highestBid && this.auction.highestBid.amount)
         return this.auction.highestBid.amount;
       else return this.auction.startPrice;
+    },
+    endtimeString() {
+      const now = Moment();
+      const endtime = Moment(this.auction.expirationTime);
+      if (now.diff(endtime) > 0) return "Ends " + endtime.toNow();
+      else return "Ended " + endtime.toNow();
     }
   }
 };
