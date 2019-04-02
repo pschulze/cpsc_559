@@ -1,18 +1,17 @@
 <template>
   <div class="container">
     <h1>Dogs List</h1>
-      <portal to="searchbar">
-        <SearchBar @searchResult="searchDogs= $event">
-        </SearchBar>
-      </portal>
+    <portal to="searchbar">
+      <SearchBar @searchResult="searchDogs = $event"> </SearchBar>
+    </portal>
     <CardList v-if="searchDogs" :items="searchDogs">
-        <template v-slot:loading>
-            <DogCard :outlineonly="true" />
-        </template>
-         <template v-slot:default="{ item }">
-            <DogCard :dog="item" />
-          </template>
-    </cardList>
+      <template v-slot:loading>
+        <DogCard :outlineonly="true" />
+      </template>
+      <template v-slot:default="{ item }">
+        <DogCard :dog="item" />
+      </template>
+    </CardList>
     <CardList v-else :items="dogs">
       <template v-slot:loading>
         <DogCard :outlineonly="true" />
@@ -38,11 +37,11 @@ export default {
     DogCard,
     SearchBar
   },
-    data() {
-      return {
-        searchDogs: null
-      };
-    },
+  data() {
+    return {
+      searchDogs: null
+    };
+  },
   computed: {
     ...mapGetters({
       dogs: "dogs/all"

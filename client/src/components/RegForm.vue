@@ -10,7 +10,9 @@
         v-model="username"
         required
       />
-      <span id="errorMsg" style="color:red; display: none">Username already taken, please enter another Username.</span>
+      <span id="errorMsg" style="color:red; display: none"
+        >Username already taken, please enter another Username.</span
+      >
     </div>
     <button type="submit" class="btn btn-primary">
       {{ submitLabel }}
@@ -39,7 +41,9 @@ export default {
   },
   methods: {
     reset() {
-      this.username = this.user ? Vue.util.extend({}, this.user.username) : null;
+      this.username = this.user
+        ? Vue.util.extend({}, this.user.username)
+        : null;
       this.$refs.form.classList.remove("was-validated");
     },
     checkForm(e) {
@@ -61,15 +65,16 @@ export default {
       if (!this.checkForm(e)) return;
       let saveAction;
       saveAction = this.createUser();
-      saveAction.then(() => {
-        this.$emit("submitSuccess");
-        this.reset();
-      })
-      .catch(error => {
+      saveAction
+        .then(() => {
+          this.$emit("submitSuccess");
+          this.reset();
+        })
+        .catch(error => {
           console.log(error);
           var x = document.getElementById("errorMsg");
           x.style.display = "block";
-      });
+        });
     }
   }
 };

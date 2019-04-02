@@ -41,7 +41,6 @@
         @submitSuccess="$refs.editDogModal.hideModal()"
       />
     </Modal>
-
   </div>
 </template>
 

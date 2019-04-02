@@ -43,7 +43,6 @@
         @submitSuccess="$refs.editAuctionModal.hideModal()"
       />
     </Modal>
-
   </div>
 </template>
 

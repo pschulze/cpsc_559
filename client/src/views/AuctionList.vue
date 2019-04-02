@@ -2,17 +2,16 @@
   <div class="container">
     <h1>Auction List</h1>
     <portal to="searchbar">
-        <SearchBar @searchResult="searchAuctions= $event">
-        </SearchBar>
-      </portal>
+      <SearchBar @searchResult="searchAuctions = $event"> </SearchBar>
+    </portal>
     <CardList v-if="searchAuctions" :items="searchAuctions">
-        <template v-slot:loading>
-            <DogCard :outlineonly="true" />
-        </template>
-         <template v-slot:default="{ item }">
-            <AuctionCard :auction="item" />
-          </template>
-    </cardList>
+      <template v-slot:loading>
+        <DogCard :outlineonly="true" />
+      </template>
+      <template v-slot:default="{ item }">
+        <AuctionCard :auction="item" />
+      </template>
+    </CardList>
     <CardList v-else :items="auctions">
       <template v-slot:loading>
         <AuctionCard :outlineonly="true" />
