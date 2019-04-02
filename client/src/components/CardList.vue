@@ -38,7 +38,9 @@ export default {
     masonryReflow() {
       // jQuery loaded from cdn in browser for Bootstrap
       // eslint-disable-next-line no-undef
-      $(this.$refs.ul).masonry("reloadItems").masonry("layout");
+      $(this.$refs.ul)
+        .masonry("reloadItems")
+        .masonry("layout");
     }
   },
   mounted() {

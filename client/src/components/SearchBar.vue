@@ -64,7 +64,7 @@ export default {
     };
   },
   watch: {
-    $route () {
+    $route() {
       this.reset();
     }
   },
@@ -101,8 +101,7 @@ export default {
         .catch(() => {});
     },
     searchAuction() {
-      if (!this.AuctionName)
-        return this.$emit("searchResult", null);
+      if (!this.AuctionName) return this.$emit("searchResult", null);
       this.$api.Auctions.search({ name: this.AuctionName })
         .then(auctions => {
           this.$emit("searchResult", auctions);
