@@ -13,14 +13,12 @@
       Add Dog
     </button>
 
-    <portal to="modals">
-      <Modal ref="addDogModal" title="Add Dog" @hide="$refs.addDogForm.reset()">
-        <DogForm
-          ref="addDogForm"
-          @submitSuccess="$refs.addDogModal.hideModal()"
-        />
-      </Modal>
-    </portal>
+    <Modal ref="addDogModal" title="Add Dog" @hide="$refs.addDogForm.reset()">
+      <DogForm
+        ref="addDogForm"
+        @submitSuccess="$refs.addDogModal.hideModal()"
+      />
+    </Modal>
 
     <hr />
     <h3>My Auctions</h3>
@@ -35,18 +33,16 @@
       Add Auction
     </button>
 
-    <portal to="modals">
-      <Modal
-        ref="addAuctionModal"
-        title="Add Auction"
-        @hide="$refs.addAuctionForm.reset()"
-      >
-        <AuctionForm
-          ref="addAuctionForm"
-          @submitSuccess="$refs.addAuctionModal.hideModal()"
-        />
-      </Modal>
-    </portal>
+    <Modal
+      ref="addAuctionModal"
+      title="Add Auction"
+      @hide="$refs.addAuctionForm.reset()"
+    >
+      <AuctionForm
+        ref="addAuctionForm"
+        @submitSuccess="$refs.addAuctionModal.hideModal()"
+      />
+    </Modal>
 
     <hr />
     <h3>My Bids</h3>
