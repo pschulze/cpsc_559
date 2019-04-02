@@ -2,7 +2,7 @@
   <div class="container">
     <div class="d-flex p-3 mx-auto flex-column text-center">
       <div class="inner cover">
-        <img alt="Vue logo" src="../assets/logo.png" />
+        <img alt="Vue logo" src="../assets/256px-Black_Paw.svg.png" />
         <h1 class="display-4">The Puppy Project</h1>
         <p class="lead">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed pretium
