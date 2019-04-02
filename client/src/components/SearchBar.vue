@@ -104,18 +104,20 @@ export default {
       return this.$api.Dogs.search({
         name: this.DogName,
         breed: this.DogBreed
-      }).then(dogs => {
-        this.$emit("searchResult", dogs);
-        this.reset();
-      });
+      })
+        .then(dogs => {
+          this.$emit("searchResult", dogs);
+          this.reset();
+        })
+        .catch(() => {});
     },
     searchAuction() {
-      return this.$api.Auctions.search({ name: this.AuctionName }).then(
-        auctions => {
+      return this.$api.Auctions.search({ name: this.AuctionName })
+        .then(auctions => {
           this.$emit("searchResult", auctions);
           this.reset();
-        }
-      );
+        })
+        .catch(() => {});
     }
   }
 };

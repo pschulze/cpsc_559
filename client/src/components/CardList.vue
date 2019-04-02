@@ -22,9 +22,15 @@ export default {
   },
   match: {
     items() {
-      // jQuery loaded from cdn in browser for Bootstrap
-      // eslint-disable-next-line no-undef
-      $(this.$refs.ul).masonry("reloadItems");
+      this.$nextTick(() => {
+        // jQuery loaded from cdn in browser for Bootstrap
+        // eslint-disable-next-line no-undef
+        $(this.$refs.ul).masonry({
+          itemSelector: ".masonry-item",
+          columnWidth: 270,
+          gutter: 10
+        });
+      });
     }
   },
   mounted() {
