@@ -41,7 +41,24 @@
           </button>
         </form>
         <div class="dropdown-divider"></div>
-        <a class="dropdown-item" href="#">New around here? Create an account</a>
+        <button
+          class="dropdown-item"
+          @click.prevent="$refs.regFormModal.showModal"
+        >
+          New around here? Create an account
+        </button>
+        <portal to="modals">
+          <Modal
+            ref="regFormModal"
+            title="Sign Up"
+            @hide="$refs.addRegForm.reset()"
+          >
+            <RegForm
+              ref="addRegForm"
+              @submitSuccess="$refs.regFormModal.hideModal()"
+            />
+          </Modal>
+        </portal>
       </template>
       <template v-else>
         <router-link
@@ -61,13 +78,20 @@
 
 <script>
 import { mapGetters, mapState } from "vuex";
+import Modal from "@/components/Modal.vue";
+import RegForm from "@/components/RegForm.vue";
 
 export default {
   name: "navbaraccount",
+  components: {
+    Modal,
+    RegForm
+  },
   data() {
     return {
       signinUsername: null,
-      loginError: null
+      loginError: null,
+      bidsPolling: null
     };
   },
   computed: {
@@ -85,6 +109,13 @@ export default {
         .then(() => {
           this.resetSigninForm();
           this.$router.push({ name: "account" });
+          this.$store.dispatch("bids/fetchAll");
+          this.bidsPolling = setInterval(
+            function() {
+              this.$store.dispatch("bids/fetchAll");
+            }.bind(this),
+            15000
+          );
         })
         .catch(error => {
           if (
@@ -106,6 +137,7 @@ export default {
       this.$store.dispatch("signout").then(() => {
         this.$router.push({ name: "home" });
       });
+      clearInterval(this.bidsPolling);
     }
   },
   mounted() {
