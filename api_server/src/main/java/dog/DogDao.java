@@ -131,11 +131,12 @@ public class DogDao implements Dao<Dog, Integer> {
 
     try (Connection connection = Database.getConnection();
         PreparedStatement preparedStatement =
-          connection.prepareStatement("INSERT INTO dogs (name, breed, age, owner_id) VALUES (?, ?, ?, ?) RETURNING *");) {
+          connection.prepareStatement("INSERT INTO dogs (name, breed, age, owner_id, image_url) VALUES (?, ?, ?, ?, ?) RETURNING *");) {
       preparedStatement.setString(1, dog.getName());
       preparedStatement.setString(2, dog.getBreed());
       preparedStatement.setInt(3, dog.getAge());
       preparedStatement.setInt(4, dog.getOwnerId());
+      preparedStatement.setString(5, dog.getImageUrl());
       preparedStatement.execute();
       ResultSet resultSet = preparedStatement.getResultSet();
 
@@ -158,12 +159,13 @@ public class DogDao implements Dao<Dog, Integer> {
 
     try (Connection connection = Database.getConnection();
         PreparedStatement preparedStatement =
-          connection.prepareStatement("UPDATE dogs SET name = ?, breed = ?, age = ?, owner_id = ? WHERE id = ? RETURNING *");) {
+          connection.prepareStatement("UPDATE dogs SET name = ?, breed = ?, age = ?, owner_id = ?, image_url = ? WHERE id = ? RETURNING *");) {
       preparedStatement.setString(1, dog.getName());
       preparedStatement.setString(2, dog.getBreed());
       preparedStatement.setInt(3, dog.getAge());
       preparedStatement.setInt(4, dog.getOwnerId());
-      preparedStatement.setInt(5, dog.getId());
+      preparedStatement.setString(5, dog.getImageUrl());
+      preparedStatement.setInt(6, dog.getId());
       preparedStatement.execute();
       ResultSet resultSet = preparedStatement.getResultSet();
 
