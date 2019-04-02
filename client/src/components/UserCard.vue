@@ -8,10 +8,9 @@
         </vue-content-loading>
       </div>
       <div v-else class="card-body">
-        <h5 class="card-title">{{ user.username }}</h5>
-        <router-link :to="{ name: 'user', params: { id: user.id } }"
-          >More Information</router-link
-        >
+        <router-link :to="{ name: 'user', params: { id: user.id } }">
+          <h5 class="card-title">{{ user.username }}</h5>
+        </router-link>
       </div>
     </template>
     <template v-else>
@@ -26,11 +25,9 @@
       </template>
       <template v-else>
         <div class="card-body">
-          <h5 class="card-title">{{ user.username }}</h5>
-          <h6 class="card-subtitle mb-2 text-muted">{{ user.breed }}</h6>
-          <router-link :to="{ name: 'user', params: { id: user.id } }"
-            >More Information</router-link
-          >
+          <router-link :to="{ name: 'user', params: { id: user.id } }">
+            <h5 class="card-title">{{ user.username }}</h5>
+          </router-link>
         </div>
       </template>
     </template>
@@ -56,6 +53,9 @@ export default {
 <style>
 .userCard {
   width: 265px;
+}
+.userCard a {
+  color: inherit;
 }
 svg.userCardBody {
   width: 124px;

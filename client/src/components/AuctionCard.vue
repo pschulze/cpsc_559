@@ -76,6 +76,9 @@ export default {
 .auctionCard {
   width: 265px;
 }
+.auctionCard a {
+  color: inherit;
+}
 svg.auctionCardBody {
   width: 124px;
   vertical-align: top;

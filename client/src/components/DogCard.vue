@@ -29,7 +29,7 @@
           v-if="dog.imageUrl"
           :src="dog.imageUrl"
           class="card-img-top"
-          alt="dog.name"
+          :alt="dog.name"
         />
         <div class="card-body">
           <router-link :to="{ name: 'dog', params: { id: dog.id } }">
@@ -80,6 +80,9 @@ export default {
 .dogCard img {
   min-height: 200px;
   max-height: 201px;
+}
+.dogCard a {
+  color: inherit;
 }
 .dogCard .card-footer a {
   color: #ffffff;

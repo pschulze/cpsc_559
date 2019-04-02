@@ -40,7 +40,11 @@ export default {
     setTimeout(() => {
       // jQuery loaded from cdn in browser for Bootstrap
       // eslint-disable-next-line no-undef
-      $(this.$refs.ul).masonry("reloadItems");
+      $(this.$refs.ul).masonry({
+        itemSelector: ".masonry-item",
+        columnWidth: 270,
+        gutter: 10
+      });
     }, 3000);
   },
   beforeDestroy() {

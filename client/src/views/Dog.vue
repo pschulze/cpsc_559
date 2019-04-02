@@ -1,31 +1,38 @@
 <template>
-  <div class="container">
-    <h1>{{ dog.name }}</h1>
-    <img :src="dog.imageUrl" />
-    <h4>ID: {{ dog.id }}</h4>
-    <h4>Age: {{ dog.age }}</h4>
-    <h4>Breed: {{ dog.breed }}</h4>
-    <AuctionCard v-if="auction" :auction="auction" />
-    <UserCard :user="owner" sm />
-    <button
-      v-if="loggedin && dog.ownerId === userId"
-      type="button"
-      class="btn btn-primary"
-      @click.prevent="$refs.editDogModal.showModal"
-    >
-      Edit Dog
-    </button>
-    <Modal
-      ref="editDogModal"
-      title="Edit Dog"
-      @hide="$refs.editDogForm.reset()"
-    >
-      <DogForm
-        :dog="dog"
-        ref="editDogForm"
-        @submitSuccess="$refs.editDogModal.hideModal()"
-      />
-    </Modal>
+  <div class="container d-flex justify-content-center text-center">
+    <div>
+      <h1>{{ dog.name }}</h1>
+      <img :src="dog.imageUrl" />
+      <h4>Age: {{ dog.age }}</h4>
+      <h4>Breed: {{ dog.breed }}</h4>
+      <div class="d-flex justify-content-center mt-3 text-left">
+        <AuctionCard v-if="auction" :auction="auction" />
+      </div>
+      <div class="d-flex justify-content-center mt-3 text-left">
+        <UserCard :user="owner" sm />
+      </div>
+      <div class="mb-3 mt-4 d-flex justify-content-center">
+        <button
+          v-if="loggedin && dog.ownerId === userId"
+          type="button"
+          class="btn btn-primary"
+          @click.prevent="$refs.editDogModal.showModal"
+        >
+          Edit Dog
+        </button>
+      </div>
+      <Modal
+        ref="editDogModal"
+        title="Edit Dog"
+        @hide="$refs.editDogForm.reset()"
+      >
+        <DogForm
+          :dog="dog"
+          ref="editDogForm"
+          @submitSuccess="$refs.editDogModal.hideModal()"
+        />
+      </Modal>
+    </div>
   </div>
 </template>
 
