@@ -54,6 +54,9 @@
         />
       </VueCtkDateTimePicker>
     </div>
+    <div v-if="error" class="alert alert-danger fade show" role="alert">
+      {{ error }}
+    </div>
     <button type="submit" class="btn btn-primary">
       {{ submitLabel }}
     </button>
@@ -97,7 +100,8 @@ export default {
       expirationTime: this.auction ? this.auction.expirationTime : null,
       startPrice: this.auction ? this.auction.startPrice : 0,
       name: this.auction ? this.auction.name : null,
-      completed: this.auction ? this.auction.completed : null
+      completed: this.auction ? this.auction.completed : null,
+      error: null
     };
   },
   computed: {
@@ -161,6 +165,7 @@ export default {
       });
     },
     onSubmit(e) {
+      this.error = null;
       if (!this.checkForm(e)) return;
       let saveAction;
       if (this.auction && this.auction.id) {
@@ -168,10 +173,20 @@ export default {
       } else {
         saveAction = this.createAuction();
       }
-      saveAction.then(() => {
-        this.$emit("submitSuccess");
-        this.reset();
-      });
+      saveAction
+        .then(() => {
+          this.$emit("submitSuccess");
+          this.reset();
+        })
+        .catch(error => {
+          if (
+            error.data &&
+            error.data.details &&
+            typeof error.data.details === "string"
+          )
+            this.error = error.data.details;
+          else this.error = error.msg;
+        });
     }
   }
 };

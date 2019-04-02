@@ -87,7 +87,11 @@ export default {
           this.$router.push({ name: "account" });
         })
         .catch(error => {
-          if (error.data && error.data.details)
+          if (
+            error.data &&
+            error.data.details &&
+            typeof error.data.details === "string"
+          )
             this.loginError = error.data.details;
           else this.loginError = error.msg;
         });

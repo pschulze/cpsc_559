@@ -21,6 +21,9 @@
     <button type="submit" class="btn btn-primary mb-2">
       {{ submitLabel }}
     </button>
+    <div v-if="error" class="alert alert-danger fade show" role="alert">
+      {{ error }}
+    </div>
   </form>
 </template>
 
@@ -41,7 +44,8 @@ export default {
   },
   data() {
     return {
-      amount: null
+      amount: null,
+      error: null
     };
   },
   computed: {
@@ -75,11 +79,22 @@ export default {
       });
     },
     onSubmit(e) {
+      this.error = null;
       if (!this.checkForm(e)) return;
-      this.createBid().then(() => {
-        this.$emit("sumbitSuccess");
-        this.reset();
-      });
+      this.createBid()
+        .then(() => {
+          this.$emit("sumbitSuccess");
+          this.reset();
+        })
+        .catch(error => {
+          if (
+            error.data &&
+            error.data.details &&
+            typeof error.data.details === "string"
+          )
+            this.error = error.data.details;
+          else this.error = error.msg;
+        });
     }
   }
 };
