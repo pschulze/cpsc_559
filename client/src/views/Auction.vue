@@ -1,36 +1,40 @@
 <template>
-  <div class="container">
-    <h1>{{ auction.name }}</h1>
-    <h3>{{ auction.id }}</h3>
-    <BidForm :auction="auction" />
-    <p>
-      Dog:
-      <router-link :to="{ name: 'dog', params: { id: dog.id } }">{{
-        dog.name
-      }}</router-link>
-    </p>
-    <button
-      v-if="loggedin && dog.ownerId === userId"
-      type="button"
-      class="btn btn-primary"
-      @click.prevent="$refs.editAuctionModal.showModal"
-    >
-      Edit Auction
-    </button>
-
-    <portal to="modals">
-      <Modal
-        ref="editAuctionModal"
-        title="Edit Auction"
-        @hide="$refs.editAuctionForm.reset()"
-      >
-        <AuctionForm
-          :auction="auction"
-          ref="editAuctionForm"
-          @submitSuccess="$refs.editAuctionModal.hideModal()"
-        />
-      </Modal>
-    </portal>
+  <div class="container d-flex justify-content-center text-center">
+    <div>
+      <h1>{{ auction.name }}</h1>
+      <h3>${{ currentAmount }}</h3>
+      <p>{{ endtimeString }}</p>
+      <div class="d-flex justify-content-center">
+        <BidForm :auction="auction" />
+      </div>
+      <router-link :to="{ name: 'dog', params: { id: dog.id } }">
+        <h2 class="mt-3">{{ dog.name }}</h2>
+      </router-link>
+      <img :src="dog.imageUrl" />
+      <div class="mb-3 mt-4 d-flex justify-content-center">
+        <button
+          v-if="loggedin && dog.ownerId === userId"
+          type="button"
+          class="btn btn-primary"
+          @click.prevent="$refs.editAuctionModal.showModal"
+        >
+          Edit Auction
+        </button>
+      </div>
+			<portal to="modals">
+				<Modal
+					ref="editAuctionModal"
+					title="Edit Auction"
+					@hide="$refs.editAuctionForm.reset()"
+				>
+					<AuctionForm
+						:auction="auction"
+						ref="editAuctionForm"
+						@submitSuccess="$refs.editAuctionModal.hideModal()"
+					/>
+				</Modal>
+			</portal>
+    </div>
   </div>
 </template>
 
@@ -69,11 +73,18 @@ export default {
       else return this.auction.startPrice;
     },
     endtimeString() {
+      if (!this.auction.expirationTime) return "Endtimes unavailable offline";
       const now = Moment();
       const endtime = Moment(this.auction.expirationTime);
-      if (now.diff(endtime) > 0) return "Ends " + endtime.toNow();
-      else return "Ended " + endtime.toNow();
+      if (now.diff(endtime) > 0) return "Ended " + endtime.fromNow();
+      else return "Ends " + endtime.fromNow();
     }
   }
 };
 </script>
+
+<style scopped>
+a {
+  color: inherit;
+}
+</style>

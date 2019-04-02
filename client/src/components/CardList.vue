@@ -1,12 +1,12 @@
 <template>
-  <ul class="row flex-wrap justify-content-around justify-content-md-start">
+  <ul ref="ul">
     <template v-if="loading">
-      <li class="col-auto my-2">
+      <li class="masonry-item my-2">
         <slot name="loading"></slot>
       </li>
     </template>
     <template v-else>
-      <li class="col-auto my-2" v-for="item in items" :key="item.id">
+      <li class="masonry-item my-2" v-for="item in items" :key="item.id">
         <slot :item="item"></slot>
       </li>
     </template>
@@ -19,6 +19,38 @@ export default {
   props: {
     loading: Boolean,
     items: Array
+  },
+  match: {
+    items() {
+      // jQuery loaded from cdn in browser for Bootstrap
+      // eslint-disable-next-line no-undef
+      $(this.$refs.ul).masonry("reloadItems");
+    }
+  },
+  mounted() {
+    this.$nextTick(() => {
+      // jQuery loaded from cdn in browser for Bootstrap
+      // eslint-disable-next-line no-undef
+      $(this.$refs.ul).masonry({
+        itemSelector: ".masonry-item",
+        columnWidth: 270,
+        gutter: 10
+      });
+    });
+    setTimeout(() => {
+      // jQuery loaded from cdn in browser for Bootstrap
+      // eslint-disable-next-line no-undef
+      $(this.$refs.ul).masonry({
+        itemSelector: ".masonry-item",
+        columnWidth: 270,
+        gutter: 10
+      });
+    }, 3000);
+  },
+  beforeDestroy() {
+    // jQuery loaded from cdn in browser for Bootstrap
+    // eslint-disable-next-line no-undef
+    $(this.$refs.ul).masonry("destroy");
   }
 };
 </script>
