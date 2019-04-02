@@ -17,7 +17,7 @@
       <Modal ref="addDogModal" title="Add Dog" @hide="$refs.addDogForm.reset()">
         <DogForm
           ref="addDogForm"
-          @sumbitSuccess="$refs.addDogModal.hideModal()"
+          @submitSuccess="$refs.addDogModal.hideModal()"
         />
       </Modal>
     </portal>
@@ -43,7 +43,7 @@
       >
         <AuctionForm
           ref="addAuctionForm"
-          @sumbitSuccess="$refs.addAuctionModal.hideModal()"
+          @submitSuccess="$refs.addAuctionModal.hideModal()"
         />
       </Modal>
     </portal>
