@@ -31,18 +31,6 @@
         />
       </Modal>
     </portal>
-
-    <Modal
-      ref="editAuctionModal"
-      title="Edit Auction"
-      @hide="$refs.editAuctionForm.reset()"
-    >
-      <AuctionForm
-        :auction="auction"
-        ref="editAuctionForm"
-        @submitSuccess="$refs.editAuctionModal.hideModal()"
-      />
-    </Modal>
   </div>
 </template>
 

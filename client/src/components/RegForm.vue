@@ -1,5 +1,5 @@
 <template>
-  <form ref="form" @submit="onSubmit" novalidate>
+  <form ref="form" @submit.prevent="onSubmit" novalidate>
     <div class="form-group">
       <label for="regFormUser">Username</label>
       <input
@@ -21,8 +21,6 @@
 </template>
 
 <script>
-import Vue from "vue";
-
 export default {
   name: "RegForm",
   props: {
@@ -36,14 +34,12 @@ export default {
   },
   data() {
     return {
-      username: this.user ? Vue.util.extend({}, this.user.username) : null
+      username: this.user ? this.user.username : null
     };
   },
   methods: {
     reset() {
-      this.username = this.user
-        ? Vue.util.extend({}, this.user.username)
-        : null;
+      this.username = this.user ? this.user.username : null;
       this.$refs.form.classList.remove("was-validated");
     },
     checkForm(e) {

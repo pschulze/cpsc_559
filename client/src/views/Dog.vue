@@ -29,18 +29,6 @@
         />
       </Modal>
     </portal>
-
-    <Modal
-      ref="editDogModal"
-      title="Edit Dog"
-      @hide="$refs.editDogForm.reset()"
-    >
-      <DogForm
-        :dog="dog"
-        ref="editDogForm"
-        @submitSuccess="$refs.editDogModal.hideModal()"
-      />
-    </Modal>
   </div>
 </template>
 

@@ -5,9 +5,6 @@
       <SearchBar @searchResult="searchDogs = $event"> </SearchBar>
     </portal>
     <CardList v-if="searchDogs" :items="searchDogs">
-      <template v-slot:loading>
-        <DogCard :outlineonly="true" />
-      </template>
       <template v-slot:default="{ item }">
         <DogCard :dog="item" />
       </template>
