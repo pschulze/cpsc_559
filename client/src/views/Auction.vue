@@ -65,15 +65,20 @@ export default {
   computed: {
     ...mapState(["userId"]),
     ...mapGetters({
-      auctionById: "auctions/byId",
+      auctionById: "auctions/active/byId",
       dogById: "dogs/byId",
       loggedin: "loggedin"
     }),
     auction() {
-      return this.auctionById(this.$route.params.id);
+      return this.auctionById(Number(this.$route.params.id));
     },
     dog() {
       return this.dogById(this.auction.dogId);
+    },
+    currentAmount() {
+      if (this.auction.highestBid && this.auction.highestBid.amount)
+        return this.auction.highestBid.amount;
+      else return this.auction.startPrice;
     }
   }
 };

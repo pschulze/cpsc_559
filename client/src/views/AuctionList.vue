@@ -45,7 +45,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      auctions: "auctions/all"
+      auctions: "auctions/active/all"
     })
   }
 };

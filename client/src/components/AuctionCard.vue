@@ -31,9 +31,7 @@
       <template v-else>
         <div class="card-body">
           <h5 class="card-title">{{ auction.name }}</h5>
-          <h6 class="card-subtitle mb-2 text-muted">
-            ${{ auction.startPrice }}
-          </h6>
+          <h6 class="card-subtitle mb-2 text-muted">${{ currentAmount }}</h6>
           <router-link :to="{ name: 'auction', params: { id: auction.id } }"
             >More Information</router-link
           >
@@ -56,6 +54,13 @@ export default {
     auction: Object,
     outlineonly: Boolean,
     sm: Boolean
+  },
+  computed: {
+    currentAmount() {
+      if (this.auction.highestBid && this.auction.highestBid.amount)
+        return this.auction.highestBid.amount;
+      else return this.auction.startPrice;
+    }
   }
 };
 </script>

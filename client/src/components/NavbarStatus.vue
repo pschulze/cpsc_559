@@ -45,6 +45,12 @@ export default {
         this.refreshing = false;
       }, 3000);
     }
+  },
+  mounted() {
+    if (!this.apiAvailable)
+      // jQuery loaded from cdn in browser for Bootstrap
+      // eslint-disable-next-line no-undef
+      this.$nextTick(() => $(this.$refs.tooltip).tooltip());
   }
 };
 </script>

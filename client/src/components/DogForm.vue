@@ -1,5 +1,5 @@
 <template>
-  <form ref="form" @submit="onSubmit" novalidate>
+  <form ref="form" @submit.prevent="onSubmit" novalidate>
     <div class="form-group">
       <label for="dogFormName">Name</label>
       <input
@@ -43,8 +43,10 @@
         id="dogFormImageUrl"
         placeholder="url"
         v-model="imageUrl"
-        required
       />
+    </div>
+    <div v-if="error" class="alert alert-danger fade show" role="alert">
+      {{ error }}
     </div>
     <button type="submit" class="btn btn-primary">
       {{ submitLabel }}
@@ -74,7 +76,8 @@ export default {
       name: this.dog ? this.dog.name : null,
       breed: this.dog ? this.dog.breed : null,
       age: this.dog ? this.dog.age : 0,
-      imageUrl: this.dog ? this.dog.imageUrl : null
+      imageUrl: this.dog ? this.dog.imageUrl : null,
+      error: null
     };
   },
   methods: {
@@ -114,6 +117,7 @@ export default {
       });
     },
     onSubmit(e) {
+      this.error = null;
       if (!this.checkForm(e)) return;
       let saveAction;
       if (this.dog && this.dog.id) {
@@ -121,10 +125,26 @@ export default {
       } else {
         saveAction = this.createDog();
       }
-      saveAction.then(() => {
-        this.$emit("submitSuccess");
-        this.reset();
-      });
+      saveAction
+        .then(() => {
+          this.$emit("submitSuccess");
+          this.reset();
+        })
+        .catch(error => {
+          if (
+            error.data &&
+            error.data.details &&
+            typeof error.data.details === "string"
+          )
+            this.error = error.data.details;
+          else if (
+            error.data &&
+            error.data.errors &&
+            typeof error.data.errors[0] === "string"
+          )
+            this.error = error.data.errors[0];
+          else this.error = error.msg;
+        });
     }
   }
 };

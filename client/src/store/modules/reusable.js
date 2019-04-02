@@ -36,36 +36,31 @@ export const List = {
   },
 
   mutations: {
-    add(state, item) {
-      const key = keyForItem(item);
-      Vue.set(state.items, key, item);
-      state.ids.push(item.id);
-    },
-    set(state, item) {
-      const key = keyForItem(item);
-      Vue.set(state.items, key, item);
-    },
     updateOrCreate(state, item) {
       const key = keyForItem(item);
       Vue.set(state.items, key, item);
       if (state.ids.indexOf(item.id) === -1) state.ids.push(item.id);
     },
+    batchUpdateOrCreate(state, items) {
+      for (let i = 0; i < items.length; i++)
+        List.mutations.updateOrCreate(state, items[i]);
+    },
+    remove(state, id) {
+      if (state.ids.indexOf(id) === -1) return;
+      const index = state.ids.indexOf(id);
+      Vue.delete(state.ids, index);
+      const key = keyForItem({ id });
+      Vue.delete(state.items, key);
+    },
+    batchRemove(state, ids) {
+      for (let i = 0; i < ids.length; i++) List.mutations.remove(state, ids[i]);
+    },
     synchronize(state, items) {
       const toRemove = differenceWith(state.ids, items, (id, item) => {
         return id === item.id;
       });
-      for (let i = 0; i < toRemove.length; i++) {
-        const index = state.ids.indexOf(toRemove[i]);
-        Vue.delete(state.ids, index);
-        const key = keyForItem({ id: toRemove[i] });
-        Vue.delete(state.items, key);
-      }
-      for (let i = 0; i < items.length; i++) {
-        const item = items[i];
-        const key = keyForItem(item);
-        Vue.set(state.items, key, item);
-        if (state.ids.indexOf(item.id) === -1) state.ids.push(item.id);
-      }
+      List.mutations.batchRemove(state, toRemove);
+      List.mutations.batchUpdateOrCreate(state, items);
     }
   }
 };
