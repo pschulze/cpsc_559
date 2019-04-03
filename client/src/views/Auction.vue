@@ -2,12 +2,17 @@
   <div class="container d-flex justify-content-center text-center">
     <div>
       <h1>{{ auction.name }}</h1>
-      <h3>${{ currentAmount }}</h3>
-      <p>{{ endtimeString }}</p>
-      <div class="d-flex justify-content-center">
-        <BidForm v-if="loggedin" :auction="auction" />
-        <p v-else>Please login to place bids</p>
-      </div>
+      <template v-if="apiAvailable">
+        <h3>${{ currentAmount }}</h3>
+        <p>{{ endtimeString }}</p>
+        <div class="d-flex justify-content-center">
+          <BidForm v-if="loggedin" :auction="auction" />
+          <p v-else>Please login to place bids</p>
+        </div>
+      </template>
+      <template v-else>
+        <p>Auction information unavailable offline</p>
+      </template>
       <router-link :to="{ name: 'dog', params: { id: dog.id } }">
         <h2 class="mt-3">{{ dog.name }}</h2>
       </router-link>
@@ -54,7 +59,7 @@ export default {
     AuctionForm
   },
   computed: {
-    ...mapState(["userId"]),
+    ...mapState(["userId", "apiAvailable"]),
     ...mapGetters({
       auctionById: "auctions/active/byId",
       dogById: "dogs/byId",
