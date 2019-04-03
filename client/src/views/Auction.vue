@@ -5,7 +5,8 @@
       <h3>${{ currentAmount }}</h3>
       <p>{{ endtimeString }}</p>
       <div class="d-flex justify-content-center">
-        <BidForm :auction="auction" />
+        <BidForm v-if="loggedin" :auction="auction" />
+        <p v-else>Please login to place bids</p>
       </div>
       <router-link :to="{ name: 'dog', params: { id: dog.id } }">
         <h2 class="mt-3">{{ dog.name }}</h2>
