@@ -36,6 +36,8 @@ export default {
       // jQuery loaded from cdn in browser for Bootstrap
       // eslint-disable-next-line no-undef
       if (!available) this.$nextTick(() => $(this.$refs.tooltip).tooltip());
+      // eslint-disable-next-line no-undef
+      else $(this.$refs.tooltip).tooltip('hide');
     }
   },
   methods: {
