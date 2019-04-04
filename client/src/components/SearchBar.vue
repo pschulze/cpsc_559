@@ -97,10 +97,9 @@ export default {
       }
     },
     searchDog() {
-      if (!this.DogName && !this.DogBreed) {
-        this.reset();
+      this.error = null;
+      if (!this.DogName && !this.DogBreed)
         return this.$emit("searchResult", null);
-      }
       this.$api.Dogs.search({
         name: this.DogName,
         breed: this.DogBreed
@@ -125,10 +124,8 @@ export default {
         });
     },
     searchAuction() {
-      if (!this.AuctionName) {
-        this.reset();
-        return this.$emit("searchResult", null);
-      }
+      this.error = null;
+      if (!this.AuctionName) return this.$emit("searchResult", null);
       this.$api.Auctions.search({ name: this.AuctionName })
         .then(auctions => {
           this.$emit("searchResult", auctions);

@@ -37,7 +37,7 @@ export default {
       // eslint-disable-next-line no-undef
       if (!available) this.$nextTick(() => $(this.$refs.tooltip).tooltip());
       // eslint-disable-next-line no-undef
-      else $(this.$refs.tooltip).tooltip('hide');
+      else $(this.$refs.tooltip).tooltip("hide");
     }
   },
   methods: {
