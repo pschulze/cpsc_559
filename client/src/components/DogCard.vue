@@ -1,66 +1,33 @@
 <template>
   <div class="card dogCard">
-    <template v-if="sm">
-      <div v-if="outlineonly" class="card-body">
-        <vue-content-loading :width="124" :height="60" class="dogCardBody">
-          <rect x="0" y="0" rx="4" ry="4" width="80" height="24" />
-          <rect x="0" y="36" rx="4" ry="4" width="124" height="21" />
-        </vue-content-loading>
-      </div>
-      <div v-else class="card-body">
+    <img
+      v-if="dog.imageUrl"
+      :src="dog.imageUrl"
+      class="card-img-top"
+      :alt="dog.name"
+    />
+    <div class="card-body">
+      <router-link :to="{ name: 'dog', params: { id: dog.id } }">
         <h5 class="card-title">{{ dog.name }}</h5>
-        <router-link :to="{ name: 'dog', params: { id: dog.id } }"
-          >More Information</router-link
-        >
-      </div>
-    </template>
-    <template v-else>
-      <template v-if="outlineonly">
-        <div class="card-body">
-          <vue-content-loading :width="124" :height="81" class="dogCardBody">
-            <rect x="0" y="0" rx="4" ry="4" width="80" height="24" />
-            <rect x="0" y="32" rx="4" ry="4" width="70" height="19" />
-            <rect x="0" y="63" rx="4" ry="4" width="124" height="21" />
-          </vue-content-loading>
-        </div>
-      </template>
-      <template v-else>
-        <img
-          v-if="dog.imageUrl"
-          :src="dog.imageUrl"
-          class="card-img-top"
-          :alt="dog.name"
-        />
-        <div class="card-body">
-          <router-link :to="{ name: 'dog', params: { id: dog.id } }">
-            <h5 class="card-title">{{ dog.name }}</h5>
-          </router-link>
-          <h6 class="card-subtitle mb-2 text-muted">{{ dog.breed }}</h6>
-        </div>
-        <div class="card-footer text-white bg-info" v-if="auction">
-          <router-link :to="{ name: 'auction', params: { id: auction.id } }">
-            {{ auction.name }}
-          </router-link>
-        </div>
-      </template>
-    </template>
+      </router-link>
+      <h6 class="card-subtitle mb-2 text-muted">{{ dog.breed }}</h6>
+    </div>
+    <div class="card-footer text-white bg-info" v-if="auction">
+      <router-link :to="{ name: 'auction', params: { id: auction.id } }">
+        {{ auction.name }}
+      </router-link>
+    </div>
   </div>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
 import head from "lodash/head";
-import VueContentLoading from "vue-content-loading";
 
 export default {
   name: "DogCard",
-  components: {
-    VueContentLoading
-  },
   props: {
-    dog: Object,
-    outlineonly: Boolean,
-    sm: Boolean
+    dog: Object
   },
   computed: {
     ...mapGetters({
@@ -86,9 +53,5 @@ export default {
 }
 .dogCard .card-footer a {
   color: #ffffff;
-}
-svg.dogCardBody {
-  width: 124px;
-  vertical-align: top;
 }
 </style>

@@ -9,7 +9,7 @@
         <AuctionCard v-if="auction" :auction="auction" />
       </div>
       <div class="d-flex justify-content-center mt-3 text-left">
-        <UserCard :user="owner" sm />
+        <UserCard :user="owner" />
       </div>
       <div class="mb-3 mt-4 d-flex justify-content-center">
         <button
