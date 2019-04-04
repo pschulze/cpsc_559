@@ -1,15 +1,8 @@
 <template>
   <ul ref="ul">
-    <template v-if="loading">
-      <li class="masonry-item my-2">
-        <slot name="loading"></slot>
-      </li>
-    </template>
-    <template v-else>
-      <li class="masonry-item my-2" v-for="item in items" :key="item.id">
-        <slot :item="item"></slot>
-      </li>
-    </template>
+    <li class="masonry-item my-2" v-for="item in items" :key="item.id">
+      <slot :item="item"></slot>
+    </li>
   </ul>
 </template>
 
@@ -17,7 +10,6 @@
 export default {
   name: "cardlist",
   props: {
-    loading: Boolean,
     items: Array
   },
   methods: {

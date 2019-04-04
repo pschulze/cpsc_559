@@ -10,9 +10,6 @@
       </template>
     </CardList>
     <CardList v-else :items="dogs">
-      <template v-slot:loading>
-        <DogCard :outlineonly="true" />
-      </template>
       <template v-slot:default="{ item }">
         <DogCard :dog="item" />
       </template>

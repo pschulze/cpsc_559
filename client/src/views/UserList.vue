@@ -2,9 +2,6 @@
   <div class="container">
     <h1>Users List</h1>
     <CardList :items="users">
-      <template v-slot:loading>
-        <UserCard :outlineonly="true" />
-      </template>
       <template v-slot:default="{ item }">
         <UserCard :user="item" />
       </template>

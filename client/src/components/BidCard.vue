@@ -17,9 +17,7 @@ import { mapGetters } from "vuex";
 export default {
   name: "BidCard",
   props: {
-    bid: Object,
-    outlineonly: Boolean,
-    sm: Boolean
+    bid: Object
   },
   computed: {
     ...mapGetters({
@@ -39,9 +37,5 @@ export default {
 <style>
 .bidCard {
   width: 265px;
-}
-svg.bidCardBody {
-  width: 124px;
-  vertical-align: top;
 }
 </style>

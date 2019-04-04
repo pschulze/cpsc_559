@@ -10,9 +10,6 @@
       </template>
     </CardList>
     <CardList v-else :items="auctions">
-      <template v-slot:loading>
-        <AuctionCard :outlineonly="true" />
-      </template>
       <template v-slot:default="{ item }">
         <AuctionCard :auction="item" />
       </template>
