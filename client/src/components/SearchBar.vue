@@ -25,6 +25,9 @@
             {{ submitLabel }}
           </button>
         </div>
+        <div v-if="error" class="alert alert-danger fade show" role="alert">
+          {{ error }}
+        </div>
       </form>
     </template>
     <template v-else-if="auctionsPage()">
@@ -41,6 +44,9 @@
           <button type="submit" class="btn btn-primary">
             {{ submitLabel }}
           </button>
+        </div>
+        <div v-if="error" class="alert alert-danger fade show" role="alert">
+          {{ error }}
         </div>
       </form>
     </template>
@@ -60,14 +66,21 @@ export default {
     return {
       DogName: null,
       DogBreed: null,
-      AuctionName: null
+      AuctionName: null,
+      error: null
     };
+  },
+  watch: {
+    $route() {
+      this.reset();
+    }
   },
   methods: {
     reset() {
       this.DogName = null;
       this.DogBreed = null;
       this.AuctionName = null;
+      this.error = null;
     },
     dogsPage() {
       if (this.$route.path == "/dogs") {
@@ -83,29 +96,65 @@ export default {
         return false;
       }
     },
-    searchDog(e) {
-      e.preventDefault();
-      e.stopPropagation();
+    searchDog() {
+      if (!this.DogName && !this.DogBreed) {
+        this.reset();
+        return this.$emit("searchResult", null);
+      }
       this.$api.Dogs.search({
         name: this.DogName,
         breed: this.DogBreed
       })
         .then(dogs => {
           this.$emit("searchResult", dogs);
-          this.reset();
         })
-        .catch(() => {});
+        .catch(error => {
+          if (
+            error.data &&
+            error.data.details &&
+            typeof error.data.details === "string"
+          )
+            this.error = error.data.details;
+          else if (
+            error.data &&
+            error.data.errors &&
+            typeof error.data.errors[0] === "string"
+          )
+            this.error = error.data.errors[0];
+          else this.error = error.msg;
+        });
     },
-    searchAuction(e) {
-      e.preventDefault();
-      e.stopPropagation();
+    searchAuction() {
+      if (!this.AuctionName) {
+        this.reset();
+        return this.$emit("searchResult", null);
+      }
       this.$api.Auctions.search({ name: this.AuctionName })
         .then(auctions => {
           this.$emit("searchResult", auctions);
-          this.reset();
         })
-        .catch(() => {});
+        .catch(error => {
+          if (
+            error.data &&
+            error.data.details &&
+            typeof error.data.details === "string"
+          )
+            this.error = error.data.details;
+          else if (
+            error.data &&
+            error.data.errors &&
+            typeof error.data.errors[0] === "string"
+          )
+            this.error = error.data.errors[0];
+          else this.error = error.msg;
+        });
     }
   }
 };
 </script>
+
+<style scopped>
+.alert {
+  position: absolute;
+}
+</style>

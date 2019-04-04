@@ -20,43 +20,37 @@ export default {
     loading: Boolean,
     items: Array
   },
-  match: {
-    items() {
-      this.$nextTick(() => {
-        // jQuery loaded from cdn in browser for Bootstrap
-        // eslint-disable-next-line no-undef
-        $(this.$refs.ul).masonry({
-          itemSelector: ".masonry-item",
-          columnWidth: 270,
-          gutter: 10
-        });
+  methods: {
+    masonryInit() {
+      // jQuery loaded from cdn in browser for Bootstrap
+      // eslint-disable-next-line no-undef
+      $(this.$refs.ul).masonry({
+        itemSelector: ".masonry-item",
+        columnWidth: 270,
+        gutter: 10
       });
+    },
+    masonryDestroy() {
+      // jQuery loaded from cdn in browser for Bootstrap
+      // eslint-disable-next-line no-undef
+      $(this.$refs.ul).masonry("destroy");
+    },
+    masonryReflow() {
+      // jQuery loaded from cdn in browser for Bootstrap
+      // eslint-disable-next-line no-undef
+      $(this.$refs.ul)
+        .masonry("reloadItems")
+        .masonry("layout");
     }
   },
   mounted() {
-    this.$nextTick(() => {
-      // jQuery loaded from cdn in browser for Bootstrap
-      // eslint-disable-next-line no-undef
-      $(this.$refs.ul).masonry({
-        itemSelector: ".masonry-item",
-        columnWidth: 270,
-        gutter: 10
-      });
-    });
-    setTimeout(() => {
-      // jQuery loaded from cdn in browser for Bootstrap
-      // eslint-disable-next-line no-undef
-      $(this.$refs.ul).masonry({
-        itemSelector: ".masonry-item",
-        columnWidth: 270,
-        gutter: 10
-      });
-    }, 3000);
+    this.masonryInit();
+  },
+  updated() {
+    this.masonryReflow();
   },
   beforeDestroy() {
-    // jQuery loaded from cdn in browser for Bootstrap
-    // eslint-disable-next-line no-undef
-    $(this.$refs.ul).masonry("destroy");
+    this.masonryDestroy();
   }
 };
 </script>
