@@ -16,13 +16,16 @@
           v-model="amount"
           required
         />
+        <div v-if="amountError" class="invalid-feedback">
+          {{ amountError }}
+        </div>
       </div>
     </div>
     <button type="submit" class="btn btn-primary mb-2">
       {{ submitLabel }}
     </button>
-    <div v-if="error" class="alert alert-danger fade show" role="alert">
-      {{ error }}
+    <div v-if="serverError" class="alert alert-danger fade show" role="alert">
+      {{ serverError }}
     </div>
   </form>
 </template>
@@ -35,7 +38,8 @@ export default {
   props: {
     auction: {
       id: Number,
-      startPrice: Number
+      startPrice: Number,
+      highestBid: Object
     },
     submitLabel: {
       type: String,
@@ -45,7 +49,8 @@ export default {
   data() {
     return {
       amount: null,
-      error: null
+      amountError: null,
+      serverError: null
     };
   },
   computed: {
@@ -61,12 +66,12 @@ export default {
       this.amount = null;
       this.$refs.form.classList.remove("was-validated");
     },
-    checkForm(e) {
+    checkForm() {
       // Do bootstrap's form validation
       if (this.$refs.form.checkValidity() === false) {
         this.$refs.form.classList.add("was-validated");
-        e.preventDefault();
-        e.stopPropagation();
+        if (this.amount < this.minimumBid)
+          this.amountError = "Minimum bid is $" + this.minimumBid;
         return false;
       }
       return true;
@@ -79,7 +84,7 @@ export default {
       });
     },
     onSubmit(e) {
-      this.error = null;
+      this.serverError = null;
       if (!this.checkForm(e)) return;
       this.createBid()
         .then(() => {
@@ -92,14 +97,14 @@ export default {
             error.data.details &&
             typeof error.data.details === "string"
           )
-            this.error = error.data.details;
+            this.serverError = error.data.details;
           else if (
             error.data &&
             error.data.errors &&
             typeof error.data.errors[0] === "string"
           )
-            this.error = error.data.errors[0];
-          else this.error = error.msg;
+            this.serverError = error.data.errors[0];
+          else this.serverError = error.msg;
         });
     }
   }
