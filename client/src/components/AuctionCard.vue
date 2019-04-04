@@ -33,10 +33,14 @@
           <router-link :to="{ name: 'auction', params: { id: auction.id } }">
             <h5 class="card-title">{{ auction.name }}</h5>
           </router-link>
-          <h6 v-if="currentAmount" class="card-subtitle mb-2 text-muted">${{ currentAmount }}</h6>
+          <h6 v-if="currentAmount" class="card-subtitle mb-2 text-muted">
+            ${{ currentAmount }}
+          </h6>
           <p v-if="!apiAvailable">Information Unavailable Offline</p>
         </div>
-        <div v-if="apiAvailable" class="card-footer text-muted">{{ endtimeString }}</div>
+        <div v-if="apiAvailable" class="card-footer text-muted">
+          {{ endtimeString }}
+        </div>
       </template>
     </template>
   </div>
@@ -45,7 +49,7 @@
 <script>
 import Moment from "moment";
 import VueContentLoading from "vue-content-loading";
-import { mapGetters, mapState } from "vuex";
+import { mapState } from "vuex";
 
 export default {
   name: "AuctionCard",
