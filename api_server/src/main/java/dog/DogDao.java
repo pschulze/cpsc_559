@@ -59,7 +59,6 @@ public class DogDao implements Dao<Dog, Integer> {
           preparedStatement.setString(3, "%"+breed+"%");
           preparedStatement.setString(4, breed);
           ResultSet resultSet = preparedStatement.executeQuery();
-          System.out.println(preparedStatement);
 
           while(resultSet.next()) {
             foundDogs.add(dogFromResultSet(resultSet));
