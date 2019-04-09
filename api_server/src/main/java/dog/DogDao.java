@@ -53,7 +53,7 @@ public class DogDao implements Dao<Dog, Integer> {
     else if((name != null && name != "") && (breed != null && breed != "")) {
         try (Connection connection = Database.getConnection();
              PreparedStatement preparedStatement =
-                     connection.prepareStatement("SELECT * FROM dogs WHERE (name LIKE ? OR ? IS NULL) AND (breed LIKE ? OR ? IS NULL)");) {
+                     connection.prepareStatement("SELECT * FROM dogs WHERE (UPPER(name) LIKE UPPER(?) OR ? IS NULL) AND (UPPER(breed) LIKE UPPER(?) OR ? IS NULL)");) {
           preparedStatement.setString(1, "%"+name+"%");
           preparedStatement.setString(2, name);
           preparedStatement.setString(3, "%"+breed+"%");
@@ -72,7 +72,7 @@ public class DogDao implements Dao<Dog, Integer> {
       else if((name != null && name != "") && (breed == null || breed == "")) {
         try (Connection connection = Database.getConnection();
              PreparedStatement preparedStatement =
-                     connection.prepareStatement("SELECT * FROM dogs WHERE name LIKE ?");) {
+                     connection.prepareStatement("SELECT * FROM dogs WHERE UPPER(name) LIKE UPPER(?)");) {
           preparedStatement.setString(1, "%"+name+"%");
           ResultSet resultSet = preparedStatement.executeQuery();
 
@@ -88,7 +88,7 @@ public class DogDao implements Dao<Dog, Integer> {
       else {
         try (Connection connection = Database.getConnection();
              PreparedStatement preparedStatement =
-                     connection.prepareStatement("SELECT * FROM dogs WHERE breed LIKE ?");) {
+                     connection.prepareStatement("SELECT * FROM dogs WHERE UPPER(breed) LIKE UPPER(?)");) {
           preparedStatement.setString(1, "%"+breed+"%");
           ResultSet resultSet = preparedStatement.executeQuery();
 
