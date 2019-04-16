@@ -1,10 +1,13 @@
 # API Server
 
+## Configuration
+Add database connection information to [src/main/java/data/Database.java](src/main/java/data/Database.java)
+
 ## To Run
 
 - Build the project
 - Run `Main.main()`
-- Visit `localhost:7000/dogs`
+- Visit `localhost:975/dogs`
 
 ## Configuring EC2 Instance to Run `api_server`
 ```bash
